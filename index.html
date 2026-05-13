@@ -766,7 +766,6 @@ textarea.sql-editor:focus { background: #0d1117; }
 </div>
 
 <script>
-window._pgOriginalHtml = document.documentElement.outerHTML;
 const DATA = [
 
 // ═══════════════════════════════════════════════
@@ -2084,14 +2083,7 @@ function saveToFile(){
   var hasData = customCards.length>0 || customSections.length>0
     || Object.keys(sqlEdits).length>0 || Object.keys(nameEdits).length>0;
   if(!hasData){
-    alert('Нет кастомных данных для сохранения.\nДобавь карточки или отредактируй запросы.');
-    return;
-  }
-
-  // Use the original HTML source stored at page load (no fetch needed)
-  var html = window._pgOriginalHtml;
-  if(!html){
-    alert('Ошибка: исходный HTML не найден.\nПерезагрузи страницу и попробуй снова.');
+    alert('Нет данных для сохранения.\nДобавь карточки или группы сначала.');
     return;
   }
 
@@ -2105,32 +2097,44 @@ function saveToFile(){
     cols_edits: colsEdits
   };
 
-  // Build restore script - runs before render()
   var restoreCode =
     'var _pgd='+JSON.stringify(injectData)+';' +
-    '(function(){' +
-      'try{' +
-        'var es=JSON.parse(localStorage.getItem("pgcs_custom_sections")||"[]");' +
-        'var en=es.map(function(s){return s.name;});' +
-        '_pgd.custom_sections.forEach(function(s){if(en.indexOf(s.name)===-1)es.push(s);});' +
-        'localStorage.setItem("pgcs_custom_sections",JSON.stringify(es));' +
-        'var ec=JSON.parse(localStorage.getItem("pgcs_custom_cards")||"[]");' +
-        'var ei=ec.map(function(c){return c.id;});' +
-        '_pgd.custom_cards.forEach(function(c){if(ei.indexOf(c.id)===-1)ec.push(c);});' +
-        'localStorage.setItem("pgcs_custom_cards",JSON.stringify(ec));' +
-        'Object.keys(_pgd.sql_edits).forEach(function(id){if(!localStorage.getItem("pgcs_sql_"+id))localStorage.setItem("pgcs_sql_"+id,_pgd.sql_edits[id]);});' +
-        'Object.keys(_pgd.name_edits).forEach(function(id){if(!localStorage.getItem("pgcs_name_"+id))localStorage.setItem("pgcs_name_"+id,_pgd.name_edits[id]);});' +
-        'Object.keys(_pgd.desc_edits).forEach(function(id){if(!localStorage.getItem("pgcs_desc_"+id))localStorage.setItem("pgcs_desc_"+id,_pgd.desc_edits[id]);});' +
-        'Object.keys(_pgd.cols_edits).forEach(function(id){if(!localStorage.getItem("pgcs_cols_"+id))localStorage.setItem("pgcs_cols_"+id,_pgd.cols_edits[id]);});' +
-      '}catch(e){console.error("pg-restore:",e);}' +
-    '})();';
+    '(function(){try{' +
+      'var es=JSON.parse(localStorage.getItem("pgcs_custom_sections")||"[]");' +
+      'var en=es.map(function(s){return s.name;});' +
+      '_pgd.custom_sections.forEach(function(s){if(en.indexOf(s.name)===-1)es.push(s);});' +
+      'localStorage.setItem("pgcs_custom_sections",JSON.stringify(es));' +
+      'var ec=JSON.parse(localStorage.getItem("pgcs_custom_cards")||"[]");' +
+      'var ei=ec.map(function(c){return c.id;});' +
+      '_pgd.custom_cards.forEach(function(c){if(ei.indexOf(c.id)===-1)ec.push(c);});' +
+      'localStorage.setItem("pgcs_custom_cards",JSON.stringify(ec));' +
+      'Object.keys(_pgd.sql_edits).forEach(function(id){if(!localStorage.getItem("pgcs_sql_"+id))localStorage.setItem("pgcs_sql_"+id,_pgd.sql_edits[id]);});' +
+      'Object.keys(_pgd.name_edits).forEach(function(id){if(!localStorage.getItem("pgcs_name_"+id))localStorage.setItem("pgcs_name_"+id,_pgd.name_edits[id]);});' +
+      'Object.keys(_pgd.desc_edits).forEach(function(id){if(!localStorage.getItem("pgcs_desc_"+id))localStorage.setItem("pgcs_desc_"+id,_pgd.desc_edits[id]);});' +
+      'Object.keys(_pgd.cols_edits).forEach(function(id){if(!localStorage.getItem("pgcs_cols_"+id))localStorage.setItem("pgcs_cols_"+id,_pgd.cols_edits[id]);});' +
+    '}catch(e){console.error("pg-restore:",e);}})();';
 
-  // Remove old injected block, inject before main <script>
-  html = html.replace(/<script id="pg-saved-data">[\s\S]*?<\/script>\s*/g, '');
-  html = html.replace('<script>\nwindow._pgOriginalHtml',
-    '<script id="pg-saved-data">' + restoreCode + '<\/script>\n<script>\nwindow._pgOriginalHtml');
+  var injectTag = '<script id="pg-saved-data">' + restoreCode + '<\/script>\n';
 
-  var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+  // XMLHttpRequest sync to get original source (works for file:// and http://)
+  var src = null;
+  try {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', window.location.href, false); // synchronous
+    xhr.send();
+    if(xhr.status === 200 || xhr.status === 0) src = xhr.responseText;
+  } catch(e){}
+
+  if(!src){
+    alert('Не удалось получить исходный файл.\nПопробуй через GitHub Pages.');
+    return;
+  }
+
+  // Remove old inject block, insert before main script
+  src = src.replace(/<script id="pg-saved-data">[\s\S]*?<\/script>\s*/g, '');
+  src = src.replace('<script>\nconst DATA', injectTag + '<script>\nconst DATA');
+
+  var blob = new Blob([src], {type:'text/html;charset=utf-8'});
   var url  = URL.createObjectURL(blob);
   var a    = document.createElement('a');
   a.href=url; a.download='pg_dba_cheatsheet.html';
@@ -2138,7 +2142,7 @@ function saveToFile(){
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 
-  var msg='Файл сохранён: pg_dba_cheatsheet.html\n\nВшито:\n';
+  var msg='Файл сохранён!\n\nВшито:\n';
   if(customSections.length) msg+='  '+customSections.length+' групп\n';
   if(customCards.length)    msg+='  '+customCards.length+' кастомных запросов\n';
   var ec2=Object.keys(sqlEdits).length+Object.keys(nameEdits).length;
