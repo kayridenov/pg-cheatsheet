@@ -2073,10 +2073,10 @@ function saveToFile(){
   try {
     for(var i=0;i<localStorage.length;i++){
       var key=localStorage.key(i); if(!key) continue;
-      if(key.startsWith('pgcs_sql_'))  sqlEdits[key.replace('pgcs_sql_','')]  =localStorage.getItem(key);
-      if(key.startsWith('pgcs_name_')) nameEdits[key.replace('pgcs_name_','')] =localStorage.getItem(key);
-      if(key.startsWith('pgcs_desc_')) descEdits[key.replace('pgcs_desc_','')] =localStorage.getItem(key);
-      if(key.startsWith('pgcs_cols_')) colsEdits[key.replace('pgcs_cols_','')] =localStorage.getItem(key);
+      if(key.startsWith('pgcs_sql_'))  sqlEdits[key.replace('pgcs_sql_','')]   =localStorage.getItem(key);
+      if(key.startsWith('pgcs_name_')) nameEdits[key.replace('pgcs_name_','')]  =localStorage.getItem(key);
+      if(key.startsWith('pgcs_desc_')) descEdits[key.replace('pgcs_desc_','')]  =localStorage.getItem(key);
+      if(key.startsWith('pgcs_cols_')) colsEdits[key.replace('pgcs_cols_','')]  =localStorage.getItem(key);
     }
   } catch(e){}
 
@@ -2088,16 +2088,182 @@ function saveToFile(){
   }
 
   var injectData = {
-    custom_cards: customCards, custom_sections: customSections,
-    sql_edits: sqlEdits, name_edits: nameEdits,
-    desc_edits: descEdits, cols_edits: colsEdits
+    v:3,
+    custom_cards:    customCards,
+    custom_sections: customSections,
+    sql_edits:   sqlEdits,
+    name_edits:  nameEdits,
+    desc_edits:  descEdits,
+    cols_edits:  colsEdits
   };
 
-  // Fetch the original HTML source — this avoids outerHTML serialization bugs
   fetch(window.location.href)
     .then(function(r){ return r.text(); })
     .then(function(html){
-      // Remove old injected data block if present
-      html = html.replace(/<script id="pg-saved-data">(function(){var d={"custom_cards":[{"id":"custom_1778664289186","name":"Скрипт для создания реплики (без слота)","desc":"","sql":"#!/bin/bash\n\nset -e\n\nPG_VERSION=17\nPGDATA=\"/var/lib/postgresql/${PG_VERSION}/main\"\n\nPRIMARY_HOST=\"172.17.47.12\"\nPRIMARY_PORT=\"5432\"\n\nREPL_USER=\"repl\"\n\necho \"Stopping PostgreSQL...\"\nsystemctl stop postgresql\n\necho \"Cleaning PGDATA...\"\nrm -rf ${PGDATA:?}/*\n\necho \"Starting basebackup...\"\n\nsudo -u postgres pg_basebackup -h ${PRIMARY_HOST} -p ${PRIMARY_PORT} -U ${REPL_USER} -D ${PGDATA} -Fp -Xs -P -R\n\necho \"Fixing permissions...\"\nchown -R postgres:postgres ${PGDATA}\nchmod 700 ${PGDATA}\n\necho \"Starting PostgreSQL...\"\nsystemctl start postgresql\n\necho \"Checking replica status...\"\nsudo -u postgres psql -c \"select pg_is_in_recovery();\"\n\necho \"Done.\"","cols":[],"section":"Репликация","custom":true},{"id":"custom_1778664348483","name":"Вывод списка узлов Patroni-кластера","desc":"","sql":"patronictl -c /etc/patroni.yml list -e","cols":[],"section":"Patroni","custom":true}],"custom_sections":[{"name":"Patroni","icon":"🚀","color":"#0d2117","dot":"#3fb950"}],"sql_edits":{},"name_edits":{},"desc_edits":{},"cols_edits":{}};try{var es=JSON.parse(localStorage.getItem("pgcs_custom_sections")||"[]");var en=es.map(function(s){return s.name;});var ta=d.custom_sections.filter(function(s){return en.indexOf(s.name)===-1;});localStorage.setItem("pgcs_custom_sections",JSON.stringify(es.concat(ta)));var ec=JSON.parse(localStorage.getItem("pgcs_custom_cards")||"[]");var ei=ec.map(function(c){return c.id;});var ac=d.custom_cards.filter(function(c){return ei.indexOf(c.id)===-1;});localStorage.setItem("pgcs_custom_cards",JSON.stringify(ec.concat(ac)));Object.keys(d.sql_edits).forEach(function(id){if(!localStorage.getItem("pgcs_sql_"+id))localStorage.setItem("pgcs_sql_"+id,d.sql_edits[id]);});Object.keys(d.name_edits).forEach(function(id){if(!localStorage.getItem("pgcs_name_"+id))localStorage.setItem("pgcs_name_"+id,d.name_edits[id]);});Object.keys(d.desc_edits).forEach(function(id){if(!localStorage.getItem("pgcs_desc_"+id))localStorage.setItem("pgcs_desc_"+id,d.desc_edits[id]);});Object.keys(d.cols_edits).forEach(function(id){if(!localStorage.getItem("pgcs_cols_"+id))localStorage.setItem("pgcs_cols_"+id,d.cols_edits[id]);});}catch(e){console.error("pg-restore error:",e);}})();</script>
+      // Remove old injected block
+      html = html.replace(/<script id="pg-saved-data">[\s\S]*?<\/script>\s*/g, '');
+
+      // Build restore script that runs synchronously before render()
+      // Uses localStorage so render() picks up the data immediately
+      var restoreCode =
+        'var _pgd='+JSON.stringify(injectData)+';' +
+        '(function(){' +
+          'try{' +
+            // sections
+            'var es=JSON.parse(localStorage.getItem("pgcs_custom_sections")||"[]");' +
+            'var en=es.map(function(s){return s.name;});' +
+            '_pgd.custom_sections.forEach(function(s){if(en.indexOf(s.name)===-1){es.push(s);}});' +
+            'localStorage.setItem("pgcs_custom_sections",JSON.stringify(es));' +
+            // cards
+            'var ec=JSON.parse(localStorage.getItem("pgcs_custom_cards")||"[]");' +
+            'var ei=ec.map(function(c){return c.id;});' +
+            '_pgd.custom_cards.forEach(function(c){if(ei.indexOf(c.id)===-1){ec.push(c);}});' +
+            'localStorage.setItem("pgcs_custom_cards",JSON.stringify(ec));' +
+            // edits - only set if not already locally overridden
+            'Object.keys(_pgd.sql_edits).forEach(function(id){if(!localStorage.getItem("pgcs_sql_"+id))localStorage.setItem("pgcs_sql_"+id,_pgd.sql_edits[id]);});' +
+            'Object.keys(_pgd.name_edits).forEach(function(id){if(!localStorage.getItem("pgcs_name_"+id))localStorage.setItem("pgcs_name_"+id,_pgd.name_edits[id]);});' +
+            'Object.keys(_pgd.desc_edits).forEach(function(id){if(!localStorage.getItem("pgcs_desc_"+id))localStorage.setItem("pgcs_desc_"+id,_pgd.desc_edits[id]);});' +
+            'Object.keys(_pgd.cols_edits).forEach(function(id){if(!localStorage.getItem("pgcs_cols_"+id))localStorage.setItem("pgcs_cols_"+id,_pgd.cols_edits[id]);});' +
+          '}catch(e){console.error("pg-restore:",e);}' +
+        '})();';
+
+      // Inject BEFORE the main <script> tag so data is in localStorage before render() runs
+      var injectBlock = '<script id="pg-saved-data">' + restoreCode + '<\/script>\n';
+      html = html.replace('<script>\nconst DATA', injectBlock + '<script>\nconst DATA');
+
+      var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+      var url  = URL.createObjectURL(blob);
+      var a    = document.createElement('a');
+      a.href=url; a.download='pg_dba_cheatsheet.html';
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      var msg='✓ Файл сохранён: pg_dba_cheatsheet.html\n\nВшито:\n';
+      if(customSections.length) msg+='  • '+customSections.length+' групп\n';
+      if(customCards.length)    msg+='  • '+customCards.length+' кастомных запросов\n';
+      var ec2=Object.keys(sqlEdits).length+Object.keys(nameEdits).length;
+      if(ec2) msg+='  • '+ec2+' изменений встроенных запросов\n';
+      msg+='\nЗалей на GitHub как index.html — и везде будут твои карточки.';
+      alert(msg);
+    })
+    .catch(function(err){
+      alert('Ошибка: '+err.message+'\n\nОткрой читшит через GitHub Pages, не через file://');
+    });
+}
+
+
+// ── Export / Import ───────────────────────────────────────────────────────────
+function exportData(){
+  var data = {
+    version: 3,
+    exported_at: new Date().toISOString(),
+    custom_cards: loadCustomCards(),
+    custom_sections: getCustomSections(),
+    sql_edits: {},
+    name_edits: {},
+    desc_edits: {},
+    cols_edits: {}
+  };
+  // Collect all localStorage edits for built-in cards
+  try {
+    for(var i=0; i<localStorage.length; i++){
+      var key = localStorage.key(i);
+      if(key && key.startsWith('pgcs_sql_'))  data.sql_edits[key.replace('pgcs_sql_','')]  = localStorage.getItem(key);
+      if(key && key.startsWith('pgcs_name_')) data.name_edits[key.replace('pgcs_name_','')] = localStorage.getItem(key);
+      if(key && key.startsWith('pgcs_desc_')) data.desc_edits[key.replace('pgcs_desc_','')] = localStorage.getItem(key);
+      if(key && key.startsWith('pgcs_cols_')) data.cols_edits[key.replace('pgcs_cols_','')] = localStorage.getItem(key);
+    }
+  } catch(e){}
+
+  var totalCards = data.custom_cards.length;
+  var totalSections = data.custom_sections.length;
+  var totalEdits = Object.keys(data.sql_edits).length + Object.keys(data.name_edits).length;
+
+  if(totalCards === 0 && totalSections === 0 && totalEdits === 0){
+    alert('Нечего экспортировать — нет кастомных запросов, групп или изменений.');
+    return;
+  }
+
+  var json = JSON.stringify(data, null, 2);
+  var blob = new Blob([json], {type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'pg_cheatsheet_backup_' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  var msg = 'Экспортировано:\n';
+  if(totalSections > 0) msg += '  • ' + totalSections + ' групп\n';
+  if(totalCards > 0)    msg += '  • ' + totalCards + ' кастомных запросов\n';
+  if(totalEdits > 0)    msg += '  • ' + totalEdits + ' изменений встроенных запросов\n';
+  alert(msg);
+}
+
+function importData(event){
+  var file = event.target.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      var data = JSON.parse(e.target.result);
+      if(!data.version || data.version < 3){
+        alert('Файл создан старой версией читшита. Импорт не поддерживается.');
+        return;
+      }
+
+      var msg = 'Будет импортировано:\n';
+      if(data.custom_sections && data.custom_sections.length) msg += '  • ' + data.custom_sections.length + ' групп\n';
+      if(data.custom_cards && data.custom_cards.length)       msg += '  • ' + data.custom_cards.length + ' кастомных запросов\n';
+      var editCount = Object.keys(data.sql_edits||{}).length + Object.keys(data.name_edits||{}).length;
+      if(editCount > 0) msg += '  • ' + editCount + ' изменений встроенных запросов\n';
+      msg += '\nТекущие данные будут объединены (не перезаписаны).\nПродолжить?';
+
+      if(!confirm(msg)) return;
+
+      // Merge sections (skip duplicates by name)
+      if(data.custom_sections && data.custom_sections.length){
+        var existing = getCustomSections();
+        var existingNames = existing.map(function(s){ return s.name; });
+        var toAdd = data.custom_sections.filter(function(s){ return existingNames.indexOf(s.name) === -1; });
+        saveCustomSections(existing.concat(toAdd));
+      }
+
+      // Merge cards (skip duplicates by id)
+      if(data.custom_cards && data.custom_cards.length){
+        var existingCards = loadCustomCards();
+        var existingIds = existingCards.map(function(c){ return c.id; });
+        var cardsToAdd = data.custom_cards.filter(function(c){ return existingIds.indexOf(c.id) === -1; });
+        saveCustomCards(existingCards.concat(cardsToAdd));
+      }
+
+      // Restore SQL edits
+      try {
+        if(data.sql_edits)  Object.keys(data.sql_edits).forEach(function(id){ localStorage.setItem('pgcs_sql_'+id,  data.sql_edits[id]);  });
+        if(data.name_edits) Object.keys(data.name_edits).forEach(function(id){ localStorage.setItem('pgcs_name_'+id, data.name_edits[id]); });
+        if(data.desc_edits) Object.keys(data.desc_edits).forEach(function(id){ localStorage.setItem('pgcs_desc_'+id, data.desc_edits[id]); });
+        if(data.cols_edits) Object.keys(data.cols_edits).forEach(function(id){ localStorage.setItem('pgcs_cols_'+id, data.cols_edits[id]); });
+      } catch(err){}
+
+      render(document.getElementById('search').value);
+      alert('Импорт завершён успешно!');
+    } catch(err){
+      alert('Ошибка чтения файла: ' + err.message);
+    }
+    // Reset input so same file can be imported again if needed
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeGroupModal();}});
+document.getElementById('search').addEventListener('input',e=>{render(e.target.value);});
+render('');
+
+</script>
 </body>
 </html>
