@@ -341,6 +341,12 @@ pre {
   font-family: var(--mono);
 }
 
+.export-btn,.save-file-btn{font-size:12px;font-family:var(--mono);padding:4px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text2);cursor:pointer;transition:all 0.15s;margin-left:6px;}
+.export-btn:hover{border-color:var(--blue);color:var(--blue);}
+.import-btn{font-size:12px;font-family:var(--mono);padding:4px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text2);cursor:pointer;transition:all 0.15s;margin-left:6px;display:inline-flex;align-items:center;}
+.import-btn:hover{border-color:var(--green);color:var(--green);}
+.save-file-btn{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}
+.save-file-btn:hover{background:var(--blue);color:var(--bg);}
 /* EMPTY STATE */
 .empty {
   text-align: center; padding: 3rem;
@@ -617,27 +623,6 @@ textarea.sql-editor:focus { background: #0d1117; }
 .group-del-btn:hover { border-color:var(--red); color:var(--red); }
 .nav-manage-groups { display:flex; align-items:center; gap:6px; padding:6px 12px; font-size:11px; font-family:var(--mono); color:var(--text3); cursor:pointer; border-top:1px solid var(--border); margin-top:8px; transition:color 0.15s; }
 .nav-manage-groups:hover { color:var(--green); }
-.export-btn {
-  font-size:12px; font-family:var(--mono); padding:4px 12px;
-  background:var(--bg3); border:1px solid var(--border);
-  border-radius:5px; color:var(--text2); cursor:pointer; transition:all 0.15s;
-  margin-left:6px;
-}
-.export-btn:hover { border-color:var(--blue); color:var(--blue); }
-.import-btn {
-  font-size:12px; font-family:var(--mono); padding:4px 12px;
-  background:var(--bg3); border:1px solid var(--border);
-  border-radius:5px; color:var(--text2); cursor:pointer; transition:all 0.15s;
-  margin-left:6px; display:inline-flex; align-items:center;
-}
-.import-btn:hover { border-color:var(--green); color:var(--green); }
-.save-file-btn {
-  font-size:12px; font-family:var(--mono); padding:4px 12px;
-  background:var(--blue-bg); border:1px solid var(--blue-border);
-  border-radius:5px; color:var(--blue); cursor:pointer; transition:all 0.15s;
-  margin-left:6px;
-}
-.save-file-btn:hover { background:var(--blue); color:var(--bg); }
 #modal-reset-btn { font-size:12px; font-family:var(--mono); padding:6px 14px; background:none; border:1px solid var(--border); border-radius:5px; color:var(--orange); cursor:pointer; transition:all 0.15s; }
 #modal-reset-btn:hover { border-color:var(--orange); background:var(--orange-bg); }
 
@@ -679,9 +664,9 @@ textarea.sql-editor:focus { background: #0d1117; }
       <span class="topbar-stat"><strong id="stat-sections">0</strong> разделов</span>
     </div>
     <button class="add-btn" onclick="openAddModal()">+ добавить</button>
-    <button class="export-btn" onclick="exportData()" title="Экспортировать мои запросы в JSON-файл">⬇ экспорт</button>
-    <label class="import-btn" title="Импортировать запросы из JSON-файла">⬆ импорт<input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)"></label>
-    <button class="save-file-btn" onclick="saveToFile()" title="Скачать HTML со всеми твоими карточками вшитыми внутрь">💾 сохранить в файл</button>
+    <button class="export-btn" onclick="exportData()">⬇ экспорт</button>
+    <label class="import-btn">⬆ импорт<input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)"></label>
+    <button class="save-file-btn" onclick="saveToFile()">💾 сохранить в файл</button>
   </div>
   <div class="content" id="content"></div>
   <div class="footer">PostgreSQL DBA Cheatsheet v3 &middot; Работает офлайн &middot; kayridenov.github.io/pg-cheatsheet</div>
@@ -766,6 +751,10 @@ textarea.sql-editor:focus { background: #0d1117; }
 </div>
 
 <script>
+
+
+window._pgHead = "<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>PostgreSQL DBA Cheatsheet</title>\n<style>\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n:root {\n  --bg: #0d1117;\n  --bg2: #161b22;\n  --bg3: #21262d;\n  --bg4: #2d333b;\n  --border: #30363d;\n  --border2: #444c56;\n  --text: #e6edf3;\n  --text2: #8b949e;\n  --text3: #6e7681;\n  --blue: #58a6ff;\n  --blue-bg: #0d2236;\n  --blue-border: #1f4068;\n  --green: #3fb950;\n  --green-bg: #0d2117;\n  --green-border: #1a4228;\n  --orange: #d29922;\n  --orange-bg: #261d0a;\n  --orange-border: #4a3500;\n  --red: #f85149;\n  --red-bg: #2a0d0d;\n  --red-border: #4a1515;\n  --purple: #bc8cff;\n  --purple-bg: #1a0d2e;\n  --purple-border: #3a1f5e;\n  --accent: #58a6ff;\n  --mono: 'JetBrains Mono', monospace;\n  --sans: 'IBM Plex Sans', sans-serif;\n}\n\n* { box-sizing: border-box; margin: 0; padding: 0; }\n\nbody {\n  background: var(--bg);\n  color: var(--text);\n  font-family: var(--sans);\n  font-size: 14px;\n  line-height: 1.6;\n  min-height: 100vh;\n}\n\n/* LAYOUT */\n.shell {\n  display: flex;\n  min-height: 100vh;\n}\n\n/* SIDEBAR */\n.sidebar {\n  width: 240px;\n  flex-shrink: 0;\n  background: var(--bg2);\n  border-right: 1px solid var(--border);\n  position: fixed;\n  top: 0; left: 0; bottom: 0;\n  overflow-y: auto;\n  z-index: 10;\n  padding-bottom: 2rem;\n}\n\n.sidebar-logo {\n  padding: 1.25rem 1rem 1rem;\n  border-bottom: 1px solid var(--border);\n  margin-bottom: 0.5rem;\n}\n.sidebar-logo .pg-icon {\n  display: flex; align-items: center; gap: 8px;\n}\n.sidebar-logo .pg-icon svg { flex-shrink: 0; }\n.sidebar-logo .pg-title {\n  font-size: 15px; font-weight: 600; color: var(--text);\n  font-family: var(--mono);\n}\n.sidebar-logo .pg-sub {\n  font-size: 11px; color: var(--text3); margin-top: 2px;\n}\n\n.sidebar-search {\n  padding: 0.5rem 0.75rem;\n  margin-bottom: 0.25rem;\n}\n.sidebar-search input {\n  width: 100%;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 6px;\n  color: var(--text);\n  font-family: var(--sans);\n  font-size: 12px;\n  padding: 6px 10px;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.sidebar-search input:focus { border-color: var(--blue); }\n.sidebar-search input::placeholder { color: var(--text3); }\n\n.nav-section {\n  padding: 0.75rem 0.75rem 0.25rem;\n  font-size: 10px;\n  font-weight: 600;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  color: var(--text3);\n}\n\n.nav-item {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  padding: 5px 12px;\n  font-size: 12.5px;\n  color: var(--text2);\n  cursor: pointer;\n  border-radius: 0;\n  transition: background 0.1s, color 0.1s;\n  border-left: 2px solid transparent;\n  text-decoration: none;\n}\n.nav-item:hover { background: var(--bg3); color: var(--text); }\n.nav-item.active {\n  color: var(--blue);\n  border-left-color: var(--blue);\n  background: var(--blue-bg);\n}\n.nav-dot {\n  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;\n}\n.nav-count {\n  margin-left: auto;\n  font-size: 10px;\n  background: var(--bg4);\n  border: 1px solid var(--border);\n  border-radius: 10px;\n  padding: 1px 6px;\n  color: var(--text3);\n}\n\n/* MAIN */\n.main {\n  margin-left: 240px;\n  flex: 1;\n  min-width: 0;\n}\n\n/* TOPBAR */\n.topbar {\n  position: sticky; top: 0; z-index: 5;\n  background: rgba(13,17,23,0.92);\n  backdrop-filter: blur(8px);\n  border-bottom: 1px solid var(--border);\n  padding: 0.75rem 2rem;\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.topbar-title {\n  font-family: var(--mono);\n  font-size: 13px;\n  color: var(--text2);\n}\n.topbar-title span { color: var(--blue); }\n.topbar-stats {\n  margin-left: auto;\n  display: flex; gap: 16px;\n}\n.topbar-stat {\n  font-size: 11px; color: var(--text3);\n}\n.topbar-stat strong { color: var(--text2); font-weight: 500; }\n\n/* CONTENT */\n.content {\n  padding: 2rem;\n  max-width: 900px;\n}\n\n.section-header {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin: 2rem 0 1rem;\n  padding-bottom: 0.5rem;\n  border-bottom: 1px solid var(--border);\n}\n.section-header:first-child { margin-top: 0; }\n.section-icon {\n  width: 28px; height: 28px; border-radius: 6px;\n  display: flex; align-items: center; justify-content: center;\n  font-size: 14px; flex-shrink: 0;\n}\n.section-title-text {\n  font-size: 15px; font-weight: 600; color: var(--text);\n  font-family: var(--mono);\n}\n.section-count {\n  margin-left: auto;\n  font-size: 11px; color: var(--text3);\n  font-family: var(--mono);\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  padding: 2px 8px;\n  border-radius: 10px;\n}\n\n/* CARD */\n.card {\n  background: var(--bg2);\n  border: 1px solid var(--border);\n  border-radius: 8px;\n  margin-bottom: 8px;\n  overflow: hidden;\n  transition: border-color 0.15s;\n}\n.card:hover { border-color: var(--border2); }\n.card.open { border-color: var(--border2); }\n\n.card-header {\n  display: flex;\n  align-items: flex-start;\n  gap: 10px;\n  padding: 10px 14px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.chevron {\n  flex-shrink: 0; width: 14px; height: 14px;\n  margin-top: 3px; color: var(--text3);\n  transition: transform 0.2s;\n}\n.card.open .chevron { transform: rotate(90deg); }\n\n.card-meta { flex: 1; min-width: 0; }\n.card-name {\n  font-size: 13.5px; font-weight: 500; color: var(--text);\n  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\n}\n.card-desc {\n  font-size: 12px; color: var(--text2);\n  margin-top: 2px; line-height: 1.4;\n}\n\n.badge {\n  font-size: 10px; font-weight: 500;\n  padding: 1px 7px; border-radius: 10px;\n  white-space: nowrap; flex-shrink: 0;\n  font-family: var(--mono);\n}\n.b-os     { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-border); }\n.b-repl   { background: var(--blue-bg);   color: var(--blue);   border: 1px solid var(--blue-border); }\n.b-perf   { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-border); }\n.b-lock   { background: var(--red-bg);    color: var(--red);    border: 1px solid var(--red-border); }\n.b-vac    { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }\n\n/* CARD BODY */\n.card-body { display: none; padding: 0 14px 14px; }\n.card.open .card-body { display: block; }\n\n.code-wrap { position: relative; margin-bottom: 12px; }\npre {\n  background: var(--bg);\n  border: 1px solid var(--border);\n  border-radius: 6px;\n  padding: 12px 14px;\n  font-family: var(--mono);\n  font-size: 12px;\n  color: #c9d1d9;\n  white-space: pre;\n  overflow-x: auto;\n  line-height: 1.7;\n  tab-size: 2;\n}\n\n/* Syntax highlight */\n.k { color: #ff7b72; }   /* keyword */\n.f { color: #d2a8ff; }   /* function */\n.s { color: #a5d6ff; }   /* string/number */\n.c { color: #6e7681; font-style: italic; } /* comment */\n.t { color: #ffa657; }   /* type/column name */\n\n.copy-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 4px;\n  color: var(--text2);\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.copy-btn:hover { border-color: var(--blue); color: var(--blue); }\n.copy-btn.copied { border-color: var(--green); color: var(--green); }\n\n/* COLUMNS TABLE */\n.cols-label {\n  font-size: 11px; font-weight: 600; letter-spacing: 0.05em;\n  text-transform: uppercase; color: var(--text3);\n  margin-bottom: 6px;\n  font-family: var(--mono);\n}\n.cols-table { width: 100%; border-collapse: collapse; }\n.cols-table tr { border-bottom: 1px solid var(--border); }\n.cols-table tr:last-child { border-bottom: none; }\n.cols-table td {\n  padding: 6px 8px; vertical-align: top; font-size: 12px;\n}\n.col-n {\n  font-family: var(--mono); font-size: 11.5px;\n  color: var(--blue); white-space: nowrap;\n  padding-right: 16px; width: 1%;\n}\n.col-d { color: var(--text2); line-height: 1.5; }\n.col-note {\n  display: block;\n  font-size: 11px; color: var(--text3);\n  margin-top: 3px; line-height: 1.4;\n  border-left: 2px solid var(--border2);\n  padding-left: 6px;\n  margin-top: 4px;\n}\n\n/* FOOTER */\n.footer {\n  padding: 2rem;\n  border-top: 1px solid var(--border);\n  color: var(--text3);\n  font-size: 11px;\n  font-family: var(--mono);\n}\n\n.export-btn,.save-file-btn{font-size:12px;font-family:var(--mono);padding:4px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text2);cursor:pointer;transition:all 0.15s;margin-left:6px;}\n.export-btn:hover{border-color:var(--blue);color:var(--blue);}\n.import-btn{font-size:12px;font-family:var(--mono);padding:4px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text2);cursor:pointer;transition:all 0.15s;margin-left:6px;display:inline-flex;align-items:center;}\n.import-btn:hover{border-color:var(--green);color:var(--green);}\n.save-file-btn{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}\n.save-file-btn:hover{background:var(--blue);color:var(--bg);}\n/* EMPTY STATE */\n.empty {\n  text-align: center; padding: 3rem;\n  color: var(--text3); font-size: 13px;\n}\n\n/* SCROLLBAR */\n::-webkit-scrollbar { width: 6px; height: 6px; }\n::-webkit-scrollbar-track { background: transparent; }\n::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }\n::-webkit-scrollbar-thumb:hover { background: var(--text3); }\n\n/* HIDDEN */\n.hidden { display: none !important; }\n\n/* EDIT BUTTON */\n.edit-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 4px;\n  color: var(--text2);\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.edit-btn:hover { border-color: var(--orange); color: var(--orange); }\n.edit-btn.active { border-color: var(--orange); color: var(--orange); background: var(--orange-bg); }\n\n/* MODIFIED BADGE */\n.modified-dot {\n  display: inline-block;\n  width: 6px; height: 6px; border-radius: 50%;\n  background: var(--orange);\n  margin-left: 6px;\n  flex-shrink: 0;\n  title: \"\u0418\u0437\u043c\u0435\u043d\u0435\u043d\u043e\";\n}\n\n/* EDITOR AREA */\n.editor-wrap {\n  display: none;\n  margin-bottom: 12px;\n  border: 1px solid var(--orange-border);\n  border-radius: 6px;\n  overflow: hidden;\n}\n.editor-wrap.visible { display: block; }\n.editor-toolbar {\n  display: flex; align-items: center; gap: 8px;\n  padding: 6px 10px;\n  background: var(--orange-bg);\n  border-bottom: 1px solid var(--orange-border);\n}\n.editor-label {\n  font-size: 11px; font-family: var(--mono);\n  color: var(--orange); flex: 1;\n}\n.editor-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.editor-save {\n  background: var(--green-bg);\n  border: 1px solid var(--green-border);\n  color: var(--green);\n}\n.editor-save:hover { background: var(--green); color: var(--bg); }\n.editor-reset {\n  background: transparent;\n  border: 1px solid var(--border);\n  color: var(--text3);\n}\n.editor-reset:hover { border-color: var(--red); color: var(--red); }\n.editor-cancel {\n  background: transparent;\n  border: 1px solid var(--border);\n  color: var(--text3);\n}\n.editor-cancel:hover { border-color: var(--border2); color: var(--text2); }\ntextarea.sql-editor {\n  width: 100%;\n  background: var(--bg);\n  border: none;\n  outline: none;\n  color: #c9d1d9;\n  font-family: var(--mono);\n  font-size: 12px;\n  line-height: 1.7;\n  padding: 12px 14px;\n  resize: vertical;\n  min-height: 160px;\n  tab-size: 2;\n}\ntextarea.sql-editor:focus { background: #0d1117; }\n\n/* ADD BUTTON in topbar */\n.add-btn {\n  font-size: 12px; font-family: var(--mono);\n  padding: 4px 14px;\n  background: var(--green-bg);\n  border: 1px solid var(--green-border);\n  border-radius: 5px;\n  color: var(--green);\n  cursor: pointer;\n  transition: all 0.15s;\n  margin-left: 12px;\n}\n.add-btn:hover { background: var(--green); color: var(--bg); }\n\n/* MODAL OVERLAY */\n.modal-overlay {\n  display: none; position: fixed; inset: 0;\n  background: rgba(0,0,0,0.7);\n  z-index: 100; align-items: center; justify-content: center;\n  padding: 1rem;\n}\n.modal-overlay.visible { display: flex; }\n.modal {\n  background: var(--bg2); border: 1px solid var(--border2);\n  border-radius: 10px; width: 100%; max-width: 700px;\n  max-height: 92vh; overflow-y: auto;\n  display: flex; flex-direction: column;\n}\n.modal-header {\n  display: flex; align-items: center; gap: 10px;\n  padding: 14px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0;\n}\n.modal-title {\n  font-size: 14px; font-weight: 500;\n  font-family: var(--mono); color: var(--text); flex: 1;\n}\n.modal-close {\n  background: none; border: none; color: var(--text3);\n  cursor: pointer; font-size: 18px; line-height: 1;\n  padding: 2px 6px; border-radius: 4px;\n}\n.modal-close:hover { color: var(--text); background: var(--bg3); }\n.modal-body { padding: 18px; display: flex; flex-direction: column; gap: 14px; }\n.form-row { display: flex; flex-direction: column; gap: 5px; }\n.form-label {\n  font-size: 11px; font-weight: 600; letter-spacing: 0.06em;\n  text-transform: uppercase; color: var(--text3); font-family: var(--mono);\n}\n.form-input {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;\n  color: var(--text); font-family: var(--sans); font-size: 13px;\n  padding: 8px 10px; outline: none; transition: border-color 0.15s; width: 100%;\n}\n.form-input:focus { border-color: var(--blue); }\n.form-textarea {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;\n  color: var(--text); font-family: var(--mono); font-size: 12px;\n  padding: 8px 10px; outline: none; transition: border-color 0.15s; width: 100%;\n  resize: vertical; line-height: 1.7; tab-size: 2;\n}\n.form-textarea.desc-ta {\n  font-family: var(--sans); font-size: 13px;\n  min-height: 58px; white-space: normal; line-height: 1.5;\n}\n.form-textarea.sql-ta { min-height: 180px; color: #c9d1d9; }\n.form-textarea:focus { border-color: var(--blue); }\n\n/* Section chips */\n.section-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 2px; }\n.s-chip {\n  display: flex; align-items: center; gap: 6px;\n  padding: 5px 11px; border-radius: 6px;\n  border: 2px solid transparent; cursor: pointer;\n  font-size: 12px; font-family: var(--mono);\n  background: var(--bg3); color: var(--text2);\n  transition: all 0.12s; user-select: none;\n}\n.s-chip:hover { color: var(--text); border-color: var(--border2); }\n.s-chip.sel { color: var(--text); }\n.s-chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }\n\n/* Columns editor */\n.cols-editor-wrap { display: flex; flex-direction: column; gap: 6px; }\n.col-edit-row {\n  display: grid; grid-template-columns: 150px 1fr 30px;\n  gap: 6px; align-items: start;\n}\n.col-edit-row input, .col-edit-row textarea {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 4px;\n  color: var(--text); font-family: var(--mono); font-size: 11.5px;\n  padding: 5px 8px; outline: none; width: 100%; transition: border-color 0.15s;\n}\n.col-edit-row textarea {\n  font-family: var(--sans); font-size: 12px;\n  min-height: 50px; resize: vertical;\n}\n.col-edit-row input:focus, .col-edit-row textarea:focus { border-color: var(--blue); }\n.col-del {\n  background: none; border: 1px solid var(--border); border-radius: 4px;\n  color: var(--text3); cursor: pointer; padding: 5px 6px;\n  font-size: 12px; transition: all 0.12s; align-self: start;\n}\n.col-del:hover { border-color: var(--red); color: var(--red); }\n.add-col-row {\n  background: none; border: 1px dashed var(--border2); border-radius: 4px;\n  color: var(--text3); cursor: pointer; padding: 6px;\n  font-size: 12px; font-family: var(--mono); transition: all 0.12s; text-align: center;\n}\n.add-col-row:hover { border-color: var(--blue); color: var(--blue); }\n\n.modal-footer {\n  display: flex; align-items: center; gap: 8px;\n  padding: 12px 18px; border-top: 1px solid var(--border); flex-shrink: 0;\n}\n.modal-save {\n  font-size: 12px; font-family: var(--mono); padding: 6px 20px;\n  background: var(--green-bg); border: 1px solid var(--green-border);\n  border-radius: 5px; color: var(--green); cursor: pointer; transition: all 0.15s;\n}\n.modal-save:hover { background: var(--green); color: var(--bg); }\n.modal-cancel {\n  font-size: 12px; font-family: var(--mono); padding: 6px 14px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 5px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.modal-cancel:hover { border-color: var(--border2); color: var(--text2); }\n.modal-hint { margin-left: auto; font-size: 11px; color: var(--text3); font-family: var(--mono); }\n\n/* Custom card \u2014 delete button */\n.del-card-btn {\n  font-size: 11px; font-family: var(--mono); padding: 3px 10px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 4px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.del-card-btn:hover { border-color: var(--red); color: var(--red); }\n\n/* CREATE GROUP MODAL additions */\n.icon-picker { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }\n.icon-btn {\n  font-size: 18px; width: 36px; height: 36px;\n  border-radius: 6px; border: 2px solid transparent;\n  background: var(--bg3); cursor: pointer;\n  display: flex; align-items: center; justify-content: center;\n  transition: all 0.1s;\n}\n.icon-btn:hover { border-color: var(--border2); background: var(--bg4); }\n.icon-btn.sel-icon { border-color: var(--blue); background: var(--blue-bg); }\n.color-picker { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }\n.color-swatch {\n  width: 28px; height: 28px; border-radius: 6px;\n  border: 2px solid transparent; cursor: pointer; transition: all 0.1s;\n}\n.color-swatch:hover, .color-swatch.sel-color { border-color: var(--text); transform: scale(1.15); }\n.group-del-btn {\n  font-size: 11px; font-family: var(--mono); padding: 3px 10px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 4px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.group-del-btn:hover { border-color: var(--red); color: var(--red); }\n.nav-manage-groups {\n  display: flex; align-items: center; gap: 6px; padding: 6px 12px;\n  font-size: 11px; font-family: var(--mono); color: var(--text3); cursor: pointer;\n  border-top: 1px solid var(--border); margin-top: 8px; transition: color 0.15s;\n}\n.nav-manage-groups:hover { color: var(--green); }\n\n.icon-picker { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }\n.icon-btn { font-size:18px; width:36px; height:36px; border-radius:6px; border:2px solid transparent; background:var(--bg3); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.1s; }\n.icon-btn:hover { border-color:var(--border2); background:var(--bg4); }\n.icon-btn.sel-icon { border-color:var(--blue); background:var(--blue-bg); }\n.color-picker { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }\n.color-swatch { width:28px; height:28px; border-radius:6px; border:2px solid transparent; cursor:pointer; transition:all 0.1s; }\n.color-swatch:hover, .color-swatch.sel-color { border-color:var(--text); transform:scale(1.15); }\n.group-del-btn { font-size:11px; font-family:var(--mono); padding:3px 10px; background:none; border:1px solid var(--border); border-radius:4px; color:var(--text3); cursor:pointer; transition:all 0.15s; }\n.group-del-btn:hover { border-color:var(--red); color:var(--red); }\n.nav-manage-groups { display:flex; align-items:center; gap:6px; padding:6px 12px; font-size:11px; font-family:var(--mono); color:var(--text3); cursor:pointer; border-top:1px solid var(--border); margin-top:8px; transition:color 0.15s; }\n.nav-manage-groups:hover { color:var(--green); }\n#modal-reset-btn { font-size:12px; font-family:var(--mono); padding:6px 14px; background:none; border:1px solid var(--border); border-radius:5px; color:var(--orange); cursor:pointer; transition:all 0.15s; }\n#modal-reset-btn:hover { border-color:var(--orange); background:var(--orange-bg); }\n\n</style>\n</head>\n<body>\n\n<div class=\"shell\">\n\n<nav class=\"sidebar\" id=\"sidebar\">\n  <div class=\"sidebar-logo\">\n    <div class=\"pg-icon\">\n      <svg width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\">\n        <rect width=\"22\" height=\"22\" rx=\"5\" fill=\"#1f4068\"/>\n        <path d=\"M11 4C7.686 4 5 6.686 5 10c0 1.657.672 3.157 1.757 4.243L11 18l4.243-3.757A5.978 5.978 0 0017 10c0-3.314-2.686-6-6-6z\" fill=\"#58a6ff\" opacity=\".8\"/>\n        <circle cx=\"11\" cy=\"10\" r=\"2.5\" fill=\"#0d1117\"/>\n      </svg>\n      <div>\n        <div class=\"pg-title\">PG Cheatsheet</div>\n        <div class=\"pg-sub\">DBA Reference v3</div>\n      </div>\n    </div>\n  </div>\n  <div class=\"sidebar-search\">\n    <input type=\"text\" id=\"search\" placeholder=\"\u041f\u043e\u0438\u0441\u043a...\" autocomplete=\"off\"/>\n  </div>\n  <div id=\"nav-links\"></div>\n  <div class=\"nav-manage-groups\" onclick=\"openGroupModal()\">\n    <svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><circle cx=\"6\" cy=\"6\" r=\"5\"/><line x1=\"6\" y1=\"3\" x2=\"6\" y2=\"9\"/><line x1=\"3\" y1=\"6\" x2=\"9\" y2=\"6\"/></svg>\n    \u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u0430\u043c\u0438\n  </div>\n</nav>\n\n<div class=\"main\">\n  <div class=\"topbar\">\n    <span class=\"topbar-title\">~/<span>pg_dba_cheatsheet</span>.html</span>\n    <div class=\"topbar-stats\">\n      <span class=\"topbar-stat\"><strong id=\"stat-visible\">0</strong> \u0441\u043a\u0440\u0438\u043f\u0442\u043e\u0432</span>\n      <span class=\"topbar-stat\"><strong id=\"stat-sections\">0</strong> \u0440\u0430\u0437\u0434\u0435\u043b\u043e\u0432</span>\n    </div>\n    <button class=\"add-btn\" onclick=\"openAddModal()\">+ \u0434\u043e\u0431\u0430\u0432\u0438\u0442\u044c</button>\n    <button class=\"export-btn\" onclick=\"exportData()\">\u2b07 \u044d\u043a\u0441\u043f\u043e\u0440\u0442</button>\n    <label class=\"import-btn\">\u2b06 \u0438\u043c\u043f\u043e\u0440\u0442<input type=\"file\" id=\"import-file\" accept=\".json\" style=\"display:none\" onchange=\"importData(event)\"></label>\n    <button class=\"save-file-btn\" onclick=\"saveToFile()\">\ud83d\udcbe \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0432 \u0444\u0430\u0439\u043b</button>\n  </div>\n  <div class=\"content\" id=\"content\"></div>\n  <div class=\"footer\">PostgreSQL DBA Cheatsheet v3 &middot; \u0420\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u043e\u0444\u043b\u0430\u0439\u043d &middot; kayridenov.github.io/pg-cheatsheet</div>\n</div>\n\n</div>\n\n<!-- ADD / EDIT CARD MODAL -->\n<div class=\"modal-overlay\" id=\"modal-overlay\" onclick=\"overlayClick(event)\">\n  <div class=\"modal\" id=\"modal\">\n    <div class=\"modal-header\">\n      <span class=\"modal-title\" id=\"modal-title\">+ \u041d\u043e\u0432\u044b\u0439 \u0437\u0430\u043f\u0440\u043e\u0441</span>\n      <button class=\"modal-close\" onclick=\"closeModal()\">&#x2715;</button>\n    </div>\n    <div class=\"modal-body\">\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0420\u0430\u0437\u0434\u0435\u043b</label>\n        <div class=\"section-chips\" id=\"section-chips\"></div>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0437\u0430\u043f\u0440\u043e\u0441\u0430</label>\n        <input class=\"form-input\" id=\"m-name\" placeholder=\"\u041d\u0430\u043f\u0440\u0438\u043c\u0435\u0440: \u0420\u0430\u0437\u043c\u0435\u0440 \u0432\u0441\u0435\u0445 \u0442\u0430\u0431\u043b\u0438\u0446 \u0441\u0445\u0435\u043c\u044b\" />\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435</label>\n        <textarea class=\"form-textarea desc-ta\" id=\"m-desc\" placeholder=\"\u0427\u0442\u043e \u0434\u0435\u043b\u0430\u0435\u0442 \u0437\u0430\u043f\u0440\u043e\u0441, \u043a\u043e\u0433\u0434\u0430 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c...\"></textarea>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">SQL / \u043a\u043e\u043c\u0430\u043d\u0434\u0430</label>\n        <textarea class=\"form-textarea sql-ta\" id=\"m-sql\" placeholder=\"SELECT ...\"></textarea>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041f\u043e\u044f\u0441\u043d\u0435\u043d\u0438\u044f \u043f\u043e \u043a\u043e\u043b\u043e\u043d\u043a\u0430\u043c <span style=\"font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)\">(\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u043e)</span></label>\n        <div class=\"cols-editor-wrap\" id=\"cols-editor\">\n          <div class=\"col-edit-row\" id=\"col-row-0\">\n            <input placeholder=\"\u0438\u043c\u044f_\u043a\u043e\u043b\u043e\u043d\u043a\u0438\" />\n            <textarea placeholder=\"\u0427\u0442\u043e \u043e\u0437\u043d\u0430\u0447\u0430\u0435\u0442 \u044d\u0442\u0430 \u043a\u043e\u043b\u043e\u043d\u043a\u0430...\" rows=\"2\"></textarea>\n            <button class=\"col-del\" onclick=\"delCol(0)\">&#x2715;</button>\n          </div>\n        </div>\n        <button class=\"add-col-row\" onclick=\"addCol()\">+ \u0434\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043a\u043e\u043b\u043e\u043d\u043a\u0443</button>\n      </div>\n    </div>\n    <div class=\"modal-footer\">\n      <button class=\"modal-save\" id=\"modal-save-btn\" onclick=\"saveCard()\">\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c</button>\n      <button class=\"modal-cancel\" onclick=\"closeModal()\">\u041e\u0442\u043c\u0435\u043d\u0430</button>\n      <button id=\"modal-reset-btn\" onclick=\"resetBuiltinCard()\" style=\"display:none\">\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043a \u043e\u0440\u0438\u0433\u0438\u043d\u0430\u043b\u0443</button>\n      <span class=\"modal-hint\">\u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0435\u0442\u0441\u044f \u0432 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435</span>\n    </div>\n  </div>\n</div>\n\n<!-- CREATE GROUP MODAL -->\n<div class=\"modal-overlay\" id=\"group-modal-overlay\" onclick=\"if(event.target===this)closeGroupModal()\">\n  <div class=\"modal\" style=\"max-width:560px\">\n    <div class=\"modal-header\">\n      <span class=\"modal-title\">\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u0430\u043c\u0438</span>\n      <button class=\"modal-close\" onclick=\"closeGroupModal()\">&#x2715;</button>\n    </div>\n    <div class=\"modal-body\">\n      <div style=\"font-size:12px;color:var(--text2);margin-bottom:4px\">\u0421\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u044e\u0449\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u044b:</div>\n      <div id=\"gm-existing\" style=\"margin-bottom:16px;min-height:32px\"></div>\n      <div style=\"border-top:1px solid var(--border);padding-top:14px;font-size:12px;font-weight:500;color:var(--text);margin-bottom:12px\">\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u043d\u043e\u0432\u0443\u044e \u0433\u0440\u0443\u043f\u043f\u0443</div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u044b</label>\n        <input class=\"form-input\" id=\"gm-name\" placeholder=\"\u041d\u0430\u043f\u0440\u0438\u043c\u0435\u0440: \u041c\u043e\u0438 \u0441\u043a\u0440\u0438\u043f\u0442\u044b\" />\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0418\u043a\u043e\u043d\u043a\u0430</label>\n        <div class=\"icon-picker\" id=\"gm-icon-picker\"></div>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0426\u0432\u0435\u0442 \u0442\u043e\u0447\u043a\u0438 \u0432 \u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438</label>\n        <div class=\"color-picker\" id=\"gm-color-picker\"></div>\n      </div>\n    </div>\n    <div class=\"modal-footer\">\n      <button class=\"modal-save\" onclick=\"saveGroup()\">\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0433\u0440\u0443\u043f\u043f\u0443</button>\n      <button class=\"modal-cancel\" onclick=\"closeGroupModal()\">\u0417\u0430\u043a\u0440\u044b\u0442\u044c</button>\n    </div>\n  </div>\n</div>\n\n";
+
 const DATA = [
 
 // ═══════════════════════════════════════════════
@@ -1552,7 +1541,9 @@ cols:[
   {n:"Open", d:"Текущее число открытых дескрипторов. Если близко к Limit — увеличить."},
   {n:"Limit", d:"Максимально допустимое. Рекомендуется: 65536.", note:"В /etc/security/limits.conf: postgres soft nofile 65536"}
 ]},
-
+// __INJECT_START__
+{id:"custom_1778751567074",name:"Скрипт для создания реплики (без слота)",badge:"",desc:"",sql:"#!/bin/bash\n\nset -e\n\nPG_VERSION=17\nPGDATA=\"/var/lib/postgresql/${PG_VERSION}/main\"\n\nPRIMARY_HOST=\"172.17.47.12\"\nPRIMARY_PORT=\"5432\"\n\nREPL_USER=\"repl\"\n\necho \"Stopping PostgreSQL...\"\nsystemctl stop postgresql\n\necho \"Cleaning PGDATA...\"\nrm -rf ${PGDATA:?}/*\n\necho \"Starting basebackup...\"\n\nsudo -u postgres pg_basebackup -h ${PRIMARY_HOST} -p ${PRIMARY_PORT} -U ${REPL_USER} -D ${PGDATA} -Fp -Xs -P -R\n\necho \"Fixing permissions...\"\nchown -R postgres:postgres ${PGDATA}\nchmod 700 ${PGDATA}\n\necho \"Starting PostgreSQL...\"\nsystemctl start postgresql\n\necho \"Checking replica status...\"\nsudo -u postgres psql -c \"select pg_is_in_recovery();\"\n\necho \"Done.\"",cols:[]}
+// __INJECT_END__
 ];
 
 
@@ -2065,6 +2056,8 @@ function render(filter){
   document.getElementById('stat-sections').textContent=sectionCount;
 }
 
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeGroupModal();}});
+document.getElementById('search').addEventListener('input',e=>{render(e.target.value);});
 // ── Save to File ──────────────────────────────────────────────────────────────
 function saveToFile(){
   var customCards    = loadCustomCards();
@@ -2083,184 +2076,126 @@ function saveToFile(){
   var hasData = customCards.length>0 || customSections.length>0
     || Object.keys(sqlEdits).length>0 || Object.keys(nameEdits).length>0;
   if(!hasData){
-    alert('Нет данных для сохранения.\nДобавь карточки или группы сначала.');
+    alert('Нет данных для сохранения. Добавь карточки или группы.');
     return;
   }
 
-  var injectData = {
-    v:3,
-    custom_cards:    customCards,
-    custom_sections: customSections,
-    sql_edits:  sqlEdits,
-    name_edits: nameEdits,
-    desc_edits: descEdits,
-    cols_edits: colsEdits
-  };
+  // Build injection code for new cards
+  var inject = '';
+  customSections.forEach(function(s){
+    inject += ',\n{section:'+JSON.stringify(s.name)+',icon:'+JSON.stringify(s.icon)+',color:'+JSON.stringify(s.color)+',dot:'+JSON.stringify(s.dot)+'}';
+  });
+  customCards.forEach(function(c){
+    var sql  = sqlEdits[c.id]  || c.sql  || '';
+    var name = nameEdits[c.id] || c.name || '';
+    var desc = descEdits[c.id] || c.desc || '';
+    var cols = (c.cols||[]).map(function(col){
+      return '{n:'+JSON.stringify(col.n||'')+',d:'+JSON.stringify(col.d||'')+'}';
+    }).join(',');
+    inject += ',\n{id:'+JSON.stringify(c.id)+',name:'+JSON.stringify(name)+',badge:"",desc:'+JSON.stringify(desc)+',sql:'+JSON.stringify(sql)+',cols:['+cols+']}';
+  });
 
-  var restoreCode =
-    'var _pgd='+JSON.stringify(injectData)+';' +
-    '(function(){try{' +
-      'var es=JSON.parse(localStorage.getItem("pgcs_custom_sections")||"[]");' +
-      'var en=es.map(function(s){return s.name;});' +
-      '_pgd.custom_sections.forEach(function(s){if(en.indexOf(s.name)===-1)es.push(s);});' +
-      'localStorage.setItem("pgcs_custom_sections",JSON.stringify(es));' +
-      'var ec=JSON.parse(localStorage.getItem("pgcs_custom_cards")||"[]");' +
-      'var ei=ec.map(function(c){return c.id;});' +
-      '_pgd.custom_cards.forEach(function(c){if(ei.indexOf(c.id)===-1)ec.push(c);});' +
-      'localStorage.setItem("pgcs_custom_cards",JSON.stringify(ec));' +
-      'Object.keys(_pgd.sql_edits).forEach(function(id){if(!localStorage.getItem("pgcs_sql_"+id))localStorage.setItem("pgcs_sql_"+id,_pgd.sql_edits[id]);});' +
-      'Object.keys(_pgd.name_edits).forEach(function(id){if(!localStorage.getItem("pgcs_name_"+id))localStorage.setItem("pgcs_name_"+id,_pgd.name_edits[id]);});' +
-      'Object.keys(_pgd.desc_edits).forEach(function(id){if(!localStorage.getItem("pgcs_desc_"+id))localStorage.setItem("pgcs_desc_"+id,_pgd.desc_edits[id]);});' +
-      'Object.keys(_pgd.cols_edits).forEach(function(id){if(!localStorage.getItem("pgcs_cols_"+id))localStorage.setItem("pgcs_cols_"+id,_pgd.cols_edits[id]);});' +
-    '}catch(e){console.error("pg-restore:",e);}})();';
+  // Get current JS from this script tag
+  var allScripts = document.getElementsByTagName('script');
+  var jsText = '';
+  for(var si=0;si<allScripts.length;si++){
+    if(!allScripts[si].id && allScripts[si].textContent.length > 50000){
+      jsText = allScripts[si].textContent; break;
+    }
+  }
+  if(!jsText){ alert('Ошибка: не найден JS источник.'); return; }
 
-  var injectTag = '<script id="pg-saved-data">' + restoreCode + '<\/script>\n';
+  // Remove previous injection if present
+  jsText = jsText.replace(/,?\n\/\/ __INJECT_START__[\s\S]*?\/\/ __INJECT_END__/g, '');
 
-  // XMLHttpRequest sync to get original source (works for file:// and http://)
-  var src = null;
-  try {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', window.location.href, false); // synchronous
-    xhr.send();
-    if(xhr.status === 200 || xhr.status === 0) src = xhr.responseText;
-  } catch(e){}
+  // Insert new cards before end of DATA array
+  var marker = '\n];\n';
+  var pos = jsText.indexOf(marker);
+  if(pos < 0){ alert('Ошибка: маркер DATA не найден.'); return; }
 
-  if(!src){
-    alert('Не удалось получить исходный файл.\nПопробуй через GitHub Pages.');
-    return;
+  if(inject){
+    // Strip trailing commas and whitespace, then add our comma
+    var before = jsText.slice(0, pos).replace(/[,\s]+$/, '');
+    var after  = jsText.slice(pos);
+    jsText = before
+      + ',\n// __INJECT_START__\n'
+      + inject.replace(/^,\n/, '')
+      + '\n// __INJECT_END__'
+      + after;
   }
 
-  // Remove old inject block, insert before main script
-  src = src.replace(/<script id="pg-saved-data">[\s\S]*?<\/script>\s*/g, '');
-  src = src.replace('<script>\nconst DATA', injectTag + '<script>\nconst DATA');
+  // Rebuild HTML from stored head
+  var head = window._pgHead.replace(/<\\\//g, '</');
+  var closeScript = '<' + '/script>';
+  var openScript = '<scr'+'ipt>'; var output = head + openScript + '\n' + jsText + closeScript + '\n</body>\n</html>\n';
 
-  var blob = new Blob([src], {type:'text/html;charset=utf-8'});
-  var url  = URL.createObjectURL(blob);
-  var a    = document.createElement('a');
+  var blob = new Blob([output], {type:'text/html;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
   a.href=url; a.download='pg_dba_cheatsheet.html';
   document.body.appendChild(a); a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 
-  var msg='Файл сохранён!\n\nВшито:\n';
-  if(customSections.length) msg+='  '+customSections.length+' групп\n';
-  if(customCards.length)    msg+='  '+customCards.length+' кастомных запросов\n';
-  var ec2=Object.keys(sqlEdits).length+Object.keys(nameEdits).length;
-  if(ec2) msg+='  '+ec2+' изменений встроенных запросов\n';
-  msg+='\nЗалей на GitHub как index.html.';
+  var msg = 'Файл сохранён!\n\nВшито в DATA:\n';
+  if(customSections.length) msg += '  ' + customSections.length + ' групп\n';
+  if(customCards.length)    msg += '  ' + customCards.length + ' запросов\n';
+  msg += '\nЗалей на GitHub как index.html.';
   alert(msg);
 }
-
 
 // ── Export / Import ───────────────────────────────────────────────────────────
 function exportData(){
-  var data = {
-    version: 3,
-    exported_at: new Date().toISOString(),
-    custom_cards: loadCustomCards(),
-    custom_sections: getCustomSections(),
-    sql_edits: {},
-    name_edits: {},
-    desc_edits: {},
-    cols_edits: {}
-  };
-  // Collect all localStorage edits for built-in cards
+  var data = {version:3, exported_at:new Date().toISOString(),
+    custom_cards:loadCustomCards(), custom_sections:getCustomSections(),
+    sql_edits:{}, name_edits:{}, desc_edits:{}, cols_edits:{}};
   try {
-    for(var i=0; i<localStorage.length; i++){
-      var key = localStorage.key(i);
-      if(key && key.startsWith('pgcs_sql_'))  data.sql_edits[key.replace('pgcs_sql_','')]  = localStorage.getItem(key);
-      if(key && key.startsWith('pgcs_name_')) data.name_edits[key.replace('pgcs_name_','')] = localStorage.getItem(key);
-      if(key && key.startsWith('pgcs_desc_')) data.desc_edits[key.replace('pgcs_desc_','')] = localStorage.getItem(key);
-      if(key && key.startsWith('pgcs_cols_')) data.cols_edits[key.replace('pgcs_cols_','')] = localStorage.getItem(key);
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i); if(!k) continue;
+      if(k.startsWith('pgcs_sql_'))  data.sql_edits[k.replace('pgcs_sql_','')]  =localStorage.getItem(k);
+      if(k.startsWith('pgcs_name_')) data.name_edits[k.replace('pgcs_name_','')] =localStorage.getItem(k);
+      if(k.startsWith('pgcs_desc_')) data.desc_edits[k.replace('pgcs_desc_','')] =localStorage.getItem(k);
+      if(k.startsWith('pgcs_cols_')) data.cols_edits[k.replace('pgcs_cols_','')] =localStorage.getItem(k);
     }
   } catch(e){}
-
-  var totalCards = data.custom_cards.length;
-  var totalSections = data.custom_sections.length;
-  var totalEdits = Object.keys(data.sql_edits).length + Object.keys(data.name_edits).length;
-
-  if(totalCards === 0 && totalSections === 0 && totalEdits === 0){
-    alert('Нечего экспортировать — нет кастомных запросов, групп или изменений.');
-    return;
+  if(!data.custom_cards.length && !data.custom_sections.length && !Object.keys(data.sql_edits).length){
+    alert('Нет данных для экспорта.'); return;
   }
-
-  var json = JSON.stringify(data, null, 2);
-  var blob = new Blob([json], {type:'application/json'});
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
-  a.download = 'pg_cheatsheet_backup_' + new Date().toISOString().slice(0,10) + '.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url; a.download='pg_cheatsheet_backup_'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
-
-  var msg = 'Экспортировано:\n';
-  if(totalSections > 0) msg += '  • ' + totalSections + ' групп\n';
-  if(totalCards > 0)    msg += '  • ' + totalCards + ' кастомных запросов\n';
-  if(totalEdits > 0)    msg += '  • ' + totalEdits + ' изменений встроенных запросов\n';
-  alert(msg);
+  alert('Экспортировано: '+data.custom_cards.length+' запросов, '+data.custom_sections.length+' групп.');
 }
 
 function importData(event){
-  var file = event.target.files[0];
-  if(!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e){
+  var file=event.target.files[0]; if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
     try {
-      var data = JSON.parse(e.target.result);
-      if(!data.version || data.version < 3){
-        alert('Файл создан старой версией читшита. Импорт не поддерживается.');
-        return;
-      }
-
-      var msg = 'Будет импортировано:\n';
-      if(data.custom_sections && data.custom_sections.length) msg += '  • ' + data.custom_sections.length + ' групп\n';
-      if(data.custom_cards && data.custom_cards.length)       msg += '  • ' + data.custom_cards.length + ' кастомных запросов\n';
-      var editCount = Object.keys(data.sql_edits||{}).length + Object.keys(data.name_edits||{}).length;
-      if(editCount > 0) msg += '  • ' + editCount + ' изменений встроенных запросов\n';
-      msg += '\nТекущие данные будут объединены (не перезаписаны).\nПродолжить?';
-
-      if(!confirm(msg)) return;
-
-      // Merge sections (skip duplicates by name)
-      if(data.custom_sections && data.custom_sections.length){
-        var existing = getCustomSections();
-        var existingNames = existing.map(function(s){ return s.name; });
-        var toAdd = data.custom_sections.filter(function(s){ return existingNames.indexOf(s.name) === -1; });
-        saveCustomSections(existing.concat(toAdd));
-      }
-
-      // Merge cards (skip duplicates by id)
-      if(data.custom_cards && data.custom_cards.length){
-        var existingCards = loadCustomCards();
-        var existingIds = existingCards.map(function(c){ return c.id; });
-        var cardsToAdd = data.custom_cards.filter(function(c){ return existingIds.indexOf(c.id) === -1; });
-        saveCustomCards(existingCards.concat(cardsToAdd));
-      }
-
-      // Restore SQL edits
-      try {
-        if(data.sql_edits)  Object.keys(data.sql_edits).forEach(function(id){ localStorage.setItem('pgcs_sql_'+id,  data.sql_edits[id]);  });
-        if(data.name_edits) Object.keys(data.name_edits).forEach(function(id){ localStorage.setItem('pgcs_name_'+id, data.name_edits[id]); });
-        if(data.desc_edits) Object.keys(data.desc_edits).forEach(function(id){ localStorage.setItem('pgcs_desc_'+id, data.desc_edits[id]); });
-        if(data.cols_edits) Object.keys(data.cols_edits).forEach(function(id){ localStorage.setItem('pgcs_cols_'+id, data.cols_edits[id]); });
-      } catch(err){}
-
+      var data=JSON.parse(e.target.result);
+      if(!data.version||data.version<3){alert('Старый формат файла.');return;}
+      if(!confirm('Импортировать '+((data.custom_cards||[]).length)+' запросов и '+((data.custom_sections||[]).length)+' групп?'))return;
+      var es=getCustomSections(); var en=es.map(function(s){return s.name;});
+      (data.custom_sections||[]).forEach(function(s){if(en.indexOf(s.name)===-1)es.push(s);});
+      saveCustomSections(es);
+      var ec=loadCustomCards(); var ei=ec.map(function(c){return c.id;});
+      (data.custom_cards||[]).forEach(function(c){if(ei.indexOf(c.id)===-1)ec.push(c);});
+      saveCustomCards(ec);
+      try{
+        Object.keys(data.sql_edits||{}).forEach(function(id){if(!localStorage.getItem('pgcs_sql_'+id))localStorage.setItem('pgcs_sql_'+id,data.sql_edits[id]);});
+        Object.keys(data.name_edits||{}).forEach(function(id){if(!localStorage.getItem('pgcs_name_'+id))localStorage.setItem('pgcs_name_'+id,data.name_edits[id]);});
+      }catch(err){}
       render(document.getElementById('search').value);
-      alert('Импорт завершён успешно!');
-    } catch(err){
-      alert('Ошибка чтения файла: ' + err.message);
-    }
-    // Reset input so same file can be imported again if needed
-    event.target.value = '';
+      alert('Импорт завершён!');
+    } catch(err){alert('Ошибка: '+err.message);}
+    event.target.value='';
   };
   reader.readAsText(file);
 }
 
-
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeGroupModal();}});
-document.getElementById('search').addEventListener('input',e=>{render(e.target.value);});
 render('');
 
 </script>
