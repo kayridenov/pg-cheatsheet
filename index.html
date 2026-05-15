@@ -347,6 +347,73 @@ pre {
 .import-btn:hover{border-color:var(--green);color:var(--green);}
 .save-file-btn{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}
 .save-file-btn:hover{background:var(--blue);color:var(--bg);}
+
+/* VERSION / OS FILTER */
+.filter-block {
+  padding: 0.6rem 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.25rem;
+}
+.filter-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text3);
+  margin-bottom: 6px; display: flex; align-items: center; gap: 5px;
+}
+.filter-label-icon { font-size: 11px; }
+.ver-btns {
+  display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 10px;
+}
+.ver-btn {
+  font-size: 11px; font-family: var(--mono);
+  padding: 3px 8px; border-radius: 5px;
+  border: 1px solid var(--border);
+  background: var(--bg); color: var(--text3);
+  cursor: pointer; transition: all 0.12s;
+  line-height: 1.5; white-space: nowrap;
+}
+.ver-btn:hover { border-color: var(--blue-border); color: var(--blue); background: var(--blue-bg); }
+.ver-btn.pg-active {
+  background: var(--blue-bg); border-color: var(--blue);
+  color: var(--blue); font-weight: 600;
+  box-shadow: 0 0 0 1px var(--blue-border);
+}
+.ver-btn.os-active-ubuntu {
+  background: #0d2117; border-color: #e95420;
+  color: #e95420; font-weight: 600;
+}
+.ver-btn.os-active-rhel {
+  background: #2d0000; border-color: #cc0000;
+  color: #ff6666; font-weight: 600;
+}
+.filter-sep { border: none; border-top: 1px solid var(--border); margin: 2px 0 8px; }
+.filter-active-hint {
+  font-size: 10px; color: var(--orange); font-family: var(--mono);
+  padding: 3px 6px; background: var(--orange-bg); border-radius: 4px;
+  border: 1px solid var(--orange-border); display: none; margin-top: 4px;
+}
+.filter-active-hint.visible { display: block; }
+
+/* PG VERSION BADGE on cards */
+.pg-badge {
+  font-size: 9.5px; font-family: var(--mono);
+  padding: 1px 6px; border-radius: 8px;
+  background: var(--blue-bg); color: var(--blue);
+  border: 1px solid var(--blue-border);
+  white-space: nowrap; flex-shrink: 0;
+  font-weight: 500;
+}
+.pg-badge-max {
+  background: var(--orange-bg); color: var(--orange);
+  border-color: var(--orange-border);
+}
+.os-badge {
+  font-size: 9.5px; font-family: var(--mono);
+  padding: 1px 6px; border-radius: 8px;
+  background: var(--bg3); color: var(--text3);
+  border: 1px solid var(--border);
+  white-space: nowrap; flex-shrink: 0;
+}
+
 /* EMPTY STATE */
 .empty {
   text-align: center; padding: 3rem;
@@ -649,6 +716,26 @@ textarea.sql-editor:focus { background: #0d1117; }
   <div class="sidebar-search">
     <input type="text" id="search" placeholder="Поиск..." autocomplete="off"/>
   </div>
+  <div class="filter-block">
+    <div class="filter-label"><span class="filter-label-icon">🐘</span> Версия PostgreSQL</div>
+    <div class="ver-btns" id="pg-ver-btns">
+      <button class="ver-btn pg-active" data-ver="0" onclick="setPgVer(0,this)">Все</button>
+      <button class="ver-btn" data-ver="12" onclick="setPgVer(12,this)">PG 12</button>
+      <button class="ver-btn" data-ver="13" onclick="setPgVer(13,this)">PG 13</button>
+      <button class="ver-btn" data-ver="14" onclick="setPgVer(14,this)">PG 14</button>
+      <button class="ver-btn" data-ver="15" onclick="setPgVer(15,this)">PG 15</button>
+      <button class="ver-btn" data-ver="16" onclick="setPgVer(16,this)">PG 16</button>
+      <button class="ver-btn" data-ver="17" onclick="setPgVer(17,this)">PG 17</button>
+      <button class="ver-btn" data-ver="18" onclick="setPgVer(18,this)">PG 18</button>
+    </div>
+    <div class="filter-label" style="margin-bottom:6px"><span class="filter-label-icon">🐧</span> Операционная система</div>
+    <div class="ver-btns" id="os-ver-btns">
+      <button class="ver-btn pg-active" data-os="all" onclick="setOs('all',this)">Все</button>
+      <button class="ver-btn" data-os="ubuntu" onclick="setOs('ubuntu',this)">Ubuntu/Debian</button>
+      <button class="ver-btn" data-os="rhel" onclick="setOs('rhel',this)">RHEL/CentOS</button>
+    </div>
+    <div class="filter-active-hint" id="filter-hint"></div>
+  </div>
   <div id="nav-links"></div>
   <div class="nav-manage-groups" onclick="openGroupModal()">
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"/><line x1="6" y1="3" x2="6" y2="9"/><line x1="3" y1="6" x2="9" y2="6"/></svg>
@@ -757,7 +844,12 @@ textarea.sql-editor:focus { background: #0d1117; }
 
 
 
-window._pgHead = "<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>PostgreSQL DBA Cheatsheet</title>\n<style>\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n:root {\n  --bg: #0d1117;\n  --bg2: #161b22;\n  --bg3: #21262d;\n  --bg4: #2d333b;\n  --border: #30363d;\n  --border2: #444c56;\n  --text: #e6edf3;\n  --text2: #8b949e;\n  --text3: #6e7681;\n  --blue: #58a6ff;\n  --blue-bg: #0d2236;\n  --blue-border: #1f4068;\n  --green: #3fb950;\n  --green-bg: #0d2117;\n  --green-border: #1a4228;\n  --orange: #d29922;\n  --orange-bg: #261d0a;\n  --orange-border: #4a3500;\n  --red: #f85149;\n  --red-bg: #2a0d0d;\n  --red-border: #4a1515;\n  --purple: #bc8cff;\n  --purple-bg: #1a0d2e;\n  --purple-border: #3a1f5e;\n  --accent: #58a6ff;\n  --mono: 'JetBrains Mono', monospace;\n  --sans: 'IBM Plex Sans', sans-serif;\n}\n\n* { box-sizing: border-box; margin: 0; padding: 0; }\n\nbody {\n  background: var(--bg);\n  color: var(--text);\n  font-family: var(--sans);\n  font-size: 14px;\n  line-height: 1.6;\n  min-height: 100vh;\n}\n\n/* LAYOUT */\n.shell {\n  display: flex;\n  min-height: 100vh;\n}\n\n/* SIDEBAR */\n.sidebar {\n  width: 240px;\n  flex-shrink: 0;\n  background: var(--bg2);\n  border-right: 1px solid var(--border);\n  position: fixed;\n  top: 0; left: 0; bottom: 0;\n  overflow-y: auto;\n  z-index: 10;\n  padding-bottom: 2rem;\n}\n\n.sidebar-logo {\n  padding: 1.25rem 1rem 1rem;\n  border-bottom: 1px solid var(--border);\n  margin-bottom: 0.5rem;\n}\n.sidebar-logo .pg-icon {\n  display: flex; align-items: center; gap: 8px;\n}\n.sidebar-logo .pg-icon svg { flex-shrink: 0; }\n.sidebar-logo .pg-title {\n  font-size: 15px; font-weight: 600; color: var(--text);\n  font-family: var(--mono);\n}\n.sidebar-logo .pg-sub {\n  font-size: 11px; color: var(--text3); margin-top: 2px;\n}\n\n.sidebar-search {\n  padding: 0.5rem 0.75rem;\n  margin-bottom: 0.25rem;\n}\n.sidebar-search input {\n  width: 100%;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 6px;\n  color: var(--text);\n  font-family: var(--sans);\n  font-size: 12px;\n  padding: 6px 10px;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.sidebar-search input:focus { border-color: var(--blue); }\n.sidebar-search input::placeholder { color: var(--text3); }\n\n.nav-section {\n  padding: 0.75rem 0.75rem 0.25rem;\n  font-size: 10px;\n  font-weight: 600;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  color: var(--text3);\n}\n\n.nav-item {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  padding: 5px 12px;\n  font-size: 12.5px;\n  color: var(--text2);\n  cursor: pointer;\n  border-radius: 0;\n  transition: background 0.1s, color 0.1s;\n  border-left: 2px solid transparent;\n  text-decoration: none;\n}\n.nav-item:hover { background: var(--bg3); color: var(--text); }\n.nav-item.active {\n  color: var(--blue);\n  border-left-color: var(--blue);\n  background: var(--blue-bg);\n}\n.nav-dot {\n  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;\n}\n.nav-count {\n  margin-left: auto;\n  font-size: 10px;\n  background: var(--bg4);\n  border: 1px solid var(--border);\n  border-radius: 10px;\n  padding: 1px 6px;\n  color: var(--text3);\n}\n\n/* MAIN */\n.main {\n  margin-left: 240px;\n  flex: 1;\n  min-width: 0;\n}\n\n/* TOPBAR */\n.topbar {\n  position: sticky; top: 0; z-index: 5;\n  background: rgba(13,17,23,0.92);\n  backdrop-filter: blur(8px);\n  border-bottom: 1px solid var(--border);\n  padding: 0.75rem 2rem;\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.topbar-title {\n  font-family: var(--mono);\n  font-size: 13px;\n  color: var(--text2);\n}\n.topbar-title span { color: var(--blue); }\n.topbar-stats {\n  margin-left: auto;\n  display: flex; gap: 16px;\n}\n.topbar-stat {\n  font-size: 11px; color: var(--text3);\n}\n.topbar-stat strong { color: var(--text2); font-weight: 500; }\n\n/* CONTENT */\n.content {\n  padding: 2rem;\n  max-width: 900px;\n}\n\n.section-header {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin: 2rem 0 1rem;\n  padding-bottom: 0.5rem;\n  border-bottom: 1px solid var(--border);\n}\n.section-header:first-child { margin-top: 0; }\n.section-icon {\n  width: 28px; height: 28px; border-radius: 6px;\n  display: flex; align-items: center; justify-content: center;\n  font-size: 14px; flex-shrink: 0;\n}\n.section-title-text {\n  font-size: 15px; font-weight: 600; color: var(--text);\n  font-family: var(--mono);\n}\n.section-count {\n  margin-left: auto;\n  font-size: 11px; color: var(--text3);\n  font-family: var(--mono);\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  padding: 2px 8px;\n  border-radius: 10px;\n}\n\n/* CARD */\n.card {\n  background: var(--bg2);\n  border: 1px solid var(--border);\n  border-radius: 8px;\n  margin-bottom: 8px;\n  overflow: hidden;\n  transition: border-color 0.15s;\n}\n.card:hover { border-color: var(--border2); }\n.card.open { border-color: var(--border2); }\n\n.card-header {\n  display: flex;\n  align-items: flex-start;\n  gap: 10px;\n  padding: 10px 14px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.chevron {\n  flex-shrink: 0; width: 14px; height: 14px;\n  margin-top: 3px; color: var(--text3);\n  transition: transform 0.2s;\n}\n.card.open .chevron { transform: rotate(90deg); }\n\n.card-meta { flex: 1; min-width: 0; }\n.card-name {\n  font-size: 13.5px; font-weight: 500; color: var(--text);\n  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\n}\n.card-desc {\n  font-size: 12px; color: var(--text2);\n  margin-top: 2px; line-height: 1.4;\n}\n\n.badge {\n  font-size: 10px; font-weight: 500;\n  padding: 1px 7px; border-radius: 10px;\n  white-space: nowrap; flex-shrink: 0;\n  font-family: var(--mono);\n}\n.b-os     { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-border); }\n.b-repl   { background: var(--blue-bg);   color: var(--blue);   border: 1px solid var(--blue-border); }\n.b-perf   { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-border); }\n.b-lock   { background: var(--red-bg);    color: var(--red);    border: 1px solid var(--red-border); }\n.b-vac    { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }\n\n/* CARD BODY */\n.card-body { display: none; padding: 0 14px 14px; }\n.card.open .card-body { display: block; }\n\n.code-wrap { position: relative; margin-bottom: 12px; }\npre {\n  background: var(--bg);\n  border: 1px solid var(--border);\n  border-radius: 6px;\n  padding: 12px 14px;\n  font-family: var(--mono);\n  font-size: 12px;\n  color: #c9d1d9;\n  white-space: pre;\n  overflow-x: auto;\n  line-height: 1.7;\n  tab-size: 2;\n}\n\n/* Syntax highlight */\n.k { color: #ff7b72; }   /* keyword */\n.f { color: #d2a8ff; }   /* function */\n.s { color: #a5d6ff; }   /* string/number */\n.c { color: #6e7681; font-style: italic; } /* comment */\n.t { color: #ffa657; }   /* type/column name */\n\n.copy-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 4px;\n  color: var(--text2);\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.copy-btn:hover { border-color: var(--blue); color: var(--blue); }\n.copy-btn.copied { border-color: var(--green); color: var(--green); }\n\n/* COLUMNS TABLE */\n.cols-label {\n  font-size: 11px; font-weight: 600; letter-spacing: 0.05em;\n  text-transform: uppercase; color: var(--text3);\n  margin-bottom: 6px;\n  font-family: var(--mono);\n}\n.cols-table { width: 100%; border-collapse: collapse; }\n.cols-table tr { border-bottom: 1px solid var(--border); }\n.cols-table tr:last-child { border-bottom: none; }\n.cols-table td {\n  padding: 6px 8px; vertical-align: top; font-size: 12px;\n}\n.col-n {\n  font-family: var(--mono); font-size: 11.5px;\n  color: var(--blue); white-space: nowrap;\n  padding-right: 16px; width: 1%;\n}\n.col-d { color: var(--text2); line-height: 1.5; }\n.col-note {\n  display: block;\n  font-size: 11px; color: var(--text3);\n  margin-top: 3px; line-height: 1.4;\n  border-left: 2px solid var(--border2);\n  padding-left: 6px;\n  margin-top: 4px;\n}\n\n/* FOOTER */\n.footer {\n  padding: 2rem;\n  border-top: 1px solid var(--border);\n  color: var(--text3);\n  font-size: 11px;\n  font-family: var(--mono);\n}\n\n.export-btn,.save-file-btn{font-size:12px;font-family:var(--mono);padding:4px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text2);cursor:pointer;transition:all 0.15s;margin-left:6px;}\n.export-btn:hover{border-color:var(--blue);color:var(--blue);}\n.import-btn{font-size:12px;font-family:var(--mono);padding:4px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text2);cursor:pointer;transition:all 0.15s;margin-left:6px;display:inline-flex;align-items:center;}\n.import-btn:hover{border-color:var(--green);color:var(--green);}\n.save-file-btn{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}\n.save-file-btn:hover{background:var(--blue);color:var(--bg);}\n/* EMPTY STATE */\n.empty {\n  text-align: center; padding: 3rem;\n  color: var(--text3); font-size: 13px;\n}\n\n/* SCROLLBAR */\n::-webkit-scrollbar { width: 6px; height: 6px; }\n::-webkit-scrollbar-track { background: transparent; }\n::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }\n::-webkit-scrollbar-thumb:hover { background: var(--text3); }\n\n/* HIDDEN */\n.hidden { display: none !important; }\n\n/* EDIT BUTTON */\n.edit-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 4px;\n  color: var(--text2);\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.edit-btn:hover { border-color: var(--orange); color: var(--orange); }\n.edit-btn.active { border-color: var(--orange); color: var(--orange); background: var(--orange-bg); }\n\n/* MODIFIED BADGE */\n.modified-dot {\n  display: inline-block;\n  width: 6px; height: 6px; border-radius: 50%;\n  background: var(--orange);\n  margin-left: 6px;\n  flex-shrink: 0;\n  title: \"\u0418\u0437\u043c\u0435\u043d\u0435\u043d\u043e\";\n}\n\n/* EDITOR AREA */\n.editor-wrap {\n  display: none;\n  margin-bottom: 12px;\n  border: 1px solid var(--orange-border);\n  border-radius: 6px;\n  overflow: hidden;\n}\n.editor-wrap.visible { display: block; }\n.editor-toolbar {\n  display: flex; align-items: center; gap: 8px;\n  padding: 6px 10px;\n  background: var(--orange-bg);\n  border-bottom: 1px solid var(--orange-border);\n}\n.editor-label {\n  font-size: 11px; font-family: var(--mono);\n  color: var(--orange); flex: 1;\n}\n.editor-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.editor-save {\n  background: var(--green-bg);\n  border: 1px solid var(--green-border);\n  color: var(--green);\n}\n.editor-save:hover { background: var(--green); color: var(--bg); }\n.editor-reset {\n  background: transparent;\n  border: 1px solid var(--border);\n  color: var(--text3);\n}\n.editor-reset:hover { border-color: var(--red); color: var(--red); }\n.editor-cancel {\n  background: transparent;\n  border: 1px solid var(--border);\n  color: var(--text3);\n}\n.editor-cancel:hover { border-color: var(--border2); color: var(--text2); }\ntextarea.sql-editor {\n  width: 100%;\n  background: var(--bg);\n  border: none;\n  outline: none;\n  color: #c9d1d9;\n  font-family: var(--mono);\n  font-size: 12px;\n  line-height: 1.7;\n  padding: 12px 14px;\n  resize: vertical;\n  min-height: 160px;\n  tab-size: 2;\n}\ntextarea.sql-editor:focus { background: #0d1117; }\n\n/* ADD BUTTON in topbar */\n.add-btn {\n  font-size: 12px; font-family: var(--mono);\n  padding: 4px 14px;\n  background: var(--green-bg);\n  border: 1px solid var(--green-border);\n  border-radius: 5px;\n  color: var(--green);\n  cursor: pointer;\n  transition: all 0.15s;\n  margin-left: 12px;\n}\n.add-btn:hover { background: var(--green); color: var(--bg); }\n\n/* MODAL OVERLAY */\n.modal-overlay {\n  display: none; position: fixed; inset: 0;\n  background: rgba(0,0,0,0.7);\n  z-index: 100; align-items: center; justify-content: center;\n  padding: 1rem;\n}\n.modal-overlay.visible { display: flex; }\n.modal {\n  background: var(--bg2); border: 1px solid var(--border2);\n  border-radius: 10px; width: 100%; max-width: 700px;\n  max-height: 92vh; overflow-y: auto;\n  display: flex; flex-direction: column;\n}\n.modal-header {\n  display: flex; align-items: center; gap: 10px;\n  padding: 14px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0;\n}\n.modal-title {\n  font-size: 14px; font-weight: 500;\n  font-family: var(--mono); color: var(--text); flex: 1;\n}\n.modal-close {\n  background: none; border: none; color: var(--text3);\n  cursor: pointer; font-size: 18px; line-height: 1;\n  padding: 2px 6px; border-radius: 4px;\n}\n.modal-close:hover { color: var(--text); background: var(--bg3); }\n.modal-body { padding: 18px; display: flex; flex-direction: column; gap: 14px; }\n.form-row { display: flex; flex-direction: column; gap: 5px; }\n.form-label {\n  font-size: 11px; font-weight: 600; letter-spacing: 0.06em;\n  text-transform: uppercase; color: var(--text3); font-family: var(--mono);\n}\n.form-input {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;\n  color: var(--text); font-family: var(--sans); font-size: 13px;\n  padding: 8px 10px; outline: none; transition: border-color 0.15s; width: 100%;\n}\n.form-input:focus { border-color: var(--blue); }\n.form-textarea {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;\n  color: var(--text); font-family: var(--mono); font-size: 12px;\n  padding: 8px 10px; outline: none; transition: border-color 0.15s; width: 100%;\n  resize: vertical; line-height: 1.7; tab-size: 2;\n}\n.form-textarea.desc-ta {\n  font-family: var(--sans); font-size: 13px;\n  min-height: 58px; white-space: normal; line-height: 1.5;\n}\n.form-textarea.sql-ta { min-height: 180px; color: #c9d1d9; }\n.form-textarea:focus { border-color: var(--blue); }\n\n/* Section chips */\n.section-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 2px; }\n.s-chip {\n  display: flex; align-items: center; gap: 6px;\n  padding: 5px 11px; border-radius: 6px;\n  border: 2px solid transparent; cursor: pointer;\n  font-size: 12px; font-family: var(--mono);\n  background: var(--bg3); color: var(--text2);\n  transition: all 0.12s; user-select: none;\n}\n.s-chip:hover { color: var(--text); border-color: var(--border2); }\n.s-chip.sel { color: var(--text); }\n.s-chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }\n\n/* Columns editor */\n.cols-editor-wrap { display: flex; flex-direction: column; gap: 6px; }\n.col-edit-row {\n  display: grid; grid-template-columns: 150px 1fr 30px;\n  gap: 6px; align-items: start;\n}\n.col-edit-row input, .col-edit-row textarea {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 4px;\n  color: var(--text); font-family: var(--mono); font-size: 11.5px;\n  padding: 5px 8px; outline: none; width: 100%; transition: border-color 0.15s;\n}\n.col-edit-row textarea {\n  font-family: var(--sans); font-size: 12px;\n  min-height: 50px; resize: vertical;\n}\n.col-edit-row input:focus, .col-edit-row textarea:focus { border-color: var(--blue); }\n.col-del {\n  background: none; border: 1px solid var(--border); border-radius: 4px;\n  color: var(--text3); cursor: pointer; padding: 5px 6px;\n  font-size: 12px; transition: all 0.12s; align-self: start;\n}\n.col-del:hover { border-color: var(--red); color: var(--red); }\n.add-col-row {\n  background: none; border: 1px dashed var(--border2); border-radius: 4px;\n  color: var(--text3); cursor: pointer; padding: 6px;\n  font-size: 12px; font-family: var(--mono); transition: all 0.12s; text-align: center;\n}\n.add-col-row:hover { border-color: var(--blue); color: var(--blue); }\n\n.modal-footer {\n  display: flex; align-items: center; gap: 8px;\n  padding: 12px 18px; border-top: 1px solid var(--border); flex-shrink: 0;\n}\n.modal-save {\n  font-size: 12px; font-family: var(--mono); padding: 6px 20px;\n  background: var(--green-bg); border: 1px solid var(--green-border);\n  border-radius: 5px; color: var(--green); cursor: pointer; transition: all 0.15s;\n}\n.modal-save:hover { background: var(--green); color: var(--bg); }\n.modal-cancel {\n  font-size: 12px; font-family: var(--mono); padding: 6px 14px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 5px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.modal-cancel:hover { border-color: var(--border2); color: var(--text2); }\n.modal-hint { margin-left: auto; font-size: 11px; color: var(--text3); font-family: var(--mono); }\n\n/* Custom card \u2014 delete button */\n.del-card-btn {\n  font-size: 11px; font-family: var(--mono); padding: 3px 10px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 4px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.del-card-btn:hover { border-color: var(--red); color: var(--red); }\n\n/* CREATE GROUP MODAL additions */\n.icon-picker { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }\n.icon-btn {\n  font-size: 18px; width: 36px; height: 36px;\n  border-radius: 6px; border: 2px solid transparent;\n  background: var(--bg3); cursor: pointer;\n  display: flex; align-items: center; justify-content: center;\n  transition: all 0.1s;\n}\n.icon-btn:hover { border-color: var(--border2); background: var(--bg4); }\n.icon-btn.sel-icon { border-color: var(--blue); background: var(--blue-bg); }\n.color-picker { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }\n.color-swatch {\n  width: 28px; height: 28px; border-radius: 6px;\n  border: 2px solid transparent; cursor: pointer; transition: all 0.1s;\n}\n.color-swatch:hover, .color-swatch.sel-color { border-color: var(--text); transform: scale(1.15); }\n.group-del-btn {\n  font-size: 11px; font-family: var(--mono); padding: 3px 10px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 4px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.group-del-btn:hover { border-color: var(--red); color: var(--red); }\n.nav-manage-groups {\n  display: flex; align-items: center; gap: 6px; padding: 6px 12px;\n  font-size: 11px; font-family: var(--mono); color: var(--text3); cursor: pointer;\n  border-top: 1px solid var(--border); margin-top: 8px; transition: color 0.15s;\n}\n.nav-manage-groups:hover { color: var(--green); }\n\n.icon-picker { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }\n.icon-btn { font-size:18px; width:36px; height:36px; border-radius:6px; border:2px solid transparent; background:var(--bg3); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.1s; }\n.icon-btn:hover { border-color:var(--border2); background:var(--bg4); }\n.icon-btn.sel-icon { border-color:var(--blue); background:var(--blue-bg); }\n.color-picker { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }\n.color-swatch { width:28px; height:28px; border-radius:6px; border:2px solid transparent; cursor:pointer; transition:all 0.1s; }\n.color-swatch:hover, .color-swatch.sel-color { border-color:var(--text); transform:scale(1.15); }\n.group-del-btn { font-size:11px; font-family:var(--mono); padding:3px 10px; background:none; border:1px solid var(--border); border-radius:4px; color:var(--text3); cursor:pointer; transition:all 0.15s; }\n.group-del-btn:hover { border-color:var(--red); color:var(--red); }\n.nav-manage-groups { display:flex; align-items:center; gap:6px; padding:6px 12px; font-size:11px; font-family:var(--mono); color:var(--text3); cursor:pointer; border-top:1px solid var(--border); margin-top:8px; transition:color 0.15s; }\n.nav-manage-groups:hover { color:var(--green); }\n#modal-reset-btn { font-size:12px; font-family:var(--mono); padding:6px 14px; background:none; border:1px solid var(--border); border-radius:5px; color:var(--orange); cursor:pointer; transition:all 0.15s; }\n#modal-reset-btn:hover { border-color:var(--orange); background:var(--orange-bg); }\n\n</style>\n</head>\n<body>\n\n<div class=\"shell\">\n\n<nav class=\"sidebar\" id=\"sidebar\">\n  <div class=\"sidebar-logo\">\n    <div class=\"pg-icon\">\n      <svg width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\">\n        <rect width=\"22\" height=\"22\" rx=\"5\" fill=\"#1f4068\"/>\n        <path d=\"M11 4C7.686 4 5 6.686 5 10c0 1.657.672 3.157 1.757 4.243L11 18l4.243-3.757A5.978 5.978 0 0017 10c0-3.314-2.686-6-6-6z\" fill=\"#58a6ff\" opacity=\".8\"/>\n        <circle cx=\"11\" cy=\"10\" r=\"2.5\" fill=\"#0d1117\"/>\n      </svg>\n      <div>\n        <div class=\"pg-title\">PG Cheatsheet</div>\n        <div class=\"pg-sub\">DBA Reference v3</div>\n      </div>\n    </div>\n  </div>\n  <div class=\"sidebar-search\">\n    <input type=\"text\" id=\"search\" placeholder=\"\u041f\u043e\u0438\u0441\u043a...\" autocomplete=\"off\"/>\n  </div>\n  <div id=\"nav-links\"></div>\n  <div class=\"nav-manage-groups\" onclick=\"openGroupModal()\">\n    <svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><circle cx=\"6\" cy=\"6\" r=\"5\"/><line x1=\"6\" y1=\"3\" x2=\"6\" y2=\"9\"/><line x1=\"3\" y1=\"6\" x2=\"9\" y2=\"6\"/></svg>\n    \u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u0430\u043c\u0438\n  </div>\n</nav>\n\n<div class=\"main\">\n  <div class=\"topbar\">\n    <span class=\"topbar-title\">~/<span>pg_dba_cheatsheet</span>.html</span>\n    <div class=\"topbar-stats\">\n      <span class=\"topbar-stat\"><strong id=\"stat-visible\">0</strong> \u0441\u043a\u0440\u0438\u043f\u0442\u043e\u0432</span>\n      <span class=\"topbar-stat\"><strong id=\"stat-sections\">0</strong> \u0440\u0430\u0437\u0434\u0435\u043b\u043e\u0432</span>\n    </div>\n    <button class=\"add-btn\" onclick=\"openAddModal()\">+ \u0434\u043e\u0431\u0430\u0432\u0438\u0442\u044c</button>\n    <button class=\"export-btn\" onclick=\"exportData()\">\u2b07 \u044d\u043a\u0441\u043f\u043e\u0440\u0442</button>\n    <label class=\"import-btn\">\u2b06 \u0438\u043c\u043f\u043e\u0440\u0442<input type=\"file\" id=\"import-file\" accept=\".json\" style=\"display:none\" onchange=\"importData(event)\"></label>\n    <button class=\"save-file-btn\" onclick=\"saveToFile()\">\ud83d\udcbe \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0432 \u0444\u0430\u0439\u043b</button>\n  </div>\n  <div class=\"content\" id=\"content\"></div>\n  <div class=\"footer\">PostgreSQL DBA Cheatsheet v3 &middot; \u0420\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u043e\u0444\u043b\u0430\u0439\u043d &middot; kayridenov.github.io/pg-cheatsheet</div>\n</div>\n\n</div>\n\n<!-- ADD / EDIT CARD MODAL -->\n<div class=\"modal-overlay\" id=\"modal-overlay\" onclick=\"overlayClick(event)\">\n  <div class=\"modal\" id=\"modal\">\n    <div class=\"modal-header\">\n      <span class=\"modal-title\" id=\"modal-title\">+ \u041d\u043e\u0432\u044b\u0439 \u0437\u0430\u043f\u0440\u043e\u0441</span>\n      <button class=\"modal-close\" onclick=\"closeModal()\">&#x2715;</button>\n    </div>\n    <div class=\"modal-body\">\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0420\u0430\u0437\u0434\u0435\u043b</label>\n        <div class=\"section-chips\" id=\"section-chips\"></div>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0437\u0430\u043f\u0440\u043e\u0441\u0430</label>\n        <input class=\"form-input\" id=\"m-name\" placeholder=\"\u041d\u0430\u043f\u0440\u0438\u043c\u0435\u0440: \u0420\u0430\u0437\u043c\u0435\u0440 \u0432\u0441\u0435\u0445 \u0442\u0430\u0431\u043b\u0438\u0446 \u0441\u0445\u0435\u043c\u044b\" />\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435</label>\n        <textarea class=\"form-textarea desc-ta\" id=\"m-desc\" placeholder=\"\u0427\u0442\u043e \u0434\u0435\u043b\u0430\u0435\u0442 \u0437\u0430\u043f\u0440\u043e\u0441, \u043a\u043e\u0433\u0434\u0430 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c...\"></textarea>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">SQL / \u043a\u043e\u043c\u0430\u043d\u0434\u0430</label>\n        <textarea class=\"form-textarea sql-ta\" id=\"m-sql\" placeholder=\"SELECT ...\"></textarea>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041f\u043e\u044f\u0441\u043d\u0435\u043d\u0438\u044f \u043f\u043e \u043a\u043e\u043b\u043e\u043d\u043a\u0430\u043c <span style=\"font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)\">(\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u043e)</span></label>\n        <div class=\"cols-editor-wrap\" id=\"cols-editor\">\n          <div class=\"col-edit-row\" id=\"col-row-0\">\n            <input placeholder=\"\u0438\u043c\u044f_\u043a\u043e\u043b\u043e\u043d\u043a\u0438\" />\n            <textarea placeholder=\"\u0427\u0442\u043e \u043e\u0437\u043d\u0430\u0447\u0430\u0435\u0442 \u044d\u0442\u0430 \u043a\u043e\u043b\u043e\u043d\u043a\u0430...\" rows=\"2\"></textarea>\n            <button class=\"col-del\" onclick=\"delCol(0)\">&#x2715;</button>\n          </div>\n        </div>\n        <button class=\"add-col-row\" onclick=\"addCol()\">+ \u0434\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043a\u043e\u043b\u043e\u043d\u043a\u0443</button>\n      </div>\n    </div>\n    <div class=\"modal-footer\">\n      <button class=\"modal-save\" id=\"modal-save-btn\" onclick=\"saveCard()\">\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c</button>\n      <button class=\"modal-cancel\" onclick=\"closeModal()\">\u041e\u0442\u043c\u0435\u043d\u0430</button>\n      <button id=\"modal-reset-btn\" onclick=\"resetBuiltinCard()\" style=\"display:none\">\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043a \u043e\u0440\u0438\u0433\u0438\u043d\u0430\u043b\u0443</button>\n      <span class=\"modal-hint\">\u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0435\u0442\u0441\u044f \u0432 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435</span>\n    </div>\n  </div>\n</div>\n\n<!-- CREATE GROUP MODAL -->\n<div class=\"modal-overlay\" id=\"group-modal-overlay\" onclick=\"if(event.target===this)closeGroupModal()\">\n  <div class=\"modal\" style=\"max-width:560px\">\n    <div class=\"modal-header\">\n      <span class=\"modal-title\">\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u0430\u043c\u0438</span>\n      <button class=\"modal-close\" onclick=\"closeGroupModal()\">&#x2715;</button>\n    </div>\n    <div class=\"modal-body\">\n      <div style=\"font-size:12px;color:var(--text2);margin-bottom:4px\">\u0421\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u044e\u0449\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u044b:</div>\n      <div id=\"gm-existing\" style=\"margin-bottom:16px;min-height:32px\"></div>\n      <div style=\"border-top:1px solid var(--border);padding-top:14px;font-size:12px;font-weight:500;color:var(--text);margin-bottom:12px\">\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u043d\u043e\u0432\u0443\u044e \u0433\u0440\u0443\u043f\u043f\u0443</div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u044b</label>\n        <input class=\"form-input\" id=\"gm-name\" placeholder=\"\u041d\u0430\u043f\u0440\u0438\u043c\u0435\u0440: \u041c\u043e\u0438 \u0441\u043a\u0440\u0438\u043f\u0442\u044b\" />\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0418\u043a\u043e\u043d\u043a\u0430</label>\n        <div class=\"icon-picker\" id=\"gm-icon-picker\"></div>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0426\u0432\u0435\u0442 \u0442\u043e\u0447\u043a\u0438 \u0432 \u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438</label>\n        <div class=\"color-picker\" id=\"gm-color-picker\"></div>\n      </div>\n    </div>\n    <div class=\"modal-footer\">\n      <button class=\"modal-save\" onclick=\"saveGroup()\">\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0433\u0440\u0443\u043f\u043f\u0443</button>\n      <button class=\"modal-cancel\" onclick=\"closeGroupModal()\">\u0417\u0430\u043a\u0440\u044b\u0442\u044c</button>\n    </div>\n  </div>\n</div>\n\n";
+
+
+
+
+
+window._pgHead = "<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>PostgreSQL DBA Cheatsheet</title>\n<style>\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n:root {\n  --bg: #0d1117;\n  --bg2: #161b22;\n  --bg3: #21262d;\n  --bg4: #2d333b;\n  --border: #30363d;\n  --border2: #444c56;\n  --text: #e6edf3;\n  --text2: #8b949e;\n  --text3: #6e7681;\n  --blue: #58a6ff;\n  --blue-bg: #0d2236;\n  --blue-border: #1f4068;\n  --green: #3fb950;\n  --green-bg: #0d2117;\n  --green-border: #1a4228;\n  --orange: #d29922;\n  --orange-bg: #261d0a;\n  --orange-border: #4a3500;\n  --red: #f85149;\n  --red-bg: #2a0d0d;\n  --red-border: #4a1515;\n  --purple: #bc8cff;\n  --purple-bg: #1a0d2e;\n  --purple-border: #3a1f5e;\n  --accent: #58a6ff;\n  --mono: 'JetBrains Mono', monospace;\n  --sans: 'IBM Plex Sans', sans-serif;\n}\n\n* { box-sizing: border-box; margin: 0; padding: 0; }\n\nbody {\n  background: var(--bg);\n  color: var(--text);\n  font-family: var(--sans);\n  font-size: 14px;\n  line-height: 1.6;\n  min-height: 100vh;\n}\n\n/* LAYOUT */\n.shell {\n  display: flex;\n  min-height: 100vh;\n}\n\n/* SIDEBAR */\n.sidebar {\n  width: 240px;\n  flex-shrink: 0;\n  background: var(--bg2);\n  border-right: 1px solid var(--border);\n  position: fixed;\n  top: 0; left: 0; bottom: 0;\n  overflow-y: auto;\n  z-index: 10;\n  padding-bottom: 2rem;\n}\n\n.sidebar-logo {\n  padding: 1.25rem 1rem 1rem;\n  border-bottom: 1px solid var(--border);\n  margin-bottom: 0.5rem;\n}\n.sidebar-logo .pg-icon {\n  display: flex; align-items: center; gap: 8px;\n}\n.sidebar-logo .pg-icon svg { flex-shrink: 0; }\n.sidebar-logo .pg-title {\n  font-size: 15px; font-weight: 600; color: var(--text);\n  font-family: var(--mono);\n}\n.sidebar-logo .pg-sub {\n  font-size: 11px; color: var(--text3); margin-top: 2px;\n}\n\n.sidebar-search {\n  padding: 0.5rem 0.75rem;\n  margin-bottom: 0.25rem;\n}\n.sidebar-search input {\n  width: 100%;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 6px;\n  color: var(--text);\n  font-family: var(--sans);\n  font-size: 12px;\n  padding: 6px 10px;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.sidebar-search input:focus { border-color: var(--blue); }\n.sidebar-search input::placeholder { color: var(--text3); }\n\n.nav-section {\n  padding: 0.75rem 0.75rem 0.25rem;\n  font-size: 10px;\n  font-weight: 600;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  color: var(--text3);\n}\n\n.nav-item {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  padding: 5px 12px;\n  font-size: 12.5px;\n  color: var(--text2);\n  cursor: pointer;\n  border-radius: 0;\n  transition: background 0.1s, color 0.1s;\n  border-left: 2px solid transparent;\n  text-decoration: none;\n}\n.nav-item:hover { background: var(--bg3); color: var(--text); }\n.nav-item.active {\n  color: var(--blue);\n  border-left-color: var(--blue);\n  background: var(--blue-bg);\n}\n.nav-dot {\n  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;\n}\n.nav-count {\n  margin-left: auto;\n  font-size: 10px;\n  background: var(--bg4);\n  border: 1px solid var(--border);\n  border-radius: 10px;\n  padding: 1px 6px;\n  color: var(--text3);\n}\n\n/* MAIN */\n.main {\n  margin-left: 240px;\n  flex: 1;\n  min-width: 0;\n}\n\n/* TOPBAR */\n.topbar {\n  position: sticky; top: 0; z-index: 5;\n  background: rgba(13,17,23,0.92);\n  backdrop-filter: blur(8px);\n  border-bottom: 1px solid var(--border);\n  padding: 0.75rem 2rem;\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.topbar-title {\n  font-family: var(--mono);\n  font-size: 13px;\n  color: var(--text2);\n}\n.topbar-title span { color: var(--blue); }\n.topbar-stats {\n  margin-left: auto;\n  display: flex; gap: 16px;\n}\n.topbar-stat {\n  font-size: 11px; color: var(--text3);\n}\n.topbar-stat strong { color: var(--text2); font-weight: 500; }\n\n/* CONTENT */\n.content {\n  padding: 2rem;\n  max-width: 900px;\n}\n\n.section-header {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin: 2rem 0 1rem;\n  padding-bottom: 0.5rem;\n  border-bottom: 1px solid var(--border);\n}\n.section-header:first-child { margin-top: 0; }\n.section-icon {\n  width: 28px; height: 28px; border-radius: 6px;\n  display: flex; align-items: center; justify-content: center;\n  font-size: 14px; flex-shrink: 0;\n}\n.section-title-text {\n  font-size: 15px; font-weight: 600; color: var(--text);\n  font-family: var(--mono);\n}\n.section-count {\n  margin-left: auto;\n  font-size: 11px; color: var(--text3);\n  font-family: var(--mono);\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  padding: 2px 8px;\n  border-radius: 10px;\n}\n\n/* CARD */\n.card {\n  background: var(--bg2);\n  border: 1px solid var(--border);\n  border-radius: 8px;\n  margin-bottom: 8px;\n  overflow: hidden;\n  transition: border-color 0.15s;\n}\n.card:hover { border-color: var(--border2); }\n.card.open { border-color: var(--border2); }\n\n.card-header {\n  display: flex;\n  align-items: flex-start;\n  gap: 10px;\n  padding: 10px 14px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.chevron {\n  flex-shrink: 0; width: 14px; height: 14px;\n  margin-top: 3px; color: var(--text3);\n  transition: transform 0.2s;\n}\n.card.open .chevron { transform: rotate(90deg); }\n\n.card-meta { flex: 1; min-width: 0; }\n.card-name {\n  font-size: 13.5px; font-weight: 500; color: var(--text);\n  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\n}\n.card-desc {\n  font-size: 12px; color: var(--text2);\n  margin-top: 2px; line-height: 1.4;\n}\n\n.badge {\n  font-size: 10px; font-weight: 500;\n  padding: 1px 7px; border-radius: 10px;\n  white-space: nowrap; flex-shrink: 0;\n  font-family: var(--mono);\n}\n.b-os     { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-border); }\n.b-repl   { background: var(--blue-bg);   color: var(--blue);   border: 1px solid var(--blue-border); }\n.b-perf   { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-border); }\n.b-lock   { background: var(--red-bg);    color: var(--red);    border: 1px solid var(--red-border); }\n.b-vac    { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }\n\n/* CARD BODY */\n.card-body { display: none; padding: 0 14px 14px; }\n.card.open .card-body { display: block; }\n\n.code-wrap { position: relative; margin-bottom: 12px; }\npre {\n  background: var(--bg);\n  border: 1px solid var(--border);\n  border-radius: 6px;\n  padding: 12px 14px;\n  font-family: var(--mono);\n  font-size: 12px;\n  color: #c9d1d9;\n  white-space: pre;\n  overflow-x: auto;\n  line-height: 1.7;\n  tab-size: 2;\n}\n\n/* Syntax highlight */\n.k { color: #ff7b72; }   /* keyword */\n.f { color: #d2a8ff; }   /* function */\n.s { color: #a5d6ff; }   /* string/number */\n.c { color: #6e7681; font-style: italic; } /* comment */\n.t { color: #ffa657; }   /* type/column name */\n\n.copy-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 4px;\n  color: var(--text2);\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.copy-btn:hover { border-color: var(--blue); color: var(--blue); }\n.copy-btn.copied { border-color: var(--green); color: var(--green); }\n\n/* COLUMNS TABLE */\n.cols-label {\n  font-size: 11px; font-weight: 600; letter-spacing: 0.05em;\n  text-transform: uppercase; color: var(--text3);\n  margin-bottom: 6px;\n  font-family: var(--mono);\n}\n.cols-table { width: 100%; border-collapse: collapse; }\n.cols-table tr { border-bottom: 1px solid var(--border); }\n.cols-table tr:last-child { border-bottom: none; }\n.cols-table td {\n  padding: 6px 8px; vertical-align: top; font-size: 12px;\n}\n.col-n {\n  font-family: var(--mono); font-size: 11.5px;\n  color: var(--blue); white-space: nowrap;\n  padding-right: 16px; width: 1%;\n}\n.col-d { color: var(--text2); line-height: 1.5; }\n.col-note {\n  display: block;\n  font-size: 11px; color: var(--text3);\n  margin-top: 3px; line-height: 1.4;\n  border-left: 2px solid var(--border2);\n  padding-left: 6px;\n  margin-top: 4px;\n}\n\n/* FOOTER */\n.footer {\n  padding: 2rem;\n  border-top: 1px solid var(--border);\n  color: var(--text3);\n  font-size: 11px;\n  font-family: var(--mono);\n}\n\n.export-btn,.save-file-btn{font-size:12px;font-family:var(--mono);padding:4px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text2);cursor:pointer;transition:all 0.15s;margin-left:6px;}\n.export-btn:hover{border-color:var(--blue);color:var(--blue);}\n.import-btn{font-size:12px;font-family:var(--mono);padding:4px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text2);cursor:pointer;transition:all 0.15s;margin-left:6px;display:inline-flex;align-items:center;}\n.import-btn:hover{border-color:var(--green);color:var(--green);}\n.save-file-btn{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}\n.save-file-btn:hover{background:var(--blue);color:var(--bg);}\n\n/* VERSION / OS FILTER */\n.filter-block {\n  padding: 0.6rem 0.75rem 0.5rem;\n  border-bottom: 1px solid var(--border);\n  margin-bottom: 0.25rem;\n}\n.filter-label {\n  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;\n  text-transform: uppercase; color: var(--text3);\n  margin-bottom: 6px; display: flex; align-items: center; gap: 5px;\n}\n.filter-label-icon { font-size: 11px; }\n.ver-btns {\n  display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 10px;\n}\n.ver-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 8px; border-radius: 5px;\n  border: 1px solid var(--border);\n  background: var(--bg); color: var(--text3);\n  cursor: pointer; transition: all 0.12s;\n  line-height: 1.5; white-space: nowrap;\n}\n.ver-btn:hover { border-color: var(--blue-border); color: var(--blue); background: var(--blue-bg); }\n.ver-btn.pg-active {\n  background: var(--blue-bg); border-color: var(--blue);\n  color: var(--blue); font-weight: 600;\n  box-shadow: 0 0 0 1px var(--blue-border);\n}\n.ver-btn.os-active-ubuntu {\n  background: #0d2117; border-color: #e95420;\n  color: #e95420; font-weight: 600;\n}\n.ver-btn.os-active-rhel {\n  background: #2d0000; border-color: #cc0000;\n  color: #ff6666; font-weight: 600;\n}\n.filter-sep { border: none; border-top: 1px solid var(--border); margin: 2px 0 8px; }\n.filter-active-hint {\n  font-size: 10px; color: var(--orange); font-family: var(--mono);\n  padding: 3px 6px; background: var(--orange-bg); border-radius: 4px;\n  border: 1px solid var(--orange-border); display: none; margin-top: 4px;\n}\n.filter-active-hint.visible { display: block; }\n\n/* PG VERSION BADGE on cards */\n.pg-badge {\n  font-size: 9.5px; font-family: var(--mono);\n  padding: 1px 6px; border-radius: 8px;\n  background: var(--blue-bg); color: var(--blue);\n  border: 1px solid var(--blue-border);\n  white-space: nowrap; flex-shrink: 0;\n  font-weight: 500;\n}\n.pg-badge-max {\n  background: var(--orange-bg); color: var(--orange);\n  border-color: var(--orange-border);\n}\n.os-badge {\n  font-size: 9.5px; font-family: var(--mono);\n  padding: 1px 6px; border-radius: 8px;\n  background: var(--bg3); color: var(--text3);\n  border: 1px solid var(--border);\n  white-space: nowrap; flex-shrink: 0;\n}\n\n/* EMPTY STATE */\n.empty {\n  text-align: center; padding: 3rem;\n  color: var(--text3); font-size: 13px;\n}\n\n/* SCROLLBAR */\n::-webkit-scrollbar { width: 6px; height: 6px; }\n::-webkit-scrollbar-track { background: transparent; }\n::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }\n::-webkit-scrollbar-thumb:hover { background: var(--text3); }\n\n/* HIDDEN */\n.hidden { display: none !important; }\n\n/* EDIT BUTTON */\n.edit-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 4px;\n  color: var(--text2);\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.edit-btn:hover { border-color: var(--orange); color: var(--orange); }\n.edit-btn.active { border-color: var(--orange); color: var(--orange); background: var(--orange-bg); }\n\n/* MODIFIED BADGE */\n.modified-dot {\n  display: inline-block;\n  width: 6px; height: 6px; border-radius: 50%;\n  background: var(--orange);\n  margin-left: 6px;\n  flex-shrink: 0;\n  title: \"\u0418\u0437\u043c\u0435\u043d\u0435\u043d\u043e\";\n}\n\n/* EDITOR AREA */\n.editor-wrap {\n  display: none;\n  margin-bottom: 12px;\n  border: 1px solid var(--orange-border);\n  border-radius: 6px;\n  overflow: hidden;\n}\n.editor-wrap.visible { display: block; }\n.editor-toolbar {\n  display: flex; align-items: center; gap: 8px;\n  padding: 6px 10px;\n  background: var(--orange-bg);\n  border-bottom: 1px solid var(--orange-border);\n}\n.editor-label {\n  font-size: 11px; font-family: var(--mono);\n  color: var(--orange); flex: 1;\n}\n.editor-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.editor-save {\n  background: var(--green-bg);\n  border: 1px solid var(--green-border);\n  color: var(--green);\n}\n.editor-save:hover { background: var(--green); color: var(--bg); }\n.editor-reset {\n  background: transparent;\n  border: 1px solid var(--border);\n  color: var(--text3);\n}\n.editor-reset:hover { border-color: var(--red); color: var(--red); }\n.editor-cancel {\n  background: transparent;\n  border: 1px solid var(--border);\n  color: var(--text3);\n}\n.editor-cancel:hover { border-color: var(--border2); color: var(--text2); }\ntextarea.sql-editor {\n  width: 100%;\n  background: var(--bg);\n  border: none;\n  outline: none;\n  color: #c9d1d9;\n  font-family: var(--mono);\n  font-size: 12px;\n  line-height: 1.7;\n  padding: 12px 14px;\n  resize: vertical;\n  min-height: 160px;\n  tab-size: 2;\n}\ntextarea.sql-editor:focus { background: #0d1117; }\n\n/* ADD BUTTON in topbar */\n.add-btn {\n  font-size: 12px; font-family: var(--mono);\n  padding: 4px 14px;\n  background: var(--green-bg);\n  border: 1px solid var(--green-border);\n  border-radius: 5px;\n  color: var(--green);\n  cursor: pointer;\n  transition: all 0.15s;\n  margin-left: 12px;\n}\n.add-btn:hover { background: var(--green); color: var(--bg); }\n\n/* MODAL OVERLAY */\n.modal-overlay {\n  display: none; position: fixed; inset: 0;\n  background: rgba(0,0,0,0.7);\n  z-index: 100; align-items: center; justify-content: center;\n  padding: 1rem;\n}\n.modal-overlay.visible { display: flex; }\n.modal {\n  background: var(--bg2); border: 1px solid var(--border2);\n  border-radius: 10px; width: 100%; max-width: 700px;\n  max-height: 92vh; overflow-y: auto;\n  display: flex; flex-direction: column;\n}\n.modal-header {\n  display: flex; align-items: center; gap: 10px;\n  padding: 14px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0;\n}\n.modal-title {\n  font-size: 14px; font-weight: 500;\n  font-family: var(--mono); color: var(--text); flex: 1;\n}\n.modal-close {\n  background: none; border: none; color: var(--text3);\n  cursor: pointer; font-size: 18px; line-height: 1;\n  padding: 2px 6px; border-radius: 4px;\n}\n.modal-close:hover { color: var(--text); background: var(--bg3); }\n.modal-body { padding: 18px; display: flex; flex-direction: column; gap: 14px; }\n.form-row { display: flex; flex-direction: column; gap: 5px; }\n.form-label {\n  font-size: 11px; font-weight: 600; letter-spacing: 0.06em;\n  text-transform: uppercase; color: var(--text3); font-family: var(--mono);\n}\n.form-input {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;\n  color: var(--text); font-family: var(--sans); font-size: 13px;\n  padding: 8px 10px; outline: none; transition: border-color 0.15s; width: 100%;\n}\n.form-input:focus { border-color: var(--blue); }\n.form-textarea {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;\n  color: var(--text); font-family: var(--mono); font-size: 12px;\n  padding: 8px 10px; outline: none; transition: border-color 0.15s; width: 100%;\n  resize: vertical; line-height: 1.7; tab-size: 2;\n}\n.form-textarea.desc-ta {\n  font-family: var(--sans); font-size: 13px;\n  min-height: 58px; white-space: normal; line-height: 1.5;\n}\n.form-textarea.sql-ta { min-height: 180px; color: #c9d1d9; }\n.form-textarea:focus { border-color: var(--blue); }\n\n/* Section chips */\n.section-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 2px; }\n.s-chip {\n  display: flex; align-items: center; gap: 6px;\n  padding: 5px 11px; border-radius: 6px;\n  border: 2px solid transparent; cursor: pointer;\n  font-size: 12px; font-family: var(--mono);\n  background: var(--bg3); color: var(--text2);\n  transition: all 0.12s; user-select: none;\n}\n.s-chip:hover { color: var(--text); border-color: var(--border2); }\n.s-chip.sel { color: var(--text); }\n.s-chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }\n\n/* Columns editor */\n.cols-editor-wrap { display: flex; flex-direction: column; gap: 6px; }\n.col-edit-row {\n  display: grid; grid-template-columns: 150px 1fr 30px;\n  gap: 6px; align-items: start;\n}\n.col-edit-row input, .col-edit-row textarea {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 4px;\n  color: var(--text); font-family: var(--mono); font-size: 11.5px;\n  padding: 5px 8px; outline: none; width: 100%; transition: border-color 0.15s;\n}\n.col-edit-row textarea {\n  font-family: var(--sans); font-size: 12px;\n  min-height: 50px; resize: vertical;\n}\n.col-edit-row input:focus, .col-edit-row textarea:focus { border-color: var(--blue); }\n.col-del {\n  background: none; border: 1px solid var(--border); border-radius: 4px;\n  color: var(--text3); cursor: pointer; padding: 5px 6px;\n  font-size: 12px; transition: all 0.12s; align-self: start;\n}\n.col-del:hover { border-color: var(--red); color: var(--red); }\n.add-col-row {\n  background: none; border: 1px dashed var(--border2); border-radius: 4px;\n  color: var(--text3); cursor: pointer; padding: 6px;\n  font-size: 12px; font-family: var(--mono); transition: all 0.12s; text-align: center;\n}\n.add-col-row:hover { border-color: var(--blue); color: var(--blue); }\n\n.modal-footer {\n  display: flex; align-items: center; gap: 8px;\n  padding: 12px 18px; border-top: 1px solid var(--border); flex-shrink: 0;\n}\n.modal-save {\n  font-size: 12px; font-family: var(--mono); padding: 6px 20px;\n  background: var(--green-bg); border: 1px solid var(--green-border);\n  border-radius: 5px; color: var(--green); cursor: pointer; transition: all 0.15s;\n}\n.modal-save:hover { background: var(--green); color: var(--bg); }\n.modal-cancel {\n  font-size: 12px; font-family: var(--mono); padding: 6px 14px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 5px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.modal-cancel:hover { border-color: var(--border2); color: var(--text2); }\n.modal-hint { margin-left: auto; font-size: 11px; color: var(--text3); font-family: var(--mono); }\n\n/* Custom card \u2014 delete button */\n.del-card-btn {\n  font-size: 11px; font-family: var(--mono); padding: 3px 10px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 4px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.del-card-btn:hover { border-color: var(--red); color: var(--red); }\n\n/* CREATE GROUP MODAL additions */\n.icon-picker { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }\n.icon-btn {\n  font-size: 18px; width: 36px; height: 36px;\n  border-radius: 6px; border: 2px solid transparent;\n  background: var(--bg3); cursor: pointer;\n  display: flex; align-items: center; justify-content: center;\n  transition: all 0.1s;\n}\n.icon-btn:hover { border-color: var(--border2); background: var(--bg4); }\n.icon-btn.sel-icon { border-color: var(--blue); background: var(--blue-bg); }\n.color-picker { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }\n.color-swatch {\n  width: 28px; height: 28px; border-radius: 6px;\n  border: 2px solid transparent; cursor: pointer; transition: all 0.1s;\n}\n.color-swatch:hover, .color-swatch.sel-color { border-color: var(--text); transform: scale(1.15); }\n.group-del-btn {\n  font-size: 11px; font-family: var(--mono); padding: 3px 10px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 4px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.group-del-btn:hover { border-color: var(--red); color: var(--red); }\n.nav-manage-groups {\n  display: flex; align-items: center; gap: 6px; padding: 6px 12px;\n  font-size: 11px; font-family: var(--mono); color: var(--text3); cursor: pointer;\n  border-top: 1px solid var(--border); margin-top: 8px; transition: color 0.15s;\n}\n.nav-manage-groups:hover { color: var(--green); }\n\n.icon-picker { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }\n.icon-btn { font-size:18px; width:36px; height:36px; border-radius:6px; border:2px solid transparent; background:var(--bg3); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.1s; }\n.icon-btn:hover { border-color:var(--border2); background:var(--bg4); }\n.icon-btn.sel-icon { border-color:var(--blue); background:var(--blue-bg); }\n.color-picker { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }\n.color-swatch { width:28px; height:28px; border-radius:6px; border:2px solid transparent; cursor:pointer; transition:all 0.1s; }\n.color-swatch:hover, .color-swatch.sel-color { border-color:var(--text); transform:scale(1.15); }\n.group-del-btn { font-size:11px; font-family:var(--mono); padding:3px 10px; background:none; border:1px solid var(--border); border-radius:4px; color:var(--text3); cursor:pointer; transition:all 0.15s; }\n.group-del-btn:hover { border-color:var(--red); color:var(--red); }\n.nav-manage-groups { display:flex; align-items:center; gap:6px; padding:6px 12px; font-size:11px; font-family:var(--mono); color:var(--text3); cursor:pointer; border-top:1px solid var(--border); margin-top:8px; transition:color 0.15s; }\n.nav-manage-groups:hover { color:var(--green); }\n#modal-reset-btn { font-size:12px; font-family:var(--mono); padding:6px 14px; background:none; border:1px solid var(--border); border-radius:5px; color:var(--orange); cursor:pointer; transition:all 0.15s; }\n#modal-reset-btn:hover { border-color:var(--orange); background:var(--orange-bg); }\n\n</style>\n</head>\n<body>\n\n<div class=\"shell\">\n\n<nav class=\"sidebar\" id=\"sidebar\">\n  <div class=\"sidebar-logo\">\n    <div class=\"pg-icon\">\n      <svg width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\">\n        <rect width=\"22\" height=\"22\" rx=\"5\" fill=\"#1f4068\"/>\n        <path d=\"M11 4C7.686 4 5 6.686 5 10c0 1.657.672 3.157 1.757 4.243L11 18l4.243-3.757A5.978 5.978 0 0017 10c0-3.314-2.686-6-6-6z\" fill=\"#58a6ff\" opacity=\".8\"/>\n        <circle cx=\"11\" cy=\"10\" r=\"2.5\" fill=\"#0d1117\"/>\n      </svg>\n      <div>\n        <div class=\"pg-title\">PG Cheatsheet</div>\n        <div class=\"pg-sub\">DBA Reference v3</div>\n      </div>\n    </div>\n  </div>\n  <div class=\"sidebar-search\">\n    <input type=\"text\" id=\"search\" placeholder=\"\u041f\u043e\u0438\u0441\u043a...\" autocomplete=\"off\"/>\n  </div>\n  <div class=\"filter-block\">\n    <div class=\"filter-label\"><span class=\"filter-label-icon\">\ud83d\udc18</span> \u0412\u0435\u0440\u0441\u0438\u044f PostgreSQL</div>\n    <div class=\"ver-btns\" id=\"pg-ver-btns\">\n      <button class=\"ver-btn pg-active\" data-ver=\"0\" onclick=\"setPgVer(0,this)\">\u0412\u0441\u0435</button>\n      <button class=\"ver-btn\" data-ver=\"12\" onclick=\"setPgVer(12,this)\">PG 12</button>\n      <button class=\"ver-btn\" data-ver=\"13\" onclick=\"setPgVer(13,this)\">PG 13</button>\n      <button class=\"ver-btn\" data-ver=\"14\" onclick=\"setPgVer(14,this)\">PG 14</button>\n      <button class=\"ver-btn\" data-ver=\"15\" onclick=\"setPgVer(15,this)\">PG 15</button>\n      <button class=\"ver-btn\" data-ver=\"16\" onclick=\"setPgVer(16,this)\">PG 16</button>\n      <button class=\"ver-btn\" data-ver=\"17\" onclick=\"setPgVer(17,this)\">PG 17</button>\n      <button class=\"ver-btn\" data-ver=\"18\" onclick=\"setPgVer(18,this)\">PG 18</button>\n    </div>\n    <div class=\"filter-label\" style=\"margin-bottom:6px\"><span class=\"filter-label-icon\">\ud83d\udc27</span> \u041e\u043f\u0435\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u0430\u044f \u0441\u0438\u0441\u0442\u0435\u043c\u0430</div>\n    <div class=\"ver-btns\" id=\"os-ver-btns\">\n      <button class=\"ver-btn pg-active\" data-os=\"all\" onclick=\"setOs('all',this)\">\u0412\u0441\u0435</button>\n      <button class=\"ver-btn\" data-os=\"ubuntu\" onclick=\"setOs('ubuntu',this)\">Ubuntu/Debian</button>\n      <button class=\"ver-btn\" data-os=\"rhel\" onclick=\"setOs('rhel',this)\">RHEL/CentOS</button>\n    </div>\n    <div class=\"filter-active-hint\" id=\"filter-hint\"></div>\n  </div>\n  <div id=\"nav-links\"></div>\n  <div class=\"nav-manage-groups\" onclick=\"openGroupModal()\">\n    <svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><circle cx=\"6\" cy=\"6\" r=\"5\"/><line x1=\"6\" y1=\"3\" x2=\"6\" y2=\"9\"/><line x1=\"3\" y1=\"6\" x2=\"9\" y2=\"6\"/></svg>\n    \u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u0430\u043c\u0438\n  </div>\n</nav>\n\n<div class=\"main\">\n  <div class=\"topbar\">\n    <span class=\"topbar-title\">~/<span>pg_dba_cheatsheet</span>.html</span>\n    <div class=\"topbar-stats\">\n      <span class=\"topbar-stat\"><strong id=\"stat-visible\">0</strong> \u0441\u043a\u0440\u0438\u043f\u0442\u043e\u0432</span>\n      <span class=\"topbar-stat\"><strong id=\"stat-sections\">0</strong> \u0440\u0430\u0437\u0434\u0435\u043b\u043e\u0432</span>\n    </div>\n    <button class=\"add-btn\" onclick=\"openAddModal()\">+ \u0434\u043e\u0431\u0430\u0432\u0438\u0442\u044c</button>\n    <button class=\"export-btn\" onclick=\"exportData()\">\u2b07 \u044d\u043a\u0441\u043f\u043e\u0440\u0442</button>\n    <label class=\"import-btn\">\u2b06 \u0438\u043c\u043f\u043e\u0440\u0442<input type=\"file\" id=\"import-file\" accept=\".json\" style=\"display:none\" onchange=\"importData(event)\"></label>\n    <button class=\"save-file-btn\" onclick=\"saveToFile()\">\ud83d\udcbe \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0432 \u0444\u0430\u0439\u043b</button>\n  </div>\n  <div class=\"content\" id=\"content\"></div>\n  <div class=\"footer\">PostgreSQL DBA Cheatsheet v3 &middot; \u0420\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u043e\u0444\u043b\u0430\u0439\u043d &middot; kayridenov.github.io/pg-cheatsheet</div>\n</div>\n\n</div>\n\n<!-- ADD / EDIT CARD MODAL -->\n<div class=\"modal-overlay\" id=\"modal-overlay\" onclick=\"overlayClick(event)\">\n  <div class=\"modal\" id=\"modal\">\n    <div class=\"modal-header\">\n      <span class=\"modal-title\" id=\"modal-title\">+ \u041d\u043e\u0432\u044b\u0439 \u0437\u0430\u043f\u0440\u043e\u0441</span>\n      <button class=\"modal-close\" onclick=\"closeModal()\">&#x2715;</button>\n    </div>\n    <div class=\"modal-body\">\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0420\u0430\u0437\u0434\u0435\u043b</label>\n        <div class=\"section-chips\" id=\"section-chips\"></div>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0437\u0430\u043f\u0440\u043e\u0441\u0430</label>\n        <input class=\"form-input\" id=\"m-name\" placeholder=\"\u041d\u0430\u043f\u0440\u0438\u043c\u0435\u0440: \u0420\u0430\u0437\u043c\u0435\u0440 \u0432\u0441\u0435\u0445 \u0442\u0430\u0431\u043b\u0438\u0446 \u0441\u0445\u0435\u043c\u044b\" />\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435</label>\n        <textarea class=\"form-textarea desc-ta\" id=\"m-desc\" placeholder=\"\u0427\u0442\u043e \u0434\u0435\u043b\u0430\u0435\u0442 \u0437\u0430\u043f\u0440\u043e\u0441, \u043a\u043e\u0433\u0434\u0430 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c...\"></textarea>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">SQL / \u043a\u043e\u043c\u0430\u043d\u0434\u0430</label>\n        <textarea class=\"form-textarea sql-ta\" id=\"m-sql\" placeholder=\"SELECT ...\"></textarea>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041f\u043e\u044f\u0441\u043d\u0435\u043d\u0438\u044f \u043f\u043e \u043a\u043e\u043b\u043e\u043d\u043a\u0430\u043c <span style=\"font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)\">(\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u043e)</span></label>\n        <div class=\"cols-editor-wrap\" id=\"cols-editor\">\n          <div class=\"col-edit-row\" id=\"col-row-0\">\n            <input placeholder=\"\u0438\u043c\u044f_\u043a\u043e\u043b\u043e\u043d\u043a\u0438\" />\n            <textarea placeholder=\"\u0427\u0442\u043e \u043e\u0437\u043d\u0430\u0447\u0430\u0435\u0442 \u044d\u0442\u0430 \u043a\u043e\u043b\u043e\u043d\u043a\u0430...\" rows=\"2\"></textarea>\n            <button class=\"col-del\" onclick=\"delCol(0)\">&#x2715;</button>\n          </div>\n        </div>\n        <button class=\"add-col-row\" onclick=\"addCol()\">+ \u0434\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043a\u043e\u043b\u043e\u043d\u043a\u0443</button>\n      </div>\n    </div>\n    <div class=\"modal-footer\">\n      <button class=\"modal-save\" id=\"modal-save-btn\" onclick=\"saveCard()\">\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c</button>\n      <button class=\"modal-cancel\" onclick=\"closeModal()\">\u041e\u0442\u043c\u0435\u043d\u0430</button>\n      <button id=\"modal-reset-btn\" onclick=\"resetBuiltinCard()\" style=\"display:none\">\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043a \u043e\u0440\u0438\u0433\u0438\u043d\u0430\u043b\u0443</button>\n      <span class=\"modal-hint\">\u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0435\u0442\u0441\u044f \u0432 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435</span>\n    </div>\n  </div>\n</div>\n\n<!-- CREATE GROUP MODAL -->\n<div class=\"modal-overlay\" id=\"group-modal-overlay\" onclick=\"if(event.target===this)closeGroupModal()\">\n  <div class=\"modal\" style=\"max-width:560px\">\n    <div class=\"modal-header\">\n      <span class=\"modal-title\">\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u0430\u043c\u0438</span>\n      <button class=\"modal-close\" onclick=\"closeGroupModal()\">&#x2715;</button>\n    </div>\n    <div class=\"modal-body\">\n      <div style=\"font-size:12px;color:var(--text2);margin-bottom:4px\">\u0421\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u044e\u0449\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u044b:</div>\n      <div id=\"gm-existing\" style=\"margin-bottom:16px;min-height:32px\"></div>\n      <div style=\"border-top:1px solid var(--border);padding-top:14px;font-size:12px;font-weight:500;color:var(--text);margin-bottom:12px\">\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u043d\u043e\u0432\u0443\u044e \u0433\u0440\u0443\u043f\u043f\u0443</div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u044b</label>\n        <input class=\"form-input\" id=\"gm-name\" placeholder=\"\u041d\u0430\u043f\u0440\u0438\u043c\u0435\u0440: \u041c\u043e\u0438 \u0441\u043a\u0440\u0438\u043f\u0442\u044b\" />\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0418\u043a\u043e\u043d\u043a\u0430</label>\n        <div class=\"icon-picker\" id=\"gm-icon-picker\"></div>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0426\u0432\u0435\u0442 \u0442\u043e\u0447\u043a\u0438 \u0432 \u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438</label>\n        <div class=\"color-picker\" id=\"gm-color-picker\"></div>\n      </div>\n    </div>\n    <div class=\"modal-footer\">\n      <button class=\"modal-save\" onclick=\"saveGroup()\">\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0433\u0440\u0443\u043f\u043f\u0443</button>\n      <button class=\"modal-cancel\" onclick=\"closeGroupModal()\">\u0417\u0430\u043a\u0440\u044b\u0442\u044c</button>\n    </div>\n  </div>\n</div>\n\n";
 
 const DATA = [
 
@@ -1475,6 +1567,385 @@ cols:[
   {n:"longest_connection", d:"Продолжительность самого старого соединения этой роли."}
 ]},
 
+
+// ═══════════════════════════════════════════════
+// РАЗВЁРТЫВАНИЕ И НАСТРОЙКА
+// ═══════════════════════════════════════════════
+{section:"Развёртывание и настройка", icon:"🚀", color:"#0d1f0d", dot:"#3fb950"},
+
+{id:"install_ubuntu",pg_min:12,pg_max:null,os:"linux",os_specific:"ubuntu",
+name:"Установка PostgreSQL из PGDG (Ubuntu/Debian)", badge:"os",
+desc:"Официальный репозиторий PGDG — всегда актуальные версии PG 12–18. Работает на Ubuntu 20.04/22.04/24.04 и Debian.",
+sql:`# 1. Установить зависимости
+sudo apt install -y curl ca-certificates
+
+# 2. Добавить ключ и репозиторий PGDG (автоматически определяет версию Ubuntu)
+sudo install -d /usr/share/postgresql-common/pgdg
+sudo curl -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+  --fail https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+sudo sh -c 'echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] \
+  https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+  > /etc/apt/sources.list.d/pgdg.list'
+
+# 3. Установить нужную версию (замени 17 на свою)
+sudo apt update
+sudo apt install -y postgresql-17 postgresql-client-17
+
+# 4. Проверить статус
+sudo systemctl status postgresql
+sudo -u postgres psql -c "SELECT version();"
+`,
+cols:[
+  {n:"VERSION_CODENAME", d:"Определяется автоматически: noble (24.04), jammy (22.04), focal (20.04)."},
+  {n:"postgresql-17", d:"Замени 17 на нужную версию: 12, 13, 14, 15, 16, 17, 18."},
+  {n:"PGDATA", d:"Ubuntu: /var/lib/postgresql/17/main. Конфиг: /etc/postgresql/17/main/."}
+]},
+
+{id:"install_rhel",pg_min:12,pg_max:null,os:"linux",os_specific:"rhel",
+name:"Установка PostgreSQL из PGDG (RHEL/CentOS/Rocky/AlmaLinux)", badge:"os",
+desc:"Официальный репозиторий PGDG для Red Hat семейства. Работает на RHEL/CentOS/Rocky/Alma 7/8/9.",
+sql:`# 1. Установить репозиторий PGDG (для RHEL 9 / x86_64)
+sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+
+# 2. Отключить встроенный модуль postgresql (важно!)
+sudo dnf -qy module disable postgresql
+
+# 3. Установить нужную версию (замени 17 на свою)
+sudo dnf install -y postgresql17-server postgresql17
+
+# 4. Инициализировать базу данных
+sudo /usr/pgsql-17/bin/postgresql-17-setup initdb
+
+# 5. Запустить и включить автозапуск
+sudo systemctl enable postgresql-17
+sudo systemctl start postgresql-17
+
+# 6. Проверить
+sudo systemctl status postgresql-17
+sudo -u postgres psql -c "SELECT version();"`,
+cols:[
+  {n:"EL-9", d:"Для RHEL 8: замени EL-9 на EL-8. Для RHEL 7: EL-7."},
+  {n:"postgresql17", d:"Замени 17 на нужную версию: 12, 13, 14, 15, 16, 17, 18."},
+  {n:"PGDATA", d:"RHEL: /var/lib/pgsql/17/data. Конфиг лежит прямо в PGDATA."}
+]},
+
+{id:"pg_hba_setup",pg_min:12,pg_max:null,os:null,
+name:"Настройка pg_hba.conf — аутентификация", badge:"",
+desc:"Конфигурация методов аутентификации. Кто, откуда и как может подключаться.",
+sql:`-- Найти расположение pg_hba.conf:
+SHOW hba_file;
+
+-- Типичный pg_hba.conf:
+-- TYPE  DATABASE  USER      ADDRESS        METHOD
+-- local all       postgres                 peer
+-- local all       all                      md5
+-- host  all       all       127.0.0.1/32   scram-sha-256
+-- host  all       all       ::1/128        scram-sha-256
+-- host  all       all       10.0.0.0/8     scram-sha-256
+
+-- После изменений — перезагрузить конфиг БЕЗ рестарта:
+SELECT pg_reload_conf();
+
+-- Проверить текущие подключения и методы:
+SELECT type, database, user_name, address, auth_method
+FROM pg_hba_file_rules
+ORDER BY rule_number;`,
+cols:[
+  {n:"peer", d:"Только локальные Unix-сокеты. OS-пользователь должен совпадать с PG-пользователем."},
+  {n:"scram-sha-256", d:"Рекомендуемый метод для PG 14+. Безопаснее md5."},
+  {n:"md5", d:"Хеш пароля. Работает на всех версиях, но менее безопасен чем scram-sha-256."},
+  {n:"pg_hba_file_rules", d:"Вью доступно с PG 10. Показывает разобранный pg_hba.conf.", note:"После изменения pg_hba.conf: pg_reload_conf() — рестарт НЕ нужен."}
+]},
+
+{id:"create_user_db",pg_min:12,pg_max:null,os:null,
+name:"Создание пользователя и базы данных", badge:"",
+desc:"Шаблон создания роли с паролем и базы данных — минимум для нового проекта.",
+sql:`-- Создать роль с паролем
+CREATE ROLE myapp WITH LOGIN PASSWORD 'strong_password_here' NOSUPERUSER NOCREATEDB NOCREATEROLE;
+
+-- Создать базу данных
+CREATE DATABASE myapp_db OWNER myapp ENCODING 'UTF8' LC_COLLATE 'en_US.UTF-8' LC_CTYPE 'en_US.UTF-8';
+
+-- Выдать права (после подключения к базе)
+\c myapp_db
+GRANT ALL PRIVILEGES ON DATABASE myapp_db TO myapp;
+GRANT ALL ON SCHEMA public TO myapp;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO myapp;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO myapp;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO myapp;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO myapp;
+
+-- Проверить
+\du myapp
+\l myapp_db`,
+cols:[
+  {n:"NOSUPERUSER NOCREATEDB", d:"Принцип минимальных прав — для приложения этого обычно достаточно."},
+  {n:"ALTER DEFAULT PRIVILEGES", d:"Важно! Без этого новые таблицы не будут доступны роли автоматически."},
+  {n:"LC_COLLATE / LC_CTYPE", d:"Задаётся при создании БД и потом не меняется. en_US.UTF-8 — безопасный выбор."}
+]},
+
+{id:"postgresql_conf_tuning",pg_min:12,pg_max:null,os:null,
+name:"Ключевые параметры postgresql.conf", badge:"",
+desc:"Минимальный набор настроек для production. Стартовые значения — ориентир, тюнинг под нагрузку.",
+sql:`-- Показать текущий файл конфигурации:
+SHOW config_file;
+
+-- Применить без рестарта:
+SELECT pg_reload_conf();
+
+-- Ключевые параметры (примеры значений для сервера с 32 GB RAM):
+-- Memory
+-- shared_buffers = 8GB          -- 25% RAM
+-- work_mem = 64MB                -- осторожно: N соединений * sort_ops * work_mem
+-- maintenance_work_mem = 1GB     -- для VACUUM, CREATE INDEX
+-- effective_cache_size = 24GB    -- 75% RAM (подсказка планировщику)
+
+-- WAL
+-- wal_level = replica            -- минимум для репликации
+-- max_wal_size = 4GB
+-- checkpoint_completion_target = 0.9
+-- wal_compression = on           -- PG 15+ поддерживает lz4, zstd
+
+-- Connections
+-- max_connections = 200          -- лучше пулер + меньше коннектов
+-- superuser_reserved_connections = 5
+
+-- Logging
+-- log_min_duration_statement = 1000  -- логировать запросы > 1 сек
+-- log_checkpoints = on
+-- log_lock_waits = on
+-- log_temp_files = 0             -- логировать все temp files
+
+-- Statistics
+-- track_io_timing = on           -- нужно для pg_stat_io (PG 16+)
+-- shared_preload_libraries = 'pg_stat_statements'`,
+cols:[
+  {n:"shared_buffers", d:"Самый важный параметр. 25% RAM — хорошая отправная точка."},
+  {n:"work_mem", d:"Осторожно: умножай на max_connections * 3-5 = потенциальный пик RAM."},
+  {n:"max_connections", d:"Лучше снизить до 50-100 и поставить PgBouncer перед PostgreSQL."},
+  {n:"wal_compression", d:"PG 15+ поддерживает lz4/zstd. Значительно снижает объём WAL.", note:"Калькулятор настроек: https://pgtune.leopard.in.ua/"}
+]},
+
+{id:"pg_upgrade_major",pg_min:12,pg_max:null,os:null,
+name:"Мажорный апгрейд pg_upgrade (общий алгоритм)", badge:"",
+desc:"Алгоритм безопасного апгрейда PostgreSQL на новую мажорную версию через pg_upgrade.",
+sql:`-- 1. Проверка совместимости (без реального апгрейда):
+/usr/pgsql-17/bin/pg_upgrade \\
+  -b /usr/pgsql-16/bin \\
+  -B /usr/pgsql-17/bin \\
+  -d /var/lib/pgsql/16/data \\
+  -D /var/lib/pgsql/17/data \\
+  --check
+
+-- 2. Остановить старый кластер
+sudo systemctl stop postgresql-16
+
+-- 3. Инициализировать новый кластер
+sudo /usr/pgsql-17/bin/postgresql-17-setup initdb
+
+-- 4. Запустить pg_upgrade (--link = hard links, быстро)
+sudo -u postgres /usr/pgsql-17/bin/pg_upgrade \\
+  -b /usr/pgsql-16/bin \\
+  -B /usr/pgsql-17/bin \\
+  -d /var/lib/pgsql/16/data \\
+  -D /var/lib/pgsql/17/data \\
+  --link --jobs=4
+
+-- 5. Запустить новый кластер и обновить статистику
+sudo systemctl start postgresql-17
+sudo -u postgres /var/lib/pgsql/update_extensions.sh
+sudo -u postgres vacuumdb --all --analyze-in-stages`,
+cols:[
+  {n:"--check", d:"Проверка без изменений. Запускай всегда перед реальным апгрейдом."},
+  {n:"--link", d:"Hard links вместо копирования — быстро, но старый кластер нельзя запустить."},
+  {n:"--jobs", d:"Параллельные воркеры для конвертации файлов. = число CPU."},
+  {n:"vacuumdb --analyze-in-stages", d:"Обязательно после апгрейда — восстанавливает статистику для планировщика.", note:"Полный гайд: https://www.postgresql.org/docs/current/pgupgrade.html"}
+]},
+
+{id:"pgbouncer_install",pg_min:12,pg_max:null,os:null,
+name:"Установка и настройка PgBouncer", badge:"",
+desc:"PgBouncer — пулер соединений. Обязателен при > 50 коннектов к PostgreSQL.",
+sql:`# Ubuntu установка
+sudo apt install -y pgbouncer
+
+# RHEL установка
+sudo dnf install -y pgbouncer
+
+-- Минимальная конфигурация /etc/pgbouncer/pgbouncer.ini:
+[databases]
+myapp_db = host=127.0.0.1 port=5432 dbname=myapp_db
+
+[pgbouncer]
+listen_addr = 0.0.0.0
+listen_port = 6432
+auth_type = scram-sha-256
+auth_file = /etc/pgbouncer/userlist.txt
+pool_mode = transaction        ; transaction / session / statement
+max_client_conn = 1000
+default_pool_size = 20
+reserve_pool_size = 5
+log_connections = 0
+log_disconnections = 0
+server_tls_sslmode = require
+
+-- Файл паролей /etc/pgbouncer/userlist.txt:
+"myapp" "password_here"
+
+-- Управление через psql:
+psql -h 127.0.0.1 -p 6432 -U pgbouncer pgbouncer
+SHOW pools;
+SHOW stats;
+SHOW clients;`,
+cols:[
+  {n:"transaction mode", d:"Самый эффективный. Соединение с PG возвращается в пул после каждой транзакции."},
+  {n:"session mode", d:"Соединение держится на время сессии клиента. Как без пулера."},
+  {n:"max_client_conn", d:"Максимум клиентских соединений к PgBouncer (не к PostgreSQL!)."},
+  {n:"default_pool_size", d:"Количество реальных соединений к PostgreSQL на одну базу.", note:"transaction mode несовместим с SET, prepared statements, LISTEN/NOTIFY."}
+]},
+
+{id:"backup_basebackup",pg_min:12,pg_max:null,os:null,
+name:"Резервное копирование pg_basebackup", badge:"",
+desc:"Физический бэкап через pg_basebackup. Основа для PITR и создания реплик.",
+sql:`# Полный бэкап с WAL (для PITR):
+pg_basebackup \\
+  -h 127.0.0.1 -p 5432 -U repl \\
+  -D /backup/$(date +%Y%m%d) \\
+  -Ft -z \\
+  -Xs \\
+  -P -R
+
+# Параметры:
+# -Ft -z   — tar + gzip формат
+# -Xs      — включить WAL в бэкап (stream)
+# -P       — прогресс-бар
+# -R       — создать standby.signal и recovery.conf для реплики
+
+# Проверить размер бэкапа:
+du -sh /backup/$(date +%Y%m%d)
+
+-- Проверить права роли для бэкапа:
+SELECT rolname, rolreplication, rolsuper FROM pg_roles WHERE rolname='repl';
+
+-- Создать роль для бэкапа (минимальные права):
+CREATE ROLE repl WITH REPLICATION LOGIN PASSWORD 'repl_password';
+GRANT pg_read_all_settings TO repl;  -- PG 14+`,
+cols:[
+  {n:"-Xs (stream)", d:"WAL стримится параллельно с бэкапом — гарантирует консистентный бэкап."},
+  {n:"-R", d:"Создаёт standby.signal и postgresql.auto.conf с primary_conninfo — готово для реплики."},
+  {n:"-Ft -z", d:"tar + gzip. Для параллельного сжатия: --compress=lz4 (PG 15+).", note:"Для incremental backup: barman, pgbackrest, wal-g — см. их документацию."}
+]},
+
+{id:"logical_replication_setup",pg_min:12,pg_max:null,os:null,
+name:"Настройка логической репликации", badge:"repl",
+desc:"Логическая репликация — репликация отдельных таблиц или баз. Работает между разными версиями PG.",
+sql:`-- НА ИЗДАТЕЛЕ (publisher):
+
+-- 1. Установить wal_level = logical (требует рестарт):
+ALTER SYSTEM SET wal_level = 'logical';
+-- После рестарта проверить:
+SHOW wal_level;
+
+-- 2. Создать publication:
+CREATE PUBLICATION mypub FOR TABLE orders, products;
+-- Или для всей базы:
+CREATE PUBLICATION mypub FOR ALL TABLES;
+
+-- Проверить publications:
+SELECT * FROM pg_publication;
+SELECT * FROM pg_publication_tables;
+
+-- НА ПОДПИСЧИКЕ (subscriber):
+
+-- 3. Создать subscription:
+CREATE SUBSCRIPTION mysub
+  CONNECTION 'host=10.0.0.1 port=5432 user=repl password=xxx dbname=mydb'
+  PUBLICATION mypub;
+
+-- Проверить статус репликации:
+SELECT * FROM pg_subscription;
+SELECT * FROM pg_stat_subscription;
+
+-- Мониторинг лага:
+SELECT subname, received_lsn, latest_end_lsn,
+  pg_wal_lsn_diff(latest_end_lsn, received_lsn) AS lag_bytes
+FROM pg_stat_subscription;`,
+cols:[
+  {n:"wal_level = logical", d:"Требует рестарт сервера. Нельзя снизить обратно до replica без рестарта."},
+  {n:"pg_publication", d:"Список publication-ов на издателе."},
+  {n:"pg_stat_subscription", d:"Статус подписок на подписчике — мониторинг отставания.", note:"Логическая репликация поддерживает DDL только начиная с PG 15 (для некоторых операций)."}
+]},
+
+{id:"streaming_replication_setup",pg_min:12,pg_max:null,os:null,
+name:"Настройка потоковой репликации (шаги)", badge:"repl",
+desc:"Физическая потоковая репликация — стандартный способ HA в PostgreSQL.",
+sql:`-- НА МАСТЕРЕ:
+
+-- 1. Создать роль репликации:
+CREATE ROLE repl WITH REPLICATION LOGIN PASSWORD 'repl_password';
+
+-- 2. Добавить в pg_hba.conf:
+-- host replication repl <replica_ip>/32 scram-sha-256
+-- Перезагрузить:
+SELECT pg_reload_conf();
+
+-- 3. Установить параметры (postgresql.conf):
+-- wal_level = replica
+-- max_wal_senders = 5
+-- wal_keep_size = 1GB    -- PG 13+, раньше: wal_keep_segments = 64
+
+-- НА РЕПЛИКЕ:
+
+-- 4. Остановить PostgreSQL на реплике
+-- 5. Очистить PGDATA
+-- 6. Запустить pg_basebackup с флагом -R:
+pg_basebackup -h <master_ip> -p 5432 -U repl \\
+  -D $PGDATA -Fp -Xs -P -R
+
+-- 7. Запустить PostgreSQL реплики
+-- 8. Проверить репликацию:
+SELECT * FROM pg_stat_replication;          -- на мастере
+SELECT pg_is_in_recovery(), pg_last_wal_receive_lsn(), pg_last_wal_replay_lsn();  -- на реплике`,
+cols:[
+  {n:"wal_keep_size", d:"PG 13+. Сколько WAL хранить для реплик которые временно отстали. Страховка."},
+  {n:"-R (pg_basebackup)", d:"Создаёт standby.signal + primary_conninfo автоматически."},
+  {n:"pg_is_in_recovery()", d:"true = это реплика, false = мастер."}
+]},
+
+{id:"ssl_setup",pg_min:12,pg_max:null,os:null,
+name:"Настройка SSL/TLS в PostgreSQL", badge:"",
+desc:"Включение SSL для шифрования трафика между клиентом и PostgreSQL.",
+sql:`-- Проверить статус SSL:
+SHOW ssl;
+SELECT ssl, ssl_cipher FROM pg_stat_ssl WHERE pid = pg_backend_pid();
+
+-- postgresql.conf:
+-- ssl = on
+-- ssl_cert_file = 'server.crt'
+-- ssl_key_file = 'server.key'
+-- ssl_ca_file = 'root.crt'        -- для верификации клиентских сертификатов
+
+-- Создать самоподписанный сертификат (dev/test):
+openssl req -new -x509 -days 365 -nodes \\
+  -out /etc/postgresql/17/main/server.crt \\
+  -keyout /etc/postgresql/17/main/server.key \\
+  -subj "/CN=postgres"
+chmod 600 /etc/postgresql/17/main/server.key
+chown postgres:postgres /etc/postgresql/17/main/server.{crt,key}
+
+-- pg_hba.conf — требовать SSL:
+-- hostssl all all 0.0.0.0/0 scram-sha-256
+
+-- Проверить все SSL-соединения:
+SELECT pid, usename, application_name, ssl, ssl_cipher, ssl_version
+FROM pg_stat_ssl s JOIN pg_stat_activity a USING(pid)
+WHERE ssl = true;`,
+cols:[
+  {n:"ssl_cipher", d:"Алгоритм шифрования текущего соединения. Для аудита."},
+  {n:"hostssl", d:"В pg_hba.conf — разрешать подключение только через SSL."},
+  {n:"ssl_ca_file", d:"Для взаимной TLS-аутентификации (mTLS) — верификация клиентского сертификата.", note:"Ubuntu PGDG-пакет включает SSL по умолчанию со snakeoil-сертификатом."}
+]},
+
 // ═══════════════════════════════════════════════
 // ОПЕРАЦИОННАЯ СИСТЕМА
 // ═══════════════════════════════════════════════
@@ -1545,9 +2016,7 @@ cols:[
   {n:"Open", d:"Текущее число открытых дескрипторов. Если близко к Limit — увеличить."},
   {n:"Limit", d:"Максимально допустимое. Рекомендуется: 65536.", note:"В /etc/security/limits.conf: postgres soft nofile 65536"}
 ],os_sql:{ubuntu:"PG_PID=$(pgrep -u postgres -x postgres | head -1) && echo \"PID: $PG_PID\" && echo \"Open: $(ls /proc/$PG_PID/fd 2>/dev/null | wc -l)\" && echo \"Limit: $(awk '/open files/{print $4}' /proc/$PG_PID/limits 2>/dev/null)\" && echo \"System: $(ulimit -n)\"\n# Изменить лимит: /etc/security/limits.conf\n# postgres soft nofile 65536\n# Или: /etc/systemd/system/postgresql.service.d/limits.conf\n# [Service]\n# LimitNOFILE=65536",rhel:"PG_PID=$(pgrep -u postgres -x postgres | head -1) && echo \"PID: $PG_PID\" && echo \"Open: $(ls /proc/$PG_PID/fd 2>/dev/null | wc -l)\" && echo \"Limit: $(awk '/open files/{print $4}' /proc/$PG_PID/limits 2>/dev/null)\" && echo \"System: $(ulimit -n)\"\n# Изменить лимит: /etc/security/limits.conf\n# postgres soft nofile 65536\n# Для systemd: /etc/systemd/system/postgresql-17.service.d/limits.conf\n# [Service]\n# LimitNOFILE=65536"}},
-// __INJECT_START__
-{id:"custom_1778829834476",name:"Скрипт для создания реплики (без слота)",badge:"",desc:"",sql:"#!/bin/bash\n\nset -e\n\nPG_VERSION=17\nPGDATA=\"/var/lib/postgresql/${PG_VERSION}/main\"\n\nPRIMARY_HOST=\"172.17.47.12\"\nPRIMARY_PORT=\"5432\"\n\nREPL_USER=\"repl\"\n\necho \"Stopping PostgreSQL...\"\nsystemctl stop postgresql\n\necho \"Cleaning PGDATA...\"\nrm -rf ${PGDATA:?}/*\n\necho \"Starting basebackup...\"\n\nsudo -u postgres pg_basebackup -h ${PRIMARY_HOST} -p ${PRIMARY_PORT} -U ${REPL_USER} -D ${PGDATA} -Fp -Xs -P -R\n\necho \"Fixing permissions...\"\nchown -R postgres:postgres ${PGDATA}\nchmod 700 ${PGDATA}\n\necho \"Starting PostgreSQL...\"\nsystemctl start postgresql\n\necho \"Checking replica status...\"\nsudo -u postgres psql -c \"select pg_is_in_recovery();\"\n\necho \"Done.\"",section:"Репликация",cols:[]}
-// __INJECT_END__
+
 ];
 
 
@@ -1585,7 +2054,9 @@ function isModified(id){ return savedSql(id)!==null; }
 // ── renderCard (built-in) ─────────────────────────────────────────────────────
 function renderCard(item){
   const modified = isModified(item.id);
-  const effectiveSql = getEffectiveSql(item);
+  const osSql = (typeof getEffectiveSqlForOs==='function') ? getEffectiveSqlForOs(item) : null;
+  const effectiveSql = osSql || getEffectiveSql(item);
+  const pgBadgeHtml = (typeof getPgBadge==='function') ? getPgBadge(item) : '';
   const effectiveName = (typeof getEffectiveName === 'function') ? getEffectiveName(item) : item.name;
   const effectiveDesc = (typeof getEffectiveDesc === 'function') ? getEffectiveDesc(item) : item.desc;
   const effectiveCols = (typeof getEffectiveCols === 'function') ? getEffectiveCols(item) : (item.cols||[]);
@@ -1601,7 +2072,7 @@ function renderCard(item){
     <div class="card-header" onclick="toggle('${item.id}')">
       <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"/></svg>
       <div class="card-meta">
-        <div class="card-name">${escHtml(effectiveName)} ${badge}${modDot}</div>
+        <div class="card-name">${escHtml(effectiveName)} ${badge}${pgBadgeHtml}${modDot}</div>
         <div class="card-desc">${escHtml(effectiveDesc)}</div>
       </div>
     </div>
@@ -2034,28 +2505,66 @@ function render(filter){
     sectionCount++;
     html+='<div class="section-header" id="sec-'+curSection.id+'"><div class="section-icon" style="background:'+curSection.color+'">'+curSection.icon+'</div><div class="section-title-text">'+curSection.name+'</div><div class="section-count">'+curSectionCount+' скриптов</div></div>'+curSectionCards;
   }
+  // Pre-index injected cards that have explicit section field (from saveToFile inject)
+  const injectedBySec={};
+  DATA.forEach(function(item){
+    if(item.id && item.section){
+      if(!injectedBySec[item.section]) injectedBySec[item.section]=[];
+      injectedBySec[item.section].push(item);
+    }
+  });
+
   const allSectionItems=[...DATA,...getCustomSections().map(s=>({section:s.name,icon:s.icon,color:s.color,dot:s.dot,custom:true}))];
   allSectionItems.forEach(item=>{
     if(item.section && !item.id){
       // Section header (no id = section marker, not a card)
-      if(curSection){const cc=customCards.filter(c=>c.section===curSection.name);cc.forEach(c=>{const hay=(c.name+c.desc+c.sql+(c.cols||[]).map(x=>x.n+x.d).join(' ')).toLowerCase();if(!q||hay.includes(q)){curSectionCards+=renderCustomCard(c);curSectionCount++;cardCount++;}});}
+      if(curSection){
+        // Append injected cards for this section
+        (injectedBySec[curSection.name]||[]).forEach(function(inj){
+          if(!cardPassesFilter(inj)) return;
+          const hay=(inj.name+inj.desc+inj.sql+(inj.cols||[]).map(x=>x.n+x.d).join(' ')).toLowerCase();
+          if(!q||hay.includes(q)){curSectionCards+=renderCard(inj);curSectionCount++;cardCount++;}
+        });
+        // Append localStorage custom cards for this section (skip if already injected into DATA)
+        const injectedIds=new Set((injectedBySec[curSection.name]||[]).map(function(x){return x.id;}));
+        const cc=customCards.filter(c=>c.section===curSection.name && !injectedIds.has(c.id));
+        cc.forEach(c=>{const hay=(c.name+c.desc+c.sql+(c.cols||[]).map(x=>x.n+x.d).join(' ')).toLowerCase();if(!q||hay.includes(q)){curSectionCards+=renderCustomCard(c);curSectionCount++;cardCount++;}});
+      }
       flushSection();
       curSection={name:item.section,icon:item.icon,color:item.color,dot:item.dot,id:item.section.replace(/\s+/g,'-')};
       curSectionCards='';curSectionCount=0;return;
     }
-    // Card with explicit section field (injected built-in section card) - skip if not current section
-    if(item.section && item.id){
-      if(!curSection || item.section !== curSection.name) return;
-    }
+    // Skip injected cards with explicit section - handled above via injectedBySec
+    if(item.id && item.section) return;
+    // Version/OS filter
+    if(!cardPassesFilter(item)) return;
     if(q){const hay=(item.name+item.desc+item.sql+(item.cols||[]).map(c=>c.n+c.d).join(' ')).toLowerCase();if(!hay.includes(q))return;}
     curSectionCards+=renderCard(item);curSectionCount++;cardCount++;
   });
-  if(curSection){const cc=customCards.filter(c=>c.section===curSection.name);cc.forEach(c=>{const hay=(c.name+c.desc+c.sql+(c.cols||[]).map(x=>x.n+x.d).join(' ')).toLowerCase();if(!q||hay.includes(q)){curSectionCards+=renderCustomCard(c);curSectionCount++;cardCount++;}});}
+  if(curSection){
+    (injectedBySec[curSection.name]||[]).forEach(function(inj){
+      if(!cardPassesFilter(inj)) return;
+      const hay=(inj.name+inj.desc+inj.sql+(inj.cols||[]).map(x=>x.n+x.d).join(' ')).toLowerCase();
+      if(!q||hay.includes(q)){curSectionCards+=renderCard(inj);curSectionCount++;cardCount++;}
+    });
+    const injectedIdsLast=new Set((injectedBySec[curSection.name]||[]).map(function(x){return x.id;}));
+    const cc=customCards.filter(c=>c.section===curSection.name && !injectedIdsLast.has(c.id));
+    cc.forEach(c=>{const hay=(c.name+c.desc+c.sql+(c.cols||[]).map(x=>x.n+x.d).join(' ')).toLowerCase();if(!q||hay.includes(q)){curSectionCards+=renderCustomCard(c);curSectionCount++;cardCount++;}});
+  }
   flushSection();
   content.innerHTML=html||'<div class="empty">Ничего не найдено</div>';
   let nHtml='',nSection=null;
   [...DATA,...getCustomSections().map(s=>({section:s.name,icon:s.icon,color:s.color,dot:s.dot,custom:true}))].forEach(item=>{
-    if(item.section){nSection=item;nHtml+='<div class="nav-section">'+(item.custom?'<span style="color:var(--green);font-size:10px">★ </span>':'')+item.section+'</div>';const cc=customCards.filter(c=>c.section===item.section);cc.forEach(c=>{if(q){const hay=(c.name+c.desc+c.sql+(c.cols||[]).map(x=>x.n+x.d).join(' ')).toLowerCase();if(!hay.includes(q))return;}nHtml+='<a class="nav-item" href="#card-'+c.id+'" onclick="navClick(\''+c.id+'\')"><span class="nav-dot" style="background:'+(nSection?nSection.dot:'#8b949e')+'"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--green)">'+c.name+'</span></a>';});return;}
+    if(item.section && !item.id){nSection=item;nHtml+='<div class="nav-section">'+(item.custom?'<span style="color:var(--green);font-size:10px">★ </span>':'')+item.section+'</div>';
+      // Injected builtin-section cards in nav
+      (injectedBySec[item.section]||[]).forEach(function(inj){
+        if(q){const hay=(inj.name+inj.desc+inj.sql+(inj.cols||[]).map(x=>x.n+x.d).join(' ')).toLowerCase();if(!hay.includes(q))return;}
+        if(!cardPassesFilter(inj))return;
+        nHtml+='<a class="nav-item" href="#card-'+inj.id+'" onclick="navClick(\''+inj.id+'\')"><span class="nav-dot" style="background:'+(nSection?nSection.dot:'#8b949e')+'"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--green)">'+inj.name+'</span></a>';
+      });
+      const injNav=new Set((injectedBySec[item.section]||[]).map(function(x){return x.id;}));
+      const cc=customCards.filter(c=>c.section===item.section && !injNav.has(c.id));cc.forEach(c=>{if(q){const hay=(c.name+c.desc+c.sql+(c.cols||[]).map(x=>x.n+x.d).join(' ')).toLowerCase();if(!hay.includes(q))return;}nHtml+='<a class="nav-item" href="#card-'+c.id+'" onclick="navClick(\''+c.id+'\')"><span class="nav-dot" style="background:'+(nSection?nSection.dot:'#8b949e')+'"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--green)">'+c.name+'</span></a>';});return;}
+    if(item.id && item.section) return; // injected card - already handled above
     if(q){const hay=(item.name+item.desc+item.sql+(item.cols||[]).map(c=>c.n+c.d).join(' ')).toLowerCase();if(!hay.includes(q))return;}
     const mod=isModified(item.id)?' style="color:var(--orange)"':'';
     nHtml+='<a class="nav-item" href="#card-'+item.id+'" onclick="navClick(\''+item.id+'\')"><span class="nav-dot" style="background:'+(nSection?nSection.dot:'#8b949e')+'"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"'+mod+'>'+item.name+'</span></a>';
@@ -2063,6 +2572,101 @@ function render(filter){
   navLinks.innerHTML=nHtml;
   document.getElementById('stat-visible').textContent=cardCount;
   document.getElementById('stat-sections').textContent=sectionCount;
+}
+
+// ── Version / OS filter ───────────────────────────────────────────────────────
+var _pgVer = parseInt(localStorage.getItem('pgcs_pg_ver')||'0');
+var _osFilter = localStorage.getItem('pgcs_os_filter')||'all';
+
+function _updateFilterHint(){
+  var hint = document.getElementById('filter-hint');
+  if(!hint) return;
+  var parts = [];
+  if(_pgVer > 0) parts.push('PG ' + _pgVer);
+  if(_osFilter !== 'all') parts.push(_osFilter === 'ubuntu' ? 'Ubuntu/Debian' : 'RHEL/CentOS');
+  if(parts.length){
+    hint.textContent = '⚡ Фильтр: ' + parts.join(' + ');
+    hint.classList.add('visible');
+  } else {
+    hint.classList.remove('visible');
+  }
+}
+
+function setPgVer(ver, el){
+  _pgVer = ver;
+  localStorage.setItem('pgcs_pg_ver', String(ver));
+  document.querySelectorAll('#pg-ver-btns .ver-btn').forEach(function(b){
+    var isActive = parseInt(b.dataset.ver) === ver;
+    b.classList.toggle('pg-active', isActive);
+  });
+  _updateFilterHint();
+  render(document.getElementById('search').value);
+}
+
+function setOs(os, el){
+  _osFilter = os;
+  localStorage.setItem('pgcs_os_filter', os);
+  document.querySelectorAll('#os-ver-btns .ver-btn').forEach(function(b){
+    b.classList.remove('pg-active','os-active-ubuntu','os-active-rhel');
+    if(b.dataset.os === os){
+      if(os === 'all') b.classList.add('pg-active');
+      else if(os === 'ubuntu') b.classList.add('os-active-ubuntu');
+      else if(os === 'rhel') b.classList.add('os-active-rhel');
+    }
+  });
+  _updateFilterHint();
+  render(document.getElementById('search').value);
+}
+
+function cardPassesFilter(item){
+  // Custom cards always visible (user added them intentionally)
+  if(item.custom) return true;
+  // PG version filter
+  if(_pgVer > 0){
+    var pgMin = (item.pg_min !== undefined && item.pg_min !== null) ? item.pg_min : 12;
+    var pgMax = (item.pg_max !== undefined && item.pg_max !== null) ? item.pg_max : 999;
+    if(_pgVer < pgMin || _pgVer > pgMax) return false;
+  }
+  // OS filter: only hide OS-specific cards when the OTHER OS is selected
+  if(_osFilter !== 'all' && item.os_specific){
+    // os_specific = 'ubuntu' or 'rhel' means card is ONLY for that OS
+    if(item.os_specific !== _osFilter) return false;
+  }
+  return true;
+}
+
+function getEffectiveSqlForOs(item){
+  if(_osFilter !== 'all' && item.os_sql){
+    return item.os_sql[_osFilter] || item.os_sql.ubuntu || item.sql;
+  }
+  return null;
+}
+
+function getPgBadge(item){
+  if(!item.pg_min && !item.pg_max) return '';
+  var parts = [];
+  if(item.pg_min && item.pg_min > 12){
+    parts.push('<span class="pg-badge">PG '+item.pg_min+'+</span>');
+  }
+  if(item.pg_max && item.pg_max < 99){
+    parts.push('<span class="pg-badge pg-badge-max">≤ PG '+item.pg_max+'</span>');
+  }
+  return parts.join('');
+}
+
+function initFilters(){
+  document.querySelectorAll('#pg-ver-btns .ver-btn').forEach(function(b){
+    b.classList.toggle('pg-active', parseInt(b.dataset.ver) === _pgVer);
+  });
+  document.querySelectorAll('#os-ver-btns .ver-btn').forEach(function(b){
+    b.classList.remove('pg-active','os-active-ubuntu','os-active-rhel');
+    if(b.dataset.os === _osFilter){
+      if(_osFilter === 'all') b.classList.add('pg-active');
+      else if(_osFilter === 'ubuntu') b.classList.add('os-active-ubuntu');
+      else b.classList.add('os-active-rhel');
+    }
+  });
+  _updateFilterHint();
 }
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeGroupModal();}});
@@ -2221,6 +2825,7 @@ function importData(event){
   reader.readAsText(file);
 }
 
+initFilters();
 render('');
 
 </script>
