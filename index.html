@@ -753,6 +753,7 @@ textarea.sql-editor:focus { background: #0d1117; }
 <script>
 
 
+
 window._pgHead = "<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>PostgreSQL DBA Cheatsheet</title>\n<style>\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');\n\n:root {\n  --bg: #0d1117;\n  --bg2: #161b22;\n  --bg3: #21262d;\n  --bg4: #2d333b;\n  --border: #30363d;\n  --border2: #444c56;\n  --text: #e6edf3;\n  --text2: #8b949e;\n  --text3: #6e7681;\n  --blue: #58a6ff;\n  --blue-bg: #0d2236;\n  --blue-border: #1f4068;\n  --green: #3fb950;\n  --green-bg: #0d2117;\n  --green-border: #1a4228;\n  --orange: #d29922;\n  --orange-bg: #261d0a;\n  --orange-border: #4a3500;\n  --red: #f85149;\n  --red-bg: #2a0d0d;\n  --red-border: #4a1515;\n  --purple: #bc8cff;\n  --purple-bg: #1a0d2e;\n  --purple-border: #3a1f5e;\n  --accent: #58a6ff;\n  --mono: 'JetBrains Mono', monospace;\n  --sans: 'IBM Plex Sans', sans-serif;\n}\n\n* { box-sizing: border-box; margin: 0; padding: 0; }\n\nbody {\n  background: var(--bg);\n  color: var(--text);\n  font-family: var(--sans);\n  font-size: 14px;\n  line-height: 1.6;\n  min-height: 100vh;\n}\n\n/* LAYOUT */\n.shell {\n  display: flex;\n  min-height: 100vh;\n}\n\n/* SIDEBAR */\n.sidebar {\n  width: 240px;\n  flex-shrink: 0;\n  background: var(--bg2);\n  border-right: 1px solid var(--border);\n  position: fixed;\n  top: 0; left: 0; bottom: 0;\n  overflow-y: auto;\n  z-index: 10;\n  padding-bottom: 2rem;\n}\n\n.sidebar-logo {\n  padding: 1.25rem 1rem 1rem;\n  border-bottom: 1px solid var(--border);\n  margin-bottom: 0.5rem;\n}\n.sidebar-logo .pg-icon {\n  display: flex; align-items: center; gap: 8px;\n}\n.sidebar-logo .pg-icon svg { flex-shrink: 0; }\n.sidebar-logo .pg-title {\n  font-size: 15px; font-weight: 600; color: var(--text);\n  font-family: var(--mono);\n}\n.sidebar-logo .pg-sub {\n  font-size: 11px; color: var(--text3); margin-top: 2px;\n}\n\n.sidebar-search {\n  padding: 0.5rem 0.75rem;\n  margin-bottom: 0.25rem;\n}\n.sidebar-search input {\n  width: 100%;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 6px;\n  color: var(--text);\n  font-family: var(--sans);\n  font-size: 12px;\n  padding: 6px 10px;\n  outline: none;\n  transition: border-color 0.15s;\n}\n.sidebar-search input:focus { border-color: var(--blue); }\n.sidebar-search input::placeholder { color: var(--text3); }\n\n.nav-section {\n  padding: 0.75rem 0.75rem 0.25rem;\n  font-size: 10px;\n  font-weight: 600;\n  letter-spacing: 0.08em;\n  text-transform: uppercase;\n  color: var(--text3);\n}\n\n.nav-item {\n  display: flex;\n  align-items: center;\n  gap: 7px;\n  padding: 5px 12px;\n  font-size: 12.5px;\n  color: var(--text2);\n  cursor: pointer;\n  border-radius: 0;\n  transition: background 0.1s, color 0.1s;\n  border-left: 2px solid transparent;\n  text-decoration: none;\n}\n.nav-item:hover { background: var(--bg3); color: var(--text); }\n.nav-item.active {\n  color: var(--blue);\n  border-left-color: var(--blue);\n  background: var(--blue-bg);\n}\n.nav-dot {\n  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;\n}\n.nav-count {\n  margin-left: auto;\n  font-size: 10px;\n  background: var(--bg4);\n  border: 1px solid var(--border);\n  border-radius: 10px;\n  padding: 1px 6px;\n  color: var(--text3);\n}\n\n/* MAIN */\n.main {\n  margin-left: 240px;\n  flex: 1;\n  min-width: 0;\n}\n\n/* TOPBAR */\n.topbar {\n  position: sticky; top: 0; z-index: 5;\n  background: rgba(13,17,23,0.92);\n  backdrop-filter: blur(8px);\n  border-bottom: 1px solid var(--border);\n  padding: 0.75rem 2rem;\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n.topbar-title {\n  font-family: var(--mono);\n  font-size: 13px;\n  color: var(--text2);\n}\n.topbar-title span { color: var(--blue); }\n.topbar-stats {\n  margin-left: auto;\n  display: flex; gap: 16px;\n}\n.topbar-stat {\n  font-size: 11px; color: var(--text3);\n}\n.topbar-stat strong { color: var(--text2); font-weight: 500; }\n\n/* CONTENT */\n.content {\n  padding: 2rem;\n  max-width: 900px;\n}\n\n.section-header {\n  display: flex;\n  align-items: center;\n  gap: 10px;\n  margin: 2rem 0 1rem;\n  padding-bottom: 0.5rem;\n  border-bottom: 1px solid var(--border);\n}\n.section-header:first-child { margin-top: 0; }\n.section-icon {\n  width: 28px; height: 28px; border-radius: 6px;\n  display: flex; align-items: center; justify-content: center;\n  font-size: 14px; flex-shrink: 0;\n}\n.section-title-text {\n  font-size: 15px; font-weight: 600; color: var(--text);\n  font-family: var(--mono);\n}\n.section-count {\n  margin-left: auto;\n  font-size: 11px; color: var(--text3);\n  font-family: var(--mono);\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  padding: 2px 8px;\n  border-radius: 10px;\n}\n\n/* CARD */\n.card {\n  background: var(--bg2);\n  border: 1px solid var(--border);\n  border-radius: 8px;\n  margin-bottom: 8px;\n  overflow: hidden;\n  transition: border-color 0.15s;\n}\n.card:hover { border-color: var(--border2); }\n.card.open { border-color: var(--border2); }\n\n.card-header {\n  display: flex;\n  align-items: flex-start;\n  gap: 10px;\n  padding: 10px 14px;\n  cursor: pointer;\n  user-select: none;\n}\n\n.chevron {\n  flex-shrink: 0; width: 14px; height: 14px;\n  margin-top: 3px; color: var(--text3);\n  transition: transform 0.2s;\n}\n.card.open .chevron { transform: rotate(90deg); }\n\n.card-meta { flex: 1; min-width: 0; }\n.card-name {\n  font-size: 13.5px; font-weight: 500; color: var(--text);\n  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;\n}\n.card-desc {\n  font-size: 12px; color: var(--text2);\n  margin-top: 2px; line-height: 1.4;\n}\n\n.badge {\n  font-size: 10px; font-weight: 500;\n  padding: 1px 7px; border-radius: 10px;\n  white-space: nowrap; flex-shrink: 0;\n  font-family: var(--mono);\n}\n.b-os     { background: var(--orange-bg); color: var(--orange); border: 1px solid var(--orange-border); }\n.b-repl   { background: var(--blue-bg);   color: var(--blue);   border: 1px solid var(--blue-border); }\n.b-perf   { background: var(--green-bg);  color: var(--green);  border: 1px solid var(--green-border); }\n.b-lock   { background: var(--red-bg);    color: var(--red);    border: 1px solid var(--red-border); }\n.b-vac    { background: var(--purple-bg); color: var(--purple); border: 1px solid var(--purple-border); }\n\n/* CARD BODY */\n.card-body { display: none; padding: 0 14px 14px; }\n.card.open .card-body { display: block; }\n\n.code-wrap { position: relative; margin-bottom: 12px; }\npre {\n  background: var(--bg);\n  border: 1px solid var(--border);\n  border-radius: 6px;\n  padding: 12px 14px;\n  font-family: var(--mono);\n  font-size: 12px;\n  color: #c9d1d9;\n  white-space: pre;\n  overflow-x: auto;\n  line-height: 1.7;\n  tab-size: 2;\n}\n\n/* Syntax highlight */\n.k { color: #ff7b72; }   /* keyword */\n.f { color: #d2a8ff; }   /* function */\n.s { color: #a5d6ff; }   /* string/number */\n.c { color: #6e7681; font-style: italic; } /* comment */\n.t { color: #ffa657; }   /* type/column name */\n\n.copy-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 4px;\n  color: var(--text2);\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.copy-btn:hover { border-color: var(--blue); color: var(--blue); }\n.copy-btn.copied { border-color: var(--green); color: var(--green); }\n\n/* COLUMNS TABLE */\n.cols-label {\n  font-size: 11px; font-weight: 600; letter-spacing: 0.05em;\n  text-transform: uppercase; color: var(--text3);\n  margin-bottom: 6px;\n  font-family: var(--mono);\n}\n.cols-table { width: 100%; border-collapse: collapse; }\n.cols-table tr { border-bottom: 1px solid var(--border); }\n.cols-table tr:last-child { border-bottom: none; }\n.cols-table td {\n  padding: 6px 8px; vertical-align: top; font-size: 12px;\n}\n.col-n {\n  font-family: var(--mono); font-size: 11.5px;\n  color: var(--blue); white-space: nowrap;\n  padding-right: 16px; width: 1%;\n}\n.col-d { color: var(--text2); line-height: 1.5; }\n.col-note {\n  display: block;\n  font-size: 11px; color: var(--text3);\n  margin-top: 3px; line-height: 1.4;\n  border-left: 2px solid var(--border2);\n  padding-left: 6px;\n  margin-top: 4px;\n}\n\n/* FOOTER */\n.footer {\n  padding: 2rem;\n  border-top: 1px solid var(--border);\n  color: var(--text3);\n  font-size: 11px;\n  font-family: var(--mono);\n}\n\n.export-btn,.save-file-btn{font-size:12px;font-family:var(--mono);padding:4px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text2);cursor:pointer;transition:all 0.15s;margin-left:6px;}\n.export-btn:hover{border-color:var(--blue);color:var(--blue);}\n.import-btn{font-size:12px;font-family:var(--mono);padding:4px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;color:var(--text2);cursor:pointer;transition:all 0.15s;margin-left:6px;display:inline-flex;align-items:center;}\n.import-btn:hover{border-color:var(--green);color:var(--green);}\n.save-file-btn{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue);}\n.save-file-btn:hover{background:var(--blue);color:var(--bg);}\n/* EMPTY STATE */\n.empty {\n  text-align: center; padding: 3rem;\n  color: var(--text3); font-size: 13px;\n}\n\n/* SCROLLBAR */\n::-webkit-scrollbar { width: 6px; height: 6px; }\n::-webkit-scrollbar-track { background: transparent; }\n::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }\n::-webkit-scrollbar-thumb:hover { background: var(--text3); }\n\n/* HIDDEN */\n.hidden { display: none !important; }\n\n/* EDIT BUTTON */\n.edit-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  background: var(--bg3);\n  border: 1px solid var(--border);\n  border-radius: 4px;\n  color: var(--text2);\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.edit-btn:hover { border-color: var(--orange); color: var(--orange); }\n.edit-btn.active { border-color: var(--orange); color: var(--orange); background: var(--orange-bg); }\n\n/* MODIFIED BADGE */\n.modified-dot {\n  display: inline-block;\n  width: 6px; height: 6px; border-radius: 50%;\n  background: var(--orange);\n  margin-left: 6px;\n  flex-shrink: 0;\n  title: \"\u0418\u0437\u043c\u0435\u043d\u0435\u043d\u043e\";\n}\n\n/* EDITOR AREA */\n.editor-wrap {\n  display: none;\n  margin-bottom: 12px;\n  border: 1px solid var(--orange-border);\n  border-radius: 6px;\n  overflow: hidden;\n}\n.editor-wrap.visible { display: block; }\n.editor-toolbar {\n  display: flex; align-items: center; gap: 8px;\n  padding: 6px 10px;\n  background: var(--orange-bg);\n  border-bottom: 1px solid var(--orange-border);\n}\n.editor-label {\n  font-size: 11px; font-family: var(--mono);\n  color: var(--orange); flex: 1;\n}\n.editor-btn {\n  font-size: 11px; font-family: var(--mono);\n  padding: 3px 10px;\n  border-radius: 4px;\n  cursor: pointer;\n  transition: all 0.15s;\n}\n.editor-save {\n  background: var(--green-bg);\n  border: 1px solid var(--green-border);\n  color: var(--green);\n}\n.editor-save:hover { background: var(--green); color: var(--bg); }\n.editor-reset {\n  background: transparent;\n  border: 1px solid var(--border);\n  color: var(--text3);\n}\n.editor-reset:hover { border-color: var(--red); color: var(--red); }\n.editor-cancel {\n  background: transparent;\n  border: 1px solid var(--border);\n  color: var(--text3);\n}\n.editor-cancel:hover { border-color: var(--border2); color: var(--text2); }\ntextarea.sql-editor {\n  width: 100%;\n  background: var(--bg);\n  border: none;\n  outline: none;\n  color: #c9d1d9;\n  font-family: var(--mono);\n  font-size: 12px;\n  line-height: 1.7;\n  padding: 12px 14px;\n  resize: vertical;\n  min-height: 160px;\n  tab-size: 2;\n}\ntextarea.sql-editor:focus { background: #0d1117; }\n\n/* ADD BUTTON in topbar */\n.add-btn {\n  font-size: 12px; font-family: var(--mono);\n  padding: 4px 14px;\n  background: var(--green-bg);\n  border: 1px solid var(--green-border);\n  border-radius: 5px;\n  color: var(--green);\n  cursor: pointer;\n  transition: all 0.15s;\n  margin-left: 12px;\n}\n.add-btn:hover { background: var(--green); color: var(--bg); }\n\n/* MODAL OVERLAY */\n.modal-overlay {\n  display: none; position: fixed; inset: 0;\n  background: rgba(0,0,0,0.7);\n  z-index: 100; align-items: center; justify-content: center;\n  padding: 1rem;\n}\n.modal-overlay.visible { display: flex; }\n.modal {\n  background: var(--bg2); border: 1px solid var(--border2);\n  border-radius: 10px; width: 100%; max-width: 700px;\n  max-height: 92vh; overflow-y: auto;\n  display: flex; flex-direction: column;\n}\n.modal-header {\n  display: flex; align-items: center; gap: 10px;\n  padding: 14px 18px; border-bottom: 1px solid var(--border); flex-shrink: 0;\n}\n.modal-title {\n  font-size: 14px; font-weight: 500;\n  font-family: var(--mono); color: var(--text); flex: 1;\n}\n.modal-close {\n  background: none; border: none; color: var(--text3);\n  cursor: pointer; font-size: 18px; line-height: 1;\n  padding: 2px 6px; border-radius: 4px;\n}\n.modal-close:hover { color: var(--text); background: var(--bg3); }\n.modal-body { padding: 18px; display: flex; flex-direction: column; gap: 14px; }\n.form-row { display: flex; flex-direction: column; gap: 5px; }\n.form-label {\n  font-size: 11px; font-weight: 600; letter-spacing: 0.06em;\n  text-transform: uppercase; color: var(--text3); font-family: var(--mono);\n}\n.form-input {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;\n  color: var(--text); font-family: var(--sans); font-size: 13px;\n  padding: 8px 10px; outline: none; transition: border-color 0.15s; width: 100%;\n}\n.form-input:focus { border-color: var(--blue); }\n.form-textarea {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;\n  color: var(--text); font-family: var(--mono); font-size: 12px;\n  padding: 8px 10px; outline: none; transition: border-color 0.15s; width: 100%;\n  resize: vertical; line-height: 1.7; tab-size: 2;\n}\n.form-textarea.desc-ta {\n  font-family: var(--sans); font-size: 13px;\n  min-height: 58px; white-space: normal; line-height: 1.5;\n}\n.form-textarea.sql-ta { min-height: 180px; color: #c9d1d9; }\n.form-textarea:focus { border-color: var(--blue); }\n\n/* Section chips */\n.section-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 2px; }\n.s-chip {\n  display: flex; align-items: center; gap: 6px;\n  padding: 5px 11px; border-radius: 6px;\n  border: 2px solid transparent; cursor: pointer;\n  font-size: 12px; font-family: var(--mono);\n  background: var(--bg3); color: var(--text2);\n  transition: all 0.12s; user-select: none;\n}\n.s-chip:hover { color: var(--text); border-color: var(--border2); }\n.s-chip.sel { color: var(--text); }\n.s-chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }\n\n/* Columns editor */\n.cols-editor-wrap { display: flex; flex-direction: column; gap: 6px; }\n.col-edit-row {\n  display: grid; grid-template-columns: 150px 1fr 30px;\n  gap: 6px; align-items: start;\n}\n.col-edit-row input, .col-edit-row textarea {\n  background: var(--bg); border: 1px solid var(--border); border-radius: 4px;\n  color: var(--text); font-family: var(--mono); font-size: 11.5px;\n  padding: 5px 8px; outline: none; width: 100%; transition: border-color 0.15s;\n}\n.col-edit-row textarea {\n  font-family: var(--sans); font-size: 12px;\n  min-height: 50px; resize: vertical;\n}\n.col-edit-row input:focus, .col-edit-row textarea:focus { border-color: var(--blue); }\n.col-del {\n  background: none; border: 1px solid var(--border); border-radius: 4px;\n  color: var(--text3); cursor: pointer; padding: 5px 6px;\n  font-size: 12px; transition: all 0.12s; align-self: start;\n}\n.col-del:hover { border-color: var(--red); color: var(--red); }\n.add-col-row {\n  background: none; border: 1px dashed var(--border2); border-radius: 4px;\n  color: var(--text3); cursor: pointer; padding: 6px;\n  font-size: 12px; font-family: var(--mono); transition: all 0.12s; text-align: center;\n}\n.add-col-row:hover { border-color: var(--blue); color: var(--blue); }\n\n.modal-footer {\n  display: flex; align-items: center; gap: 8px;\n  padding: 12px 18px; border-top: 1px solid var(--border); flex-shrink: 0;\n}\n.modal-save {\n  font-size: 12px; font-family: var(--mono); padding: 6px 20px;\n  background: var(--green-bg); border: 1px solid var(--green-border);\n  border-radius: 5px; color: var(--green); cursor: pointer; transition: all 0.15s;\n}\n.modal-save:hover { background: var(--green); color: var(--bg); }\n.modal-cancel {\n  font-size: 12px; font-family: var(--mono); padding: 6px 14px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 5px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.modal-cancel:hover { border-color: var(--border2); color: var(--text2); }\n.modal-hint { margin-left: auto; font-size: 11px; color: var(--text3); font-family: var(--mono); }\n\n/* Custom card \u2014 delete button */\n.del-card-btn {\n  font-size: 11px; font-family: var(--mono); padding: 3px 10px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 4px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.del-card-btn:hover { border-color: var(--red); color: var(--red); }\n\n/* CREATE GROUP MODAL additions */\n.icon-picker { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }\n.icon-btn {\n  font-size: 18px; width: 36px; height: 36px;\n  border-radius: 6px; border: 2px solid transparent;\n  background: var(--bg3); cursor: pointer;\n  display: flex; align-items: center; justify-content: center;\n  transition: all 0.1s;\n}\n.icon-btn:hover { border-color: var(--border2); background: var(--bg4); }\n.icon-btn.sel-icon { border-color: var(--blue); background: var(--blue-bg); }\n.color-picker { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }\n.color-swatch {\n  width: 28px; height: 28px; border-radius: 6px;\n  border: 2px solid transparent; cursor: pointer; transition: all 0.1s;\n}\n.color-swatch:hover, .color-swatch.sel-color { border-color: var(--text); transform: scale(1.15); }\n.group-del-btn {\n  font-size: 11px; font-family: var(--mono); padding: 3px 10px;\n  background: none; border: 1px solid var(--border);\n  border-radius: 4px; color: var(--text3); cursor: pointer; transition: all 0.15s;\n}\n.group-del-btn:hover { border-color: var(--red); color: var(--red); }\n.nav-manage-groups {\n  display: flex; align-items: center; gap: 6px; padding: 6px 12px;\n  font-size: 11px; font-family: var(--mono); color: var(--text3); cursor: pointer;\n  border-top: 1px solid var(--border); margin-top: 8px; transition: color 0.15s;\n}\n.nav-manage-groups:hover { color: var(--green); }\n\n.icon-picker { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }\n.icon-btn { font-size:18px; width:36px; height:36px; border-radius:6px; border:2px solid transparent; background:var(--bg3); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.1s; }\n.icon-btn:hover { border-color:var(--border2); background:var(--bg4); }\n.icon-btn.sel-icon { border-color:var(--blue); background:var(--blue-bg); }\n.color-picker { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }\n.color-swatch { width:28px; height:28px; border-radius:6px; border:2px solid transparent; cursor:pointer; transition:all 0.1s; }\n.color-swatch:hover, .color-swatch.sel-color { border-color:var(--text); transform:scale(1.15); }\n.group-del-btn { font-size:11px; font-family:var(--mono); padding:3px 10px; background:none; border:1px solid var(--border); border-radius:4px; color:var(--text3); cursor:pointer; transition:all 0.15s; }\n.group-del-btn:hover { border-color:var(--red); color:var(--red); }\n.nav-manage-groups { display:flex; align-items:center; gap:6px; padding:6px 12px; font-size:11px; font-family:var(--mono); color:var(--text3); cursor:pointer; border-top:1px solid var(--border); margin-top:8px; transition:color 0.15s; }\n.nav-manage-groups:hover { color:var(--green); }\n#modal-reset-btn { font-size:12px; font-family:var(--mono); padding:6px 14px; background:none; border:1px solid var(--border); border-radius:5px; color:var(--orange); cursor:pointer; transition:all 0.15s; }\n#modal-reset-btn:hover { border-color:var(--orange); background:var(--orange-bg); }\n\n</style>\n</head>\n<body>\n\n<div class=\"shell\">\n\n<nav class=\"sidebar\" id=\"sidebar\">\n  <div class=\"sidebar-logo\">\n    <div class=\"pg-icon\">\n      <svg width=\"22\" height=\"22\" viewBox=\"0 0 22 22\" fill=\"none\">\n        <rect width=\"22\" height=\"22\" rx=\"5\" fill=\"#1f4068\"/>\n        <path d=\"M11 4C7.686 4 5 6.686 5 10c0 1.657.672 3.157 1.757 4.243L11 18l4.243-3.757A5.978 5.978 0 0017 10c0-3.314-2.686-6-6-6z\" fill=\"#58a6ff\" opacity=\".8\"/>\n        <circle cx=\"11\" cy=\"10\" r=\"2.5\" fill=\"#0d1117\"/>\n      </svg>\n      <div>\n        <div class=\"pg-title\">PG Cheatsheet</div>\n        <div class=\"pg-sub\">DBA Reference v3</div>\n      </div>\n    </div>\n  </div>\n  <div class=\"sidebar-search\">\n    <input type=\"text\" id=\"search\" placeholder=\"\u041f\u043e\u0438\u0441\u043a...\" autocomplete=\"off\"/>\n  </div>\n  <div id=\"nav-links\"></div>\n  <div class=\"nav-manage-groups\" onclick=\"openGroupModal()\">\n    <svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><circle cx=\"6\" cy=\"6\" r=\"5\"/><line x1=\"6\" y1=\"3\" x2=\"6\" y2=\"9\"/><line x1=\"3\" y1=\"6\" x2=\"9\" y2=\"6\"/></svg>\n    \u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u0430\u043c\u0438\n  </div>\n</nav>\n\n<div class=\"main\">\n  <div class=\"topbar\">\n    <span class=\"topbar-title\">~/<span>pg_dba_cheatsheet</span>.html</span>\n    <div class=\"topbar-stats\">\n      <span class=\"topbar-stat\"><strong id=\"stat-visible\">0</strong> \u0441\u043a\u0440\u0438\u043f\u0442\u043e\u0432</span>\n      <span class=\"topbar-stat\"><strong id=\"stat-sections\">0</strong> \u0440\u0430\u0437\u0434\u0435\u043b\u043e\u0432</span>\n    </div>\n    <button class=\"add-btn\" onclick=\"openAddModal()\">+ \u0434\u043e\u0431\u0430\u0432\u0438\u0442\u044c</button>\n    <button class=\"export-btn\" onclick=\"exportData()\">\u2b07 \u044d\u043a\u0441\u043f\u043e\u0440\u0442</button>\n    <label class=\"import-btn\">\u2b06 \u0438\u043c\u043f\u043e\u0440\u0442<input type=\"file\" id=\"import-file\" accept=\".json\" style=\"display:none\" onchange=\"importData(event)\"></label>\n    <button class=\"save-file-btn\" onclick=\"saveToFile()\">\ud83d\udcbe \u0441\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u0432 \u0444\u0430\u0439\u043b</button>\n  </div>\n  <div class=\"content\" id=\"content\"></div>\n  <div class=\"footer\">PostgreSQL DBA Cheatsheet v3 &middot; \u0420\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u043e\u0444\u043b\u0430\u0439\u043d &middot; kayridenov.github.io/pg-cheatsheet</div>\n</div>\n\n</div>\n\n<!-- ADD / EDIT CARD MODAL -->\n<div class=\"modal-overlay\" id=\"modal-overlay\" onclick=\"overlayClick(event)\">\n  <div class=\"modal\" id=\"modal\">\n    <div class=\"modal-header\">\n      <span class=\"modal-title\" id=\"modal-title\">+ \u041d\u043e\u0432\u044b\u0439 \u0437\u0430\u043f\u0440\u043e\u0441</span>\n      <button class=\"modal-close\" onclick=\"closeModal()\">&#x2715;</button>\n    </div>\n    <div class=\"modal-body\">\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0420\u0430\u0437\u0434\u0435\u043b</label>\n        <div class=\"section-chips\" id=\"section-chips\"></div>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0437\u0430\u043f\u0440\u043e\u0441\u0430</label>\n        <input class=\"form-input\" id=\"m-name\" placeholder=\"\u041d\u0430\u043f\u0440\u0438\u043c\u0435\u0440: \u0420\u0430\u0437\u043c\u0435\u0440 \u0432\u0441\u0435\u0445 \u0442\u0430\u0431\u043b\u0438\u0446 \u0441\u0445\u0435\u043c\u044b\" />\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435</label>\n        <textarea class=\"form-textarea desc-ta\" id=\"m-desc\" placeholder=\"\u0427\u0442\u043e \u0434\u0435\u043b\u0430\u0435\u0442 \u0437\u0430\u043f\u0440\u043e\u0441, \u043a\u043e\u0433\u0434\u0430 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044c...\"></textarea>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">SQL / \u043a\u043e\u043c\u0430\u043d\u0434\u0430</label>\n        <textarea class=\"form-textarea sql-ta\" id=\"m-sql\" placeholder=\"SELECT ...\"></textarea>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041f\u043e\u044f\u0441\u043d\u0435\u043d\u0438\u044f \u043f\u043e \u043a\u043e\u043b\u043e\u043d\u043a\u0430\u043c <span style=\"font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)\">(\u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u043e)</span></label>\n        <div class=\"cols-editor-wrap\" id=\"cols-editor\">\n          <div class=\"col-edit-row\" id=\"col-row-0\">\n            <input placeholder=\"\u0438\u043c\u044f_\u043a\u043e\u043b\u043e\u043d\u043a\u0438\" />\n            <textarea placeholder=\"\u0427\u0442\u043e \u043e\u0437\u043d\u0430\u0447\u0430\u0435\u0442 \u044d\u0442\u0430 \u043a\u043e\u043b\u043e\u043d\u043a\u0430...\" rows=\"2\"></textarea>\n            <button class=\"col-del\" onclick=\"delCol(0)\">&#x2715;</button>\n          </div>\n        </div>\n        <button class=\"add-col-row\" onclick=\"addCol()\">+ \u0434\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043a\u043e\u043b\u043e\u043d\u043a\u0443</button>\n      </div>\n    </div>\n    <div class=\"modal-footer\">\n      <button class=\"modal-save\" id=\"modal-save-btn\" onclick=\"saveCard()\">\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c</button>\n      <button class=\"modal-cancel\" onclick=\"closeModal()\">\u041e\u0442\u043c\u0435\u043d\u0430</button>\n      <button id=\"modal-reset-btn\" onclick=\"resetBuiltinCard()\" style=\"display:none\">\u0421\u0431\u0440\u043e\u0441\u0438\u0442\u044c \u043a \u043e\u0440\u0438\u0433\u0438\u043d\u0430\u043b\u0443</button>\n      <span class=\"modal-hint\">\u0441\u043e\u0445\u0440\u0430\u043d\u044f\u0435\u0442\u0441\u044f \u0432 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0435</span>\n    </div>\n  </div>\n</div>\n\n<!-- CREATE GROUP MODAL -->\n<div class=\"modal-overlay\" id=\"group-modal-overlay\" onclick=\"if(event.target===this)closeGroupModal()\">\n  <div class=\"modal\" style=\"max-width:560px\">\n    <div class=\"modal-header\">\n      <span class=\"modal-title\">\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u0430\u043c\u0438</span>\n      <button class=\"modal-close\" onclick=\"closeGroupModal()\">&#x2715;</button>\n    </div>\n    <div class=\"modal-body\">\n      <div style=\"font-size:12px;color:var(--text2);margin-bottom:4px\">\u0421\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u044e\u0449\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u044b:</div>\n      <div id=\"gm-existing\" style=\"margin-bottom:16px;min-height:32px\"></div>\n      <div style=\"border-top:1px solid var(--border);padding-top:14px;font-size:12px;font-weight:500;color:var(--text);margin-bottom:12px\">\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u043d\u043e\u0432\u0443\u044e \u0433\u0440\u0443\u043f\u043f\u0443</div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0433\u0440\u0443\u043f\u043f\u044b</label>\n        <input class=\"form-input\" id=\"gm-name\" placeholder=\"\u041d\u0430\u043f\u0440\u0438\u043c\u0435\u0440: \u041c\u043e\u0438 \u0441\u043a\u0440\u0438\u043f\u0442\u044b\" />\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0418\u043a\u043e\u043d\u043a\u0430</label>\n        <div class=\"icon-picker\" id=\"gm-icon-picker\"></div>\n      </div>\n      <div class=\"form-row\">\n        <label class=\"form-label\">\u0426\u0432\u0435\u0442 \u0442\u043e\u0447\u043a\u0438 \u0432 \u043d\u0430\u0432\u0438\u0433\u0430\u0446\u0438\u0438</label>\n        <div class=\"color-picker\" id=\"gm-color-picker\"></div>\n      </div>\n    </div>\n    <div class=\"modal-footer\">\n      <button class=\"modal-save\" onclick=\"saveGroup()\">\u0421\u043e\u0437\u0434\u0430\u0442\u044c \u0433\u0440\u0443\u043f\u043f\u0443</button>\n      <button class=\"modal-cancel\" onclick=\"closeGroupModal()\">\u0417\u0430\u043a\u0440\u044b\u0442\u044c</button>\n    </div>\n  </div>\n</div>\n\n";
 
 const DATA = [
@@ -762,7 +763,7 @@ const DATA = [
 // ═══════════════════════════════════════════════
 {section:"Состояние сервера", icon:"🖥", color:"#1f3050", dot:"#58a6ff"},
 
-{id:"uptime", name:"Аптайм и версия PostgreSQL", badge:"",
+{id:"uptime",pg_min:12,pg_max:null,os:null, name:"Аптайм и версия PostgreSQL", badge:"",
 desc:"Время работы без перезапуска. Первое что смотрят после инцидента.",
 sql:`SELECT now() - pg_postmaster_start_time() AS uptime, pg_postmaster_start_time() AS started_at, version() AS pg_version;`,
 cols:[
@@ -771,7 +772,7 @@ cols:[
   {n:"pg_version", d:"Полная строка версии PostgreSQL. Нужна при обращении в поддержку."}
 ]},
 
-{id:"pg_settings_nondefault", name:"Параметры, изменённые относительно дефолтных", badge:"",
+{id:"pg_settings_nondefault",pg_min:12,pg_max:null,os:null, name:"Параметры, изменённые относительно дефолтных", badge:"",
 desc:"Быстрый аудит конфигурации — все параметры которые отличаются от значений по умолчанию.",
 sql:`SELECT name, setting, unit, boot_val AS default_value, source, sourcefile, sourceline, pending_restart FROM pg_settings WHERE source NOT IN ('default','override') ORDER BY source, name;`,
 cols:[
@@ -781,7 +782,7 @@ cols:[
   {n:"pending_restart", d:"true — изменение применится только после рестарта сервера.", note:"Применить без рестарта: SELECT pg_reload_conf();"}
 ]},
 
-{id:"params_pending_restart", name:"Параметры, ожидающие рестарта", badge:"",
+{id:"params_pending_restart",pg_min:12,pg_max:null,os:null, name:"Параметры, ожидающие рестарта", badge:"",
 desc:"Только те настройки, которые уже изменены в конфиге, но ещё не вступили в силу.",
 sql:`SELECT name, setting AS new_value, unit, short_desc, sourcefile, sourceline FROM pg_settings WHERE pending_restart = true;`,
 cols:[
@@ -790,7 +791,7 @@ cols:[
   {n:"sourcefile / sourceline", d:"Где именно в конфиге задан параметр."}
 ]},
 
-{id:"conn_max_check", name:"Использование пула соединений (% от max)", badge:"",
+{id:"conn_max_check",pg_min:12,pg_max:null,os:null, name:"Использование пула соединений (% от max)", badge:"",
 desc:"Сколько процентов max_connections уже занято — быстрый healthcheck.",
 sql:`SELECT max_conn, used, res_for_super, max_conn - used - res_for_super AS available, round(100.0 * used / max_conn, 1) AS used_pct FROM (SELECT (SELECT setting::int FROM pg_settings WHERE name='max_connections') AS max_conn, (SELECT setting::int FROM pg_settings WHERE name='superuser_reserved_connections') AS res_for_super, count(*) AS used FROM pg_stat_activity) t;`,
 cols:[
@@ -801,7 +802,7 @@ cols:[
   {n:"used_pct", d:"Процент заполнения. > 80% — срочно нужен пулер или увеличение лимита.", note:"При > 200 соединениях без пулера CPU тратится на переключение контекста. Используй PgBouncer."}
 ]},
 
-{id:"conn_by_db_state", name:"Подключения по базам и состояниям", badge:"",
+{id:"conn_by_db_state",pg_min:12,pg_max:null,os:null, name:"Подключения по базам и состояниям", badge:"",
 desc:"Сводка соединений с группировкой по БД и состоянию. Сравнивай с max_connections.",
 sql:`SELECT datname, state, count(*) AS connections, count(*) FILTER (WHERE wait_event_type='Lock') AS waiting_lock, count(*) FILTER (WHERE wait_event_type='IO') AS waiting_io FROM pg_stat_activity WHERE datname IS NOT NULL GROUP BY datname, state ORDER BY connections DESC;`,
 cols:[
@@ -810,7 +811,7 @@ cols:[
   {n:"waiting_lock", d:"Сессии ожидающие снятия блокировки. > 0 — активные конфликты.", note:"SELECT current_setting('max_connections');"}
 ]},
 
-{id:"conn_by_app", name:"Подключения по приложениям", badge:"",
+{id:"conn_by_app",pg_min:12,pg_max:null,os:null, name:"Подключения по приложениям", badge:"",
 desc:"Кто подключён, сколько соединений от каждого приложения и в каком состоянии.",
 sql:`SELECT application_name, usename, datname, state, count(*) AS connections, count(*) FILTER (WHERE wait_event_type='Lock') AS lock_waits, min(now()-backend_start) AS oldest_conn FROM pg_stat_activity WHERE pid <> pg_backend_pid() AND application_name IS NOT NULL GROUP BY application_name, usename, datname, state ORDER BY connections DESC LIMIT 30;`,
 cols:[
@@ -818,7 +819,7 @@ cols:[
   {n:"oldest_conn", d:"Самое старое соединение от этого приложения — помогает найти утечки.", note:"Установить имя: SET application_name = 'my_app'; или в строке подключения: application_name=my_app"}
 ]},
 
-{id:"wal_stat", name:"Статистика WAL (PG 14+)", badge:"",
+{id:"wal_stat",pg_min:14,pg_max:null,os:null, name:"Статистика WAL (PG 14+)", badge:"",
 desc:"Объём WAL, количество записей и синхронизаций. Помогает оценить нагрузку на запись.",
 sql:`-- PG 14-16 (wal_write/wal_sync removed in PG 17)
 SELECT wal_records, wal_fpi, wal_bytes, pg_size_pretty(wal_bytes) AS wal_size_pretty, wal_buffers_full, stats_reset FROM pg_stat_wal;
@@ -831,7 +832,7 @@ cols:[
   {n:"wal_buffers_full", d:"Сколько раз WAL-буферы были заполнены и пришлось сбрасывать на диск вне плана.", note:"Доступно с PostgreSQL 14."}
 ]},
 
-{id:"wal_archiver", name:"Статус архивирования WAL", badge:"",
+{id:"wal_archiver",pg_min:12,pg_max:null,os:null, name:"Статус архивирования WAL", badge:"",
 desc:"Мониторинг архивирования WAL — провалы архивации приводят к накоплению файлов и заполнению диска.",
 sql:`SELECT archived_count, last_archived_wal, last_archived_time, failed_count, last_failed_wal, last_failed_time, now() - last_archived_time AS time_since_last_archive, stats_reset FROM pg_stat_archiver;`,
 cols:[
@@ -846,7 +847,7 @@ cols:[
 // ═══════════════════════════════════════════════
 {section:"Быстрая диагностика", icon:"🔬", color:"#1a0a2e", dot:"#f778ba"},
 
-{id:"session_summary", name:"Общая сводка по сессиям (дашборд)", badge:"",
+{id:"session_summary",pg_min:12,pg_max:null,os:null, name:"Общая сводка по сессиям (дашборд)", badge:"",
 desc:"Один запрос — полная картина состояния сервера прямо сейчас.",
 sql:`SELECT state, count(*) AS total, count(*) FILTER (WHERE wait_event_type='Lock') AS lock_waits, count(*) FILTER (WHERE wait_event_type='IO') AS io_waits, count(*) FILTER (WHERE wait_event_type='LWLock') AS lwlock_waits, count(*) FILTER (WHERE now()-xact_start > interval '1 min') AS long_xacts, count(*) FILTER (WHERE now()-xact_start > interval '5 min') AS very_long_xacts, min(now()-xact_start) AS oldest_xact FROM pg_stat_activity WHERE pid <> pg_backend_pid() AND state IS NOT NULL GROUP BY state ORDER BY total DESC;`,
 cols:[
@@ -855,7 +856,7 @@ cols:[
   {n:"oldest_xact", d:"Возраст самой старой транзакции. Большой — проверь top5_long_xact."}
 ]},
 
-{id:"top5_active", name:"Топ-10 самых долгих активных запросов", badge:"lock",
+{id:"top5_active",pg_min:12,pg_max:null,os:null, name:"Топ-10 самых долгих активных запросов", badge:"lock",
 desc:"Первое что смотреть при жалобах на тормоза — какие запросы выполняются дольше всего прямо сейчас.",
 sql:`SELECT pid, usename, datname, client_addr, now()-query_start AS duration, wait_event_type, wait_event, left(query,120) AS query FROM pg_stat_activity WHERE state='active' AND pid <> pg_backend_pid() ORDER BY query_start ASC LIMIT 10;`,
 cols:[
@@ -863,7 +864,7 @@ cols:[
   {n:"wait_event_type / wait_event", d:"Lock = ждёт блокировку. IO = ждёт диск. NULL = реально работает на CPU.", note:"Для детального анализа: EXPLAIN (ANALYZE, BUFFERS) <query>;"}
 ]},
 
-{id:"top5_idle_txn", name:"Топ-10 самых старых idle in transaction", badge:"lock",
+{id:"top5_idle_txn",pg_min:12,pg_max:null,os:null, name:"Топ-10 самых старых idle in transaction", badge:"lock",
 desc:"Транзакции открытые без активного запроса — удерживают локи и мешают VACUUM.",
 sql:`SELECT pid, usename, datname, client_addr, now()-xact_start AS xact_age, now()-state_change AS idle_since, left(query,120) AS last_query FROM pg_stat_activity WHERE state='idle in transaction' ORDER BY xact_start ASC NULLS LAST LIMIT 10;`,
 cols:[
@@ -871,7 +872,7 @@ cols:[
   {n:"idle_since", d:"Как давно последний запрос в транзакции завершился.", note:"Завершить: SELECT pg_terminate_backend(pid);"}
 ]},
 
-{id:"top5_waiting", name:"Топ-10 запросов в ожидании блокировки", badge:"lock",
+{id:"top5_waiting",pg_min:12,pg_max:null,os:null, name:"Топ-10 запросов в ожидании блокировки", badge:"lock",
 desc:"Запросы которые прямо сейчас ждут снятия чужой блокировки.",
 sql:`SELECT a.pid, a.usename, a.datname, now()-a.query_start AS waiting_duration, a.wait_event_type, a.wait_event, left(a.query,100) AS waiting_query, pg_blocking_pids(a.pid) AS blocked_by FROM pg_stat_activity a WHERE a.wait_event_type='Lock' AND a.state='active' AND a.pid <> pg_backend_pid() ORDER BY a.query_start ASC LIMIT 10;`,
 cols:[
@@ -880,7 +881,7 @@ cols:[
   {n:"blocked_by", d:"PID(ы) процессов-виновников.", note:"SELECT pg_terminate_backend(<pid из blocked_by>);"}
 ]},
 
-{id:"top5_long_xact", name:"Топ-10 самых старых транзакций (любое состояние)", badge:"",
+{id:"top5_long_xact",pg_min:12,pg_max:null,os:null, name:"Топ-10 самых старых транзакций (любое состояние)", badge:"",
 desc:"Старейшие транзакции — мешают VACUUM, накапливают bloat, удерживают XID.",
 sql:`SELECT pid, usename, datname, client_addr, state, now()-xact_start AS xact_age, now()-query_start AS query_age, left(query,100) AS query FROM pg_stat_activity WHERE xact_start IS NOT NULL AND pid <> pg_backend_pid() ORDER BY xact_start ASC LIMIT 10;`,
 cols:[
@@ -888,7 +889,7 @@ cols:[
   {n:"state", d:"active = выполняет запрос; idle in transaction = ждёт следующий запрос.", note:"Если xact_age > 1 часа — почти всегда проблема."}
 ]},
 
-{id:"top5_temp_files", name:"Топ-10 запросов, пишущих временные файлы", badge:"perf",
+{id:"top5_temp_files",pg_min:12,pg_max:null,os:null, name:"Топ-10 запросов, пишущих временные файлы", badge:"perf",
 desc:"Запросы которым не хватило work_mem и они сбрасывают данные на диск. Медленно.",
 sql:`SELECT pid, usename, datname, now()-query_start AS duration, left(query,100) AS query FROM pg_stat_activity WHERE state='active' AND pid <> pg_backend_pid() ORDER BY query_start ASC LIMIT 10;
 
@@ -899,7 +900,7 @@ cols:[
   {n:"temp_size", d:"Размер временных файлов. Большой = work_mem сильно мал для этого запроса.", note:"Для сессии: SET work_mem = '256MB'; — временно увеличить только для текущей сессии."}
 ]},
 
-{id:"activity_full", name:"Все активные запросы и зависшие транзакции", badge:"lock",
+{id:"activity_full",pg_min:12,pg_max:null,os:null, name:"Все активные запросы и зависшие транзакции", badge:"lock",
 desc:"Главный запрос оперативного мониторинга: всё что выполняется или застряло в транзакции. Data Egret style.",
 sql:`SELECT (clock_timestamp()-xact_start)::interval(0) AS xact_age, (clock_timestamp()-query_start)::interval(0) AS query_age, (clock_timestamp()-state_change)::interval(0) AS change_age, pid, state, datname, usename, coalesce(wait_event_type='Lock', false) AS waiting, wait_event_type||'.'||wait_event AS wait_details, client_addr||':'||client_port AS client, left(query,100) AS query FROM pg_stat_activity WHERE clock_timestamp()-coalesce(xact_start,query_start) > '00:00:00.1'::interval AND pid <> pg_backend_pid() AND state <> 'idle' ORDER BY coalesce(xact_start,query_start);`,
 cols:[
@@ -914,7 +915,7 @@ cols:[
 // ═══════════════════════════════════════════════
 {section:"Блокировки", icon:"🔒", color:"#2d0d0d", dot:"#f85149"},
 
-{id:"blocking_graph", name:"Граф блокировок: кто кого блокирует (PG 9.6+)", badge:"lock",
+{id:"blocking_graph",pg_min:12,pg_max:null,os:null, name:"Граф блокировок: кто кого блокирует (PG 9.6+)", badge:"lock",
 desc:"Полная цепочка блокировок — виновник и жертва в одном запросе. Используй pg_blocking_pids.",
 sql:`SELECT blocked.pid AS blocked_pid, blocked.usename AS blocked_user, now()-blocked.query_start AS wait_duration, left(blocked.query,80) AS blocked_query, blocking.pid AS blocking_pid, blocking.usename AS blocking_user, blocking.state AS blocking_state, left(blocking.query,80) AS blocking_query FROM pg_stat_activity AS blocked JOIN pg_stat_activity AS blocking ON blocking.pid = ANY(pg_blocking_pids(blocked.pid)) WHERE cardinality(pg_blocking_pids(blocked.pid)) > 0 ORDER BY wait_duration DESC;`,
 cols:[
@@ -924,7 +925,7 @@ cols:[
   {n:"blocking_state", d:"idle = забытая открытая транзакция, можно безопасно завершить.", note:"SELECT pg_terminate_backend(blocking_pid);"}
 ]},
 
-{id:"locks_detail", name:"Все активные блокировки с деталями объекта", badge:"lock",
+{id:"locks_detail",pg_min:12,pg_max:null,os:null, name:"Все активные блокировки с деталями объекта", badge:"lock",
 desc:"Полная таблица блокировок: что именно заблокировано, режим, выдано ли, возраст.",
 sql:`SELECT a.datname, l.relation::regclass AS locked_object, l.transactionid, l.mode, l.granted, a.usename, left(a.query,60) AS query, a.query_start, age(now(),a.query_start) AS age, a.pid FROM pg_stat_activity a JOIN pg_locks l ON l.pid=a.pid ORDER BY a.query_start;`,
 cols:[
@@ -933,7 +934,7 @@ cols:[
   {n:"granted", d:"true = блокировка выдана. false = ожидает получения блокировки.", note:"Таблица совместимости режимов: https://www.postgresql.org/docs/current/explicit-locking.html"}
 ]},
 
-{id:"locks_not_granted", name:"Только неполученные блокировки (что именно ждёт)", badge:"lock",
+{id:"locks_not_granted",pg_min:12,pg_max:null,os:null, name:"Только неполученные блокировки (что именно ждёт)", badge:"lock",
 desc:"Список объектов которые прямо сейчас ожидаются — быстро найти что именно заблокировало систему.",
 sql:`SELECT relation::regclass, locktype, mode, transactionid, pid FROM pg_locks WHERE NOT granted;`,
 cols:[
@@ -943,7 +944,7 @@ cols:[
   {n:"pid", d:"PID процесса который ждёт."}
 ]},
 
-{id:"blocking_detail_legacy", name:"Детали блокировок: что именно заблокировано (PG < 9.6)", badge:"lock",
+{id:"blocking_detail_legacy",pg_min:12,pg_max:null,os:null, name:"Детали блокировок: что именно заблокировано (PG < 9.6)", badge:"lock",
 desc:"Расширенная информация о блокировках с именем объекта, режимами и длительностью у обеих сторон.",
 sql:`SELECT COALESCE(l1.relation::regclass::text, l1.locktype) AS locked_item, w.wait_event_type AS waiting_ev_type, w.wait_event, left(w.query,60) AS waiting_query, l1.mode AS waiting_mode, now()-ws.xact_start AS waiting_xact_dur, now()-ws.query_start AS waiting_query_dur, w.pid AS waiting_pid, w.usename AS waiting_user, left(l.query,60) AS locking_query, l2.mode AS locking_mode, now()-ls.xact_start AS locking_xact_dur, l.pid AS locking_pid, l.usename AS locking_user, l.state AS locking_state FROM pg_stat_activity w JOIN pg_locks l1 ON w.pid=l1.pid AND NOT l1.granted JOIN pg_locks l2 ON (l1.transactionid=l2.transactionid AND l1.pid<>l2.pid) OR (l1.database=l2.database AND l1.relation=l2.relation AND l1.pid<>l2.pid) JOIN pg_stat_activity l ON l2.pid=l.pid JOIN pg_stat_activity ws ON ws.pid=w.pid JOIN pg_stat_activity ls ON ls.pid=l.pid WHERE w.wait_event IS NOT NULL AND w.wait_event_type IS NOT NULL ORDER BY l.query_start, w.query_start;`,
 cols:[
@@ -952,7 +953,7 @@ cols:[
   {n:"locking_state", d:"idle = забытая транзакция, безопасно завершить. active = виновник ещё работает."}
 ]},
 
-{id:"lock_tree", name:"Дерево блокировок с deadlock-цепочками (PG < 9.6)", badge:"lock",
+{id:"lock_tree",pg_min:12,pg_max:null,os:null, name:"Дерево блокировок с deadlock-цепочками (PG < 9.6)", badge:"lock",
 desc:"Рекурсивный запрос: полное дерево ожиданий с ролями процессов. ROOT BLOCKER — кого завершать.",
 sql:`WITH RECURSIVE l AS (SELECT pid, locktype, granted, array_position(ARRAY['AccessShare','RowShare','RowExclusive','ShareUpdateExclusive','Share','ShareRowExclusive','Exclusive','AccessExclusive'],left(mode,-4)) AS m, ROW(locktype,database,relation,page,tuple,virtualxid,transactionid,classid,objid,objsubid) AS obj FROM pg_locks), pairs AS (SELECT w.pid AS waiter, l.pid AS locker, l.obj, l.m FROM l w JOIN l ON NOT l.obj IS DISTINCT FROM w.obj AND l.locktype=w.locktype AND NOT l.pid=w.pid AND l.granted WHERE NOT w.granted AND NOT EXISTS (SELECT FROM l i WHERE i.pid=l.pid AND i.locktype=l.locktype AND NOT i.obj IS DISTINCT FROM l.obj AND i.m>l.m)), leads AS (SELECT locker, 1 AS lvl, count(*) AS q, ARRAY[locker] AS track, false AS cycle FROM pairs GROUP BY locker UNION ALL SELECT i.locker, leads.lvl+1, (SELECT count(*) FROM pairs q WHERE q.locker=i.locker), leads.track||i.locker, i.locker=ANY(leads.track) FROM pairs i, leads WHERE i.waiter=leads.locker AND NOT leads.cycle), tree AS (SELECT locker AS pid, locker AS dad, locker AS root, CASE WHEN cycle THEN track ELSE NULL::int[] END AS dl, NULL::record AS obj, 0 AS lvl, locker::text AS path, array_agg(locker) OVER () AS all_pids FROM leads o WHERE (cycle AND NOT EXISTS (SELECT FROM leads i WHERE i.locker=ANY(o.track) AND (i.lvl>o.lvl OR i.q<o.q))) OR (NOT cycle AND NOT EXISTS (SELECT FROM pairs WHERE waiter=o.locker) AND NOT EXISTS (SELECT FROM leads i WHERE i.locker=o.locker AND i.lvl<o.lvl)) UNION ALL SELECT w.waiter, tree.pid, tree.root, CASE WHEN w.waiter=ANY(tree.dl) THEN tree.dl ELSE NULL::int[] END, w.obj, tree.lvl+1, tree.path||'.'||w.waiter, tree.all_pids||array_agg(w.waiter) OVER () FROM tree JOIN pairs w ON tree.pid=w.locker AND NOT (w.waiter=ANY(tree.all_pids))) SELECT (clock_timestamp()-a.xact_start)::interval(0) AS xact_age, (clock_timestamp()-a.state_change)::interval(0) AS state_age, a.datname, a.usename, a.client_addr, tree.pid, replace(a.state,'idle in transaction','idletx') AS state, CASE WHEN tree.pid=ANY(tree.dl) THEN '!! DEADLOCK' WHEN tree.lvl=0 THEN 'ROOT BLOCKER' WHEN (SELECT count(*) FROM tree p WHERE p.path~('^'||tree.path) AND p.path<>tree.path)>0 THEN 'MID BLOCKER' ELSE 'VICTIM' END AS role, (SELECT count(*) FROM tree p WHERE p.path~('^'||tree.path) AND p.path<>tree.path) AS blocks_n, (CASE WHEN tree.pid=ANY(tree.dl) THEN '!> ' ELSE repeat(' . ',tree.lvl)||' ' END)||trim(left(regexp_replace(a.query,'\s+',' ','g'),100)) AS query FROM tree LEFT JOIN pairs w ON w.waiter=tree.pid AND w.locker=tree.dad JOIN pg_stat_activity a USING (pid) JOIN pg_stat_activity r ON r.pid=tree.root ORDER BY (now()-r.xact_start), tree.path;`,
 cols:[
@@ -962,7 +963,7 @@ cols:[
   {n:"query", d:"Запрос с отступами по уровню. Завершать — ROOT BLOCKER.", note:"Deadlock PostgreSQL разрывает автоматически через deadlock_timeout (по умолчанию 1s)."}
 ]},
 
-{id:"idle_txn", name:"Зависшие транзакции idle in transaction > 5 мин", badge:"lock",
+{id:"idle_txn",pg_min:12,pg_max:null,os:null, name:"Зависшие транзакции idle in transaction > 5 мин", badge:"lock",
 desc:"Транзакции без активности — удерживают локи и мешают VACUUM.",
 sql:`SELECT pid, usename, datname, client_addr, now()-state_change AS idle_duration, now()-xact_start AS xact_duration, left(query,120) AS last_query FROM pg_stat_activity WHERE state='idle in transaction' AND now()-state_change > INTERVAL '5 minutes' ORDER BY idle_duration DESC;`,
 cols:[
@@ -970,7 +971,7 @@ cols:[
   {n:"xact_duration", d:"Полное время транзакции с BEGIN — это и блокирует VACUUM.", note:"Убить все: SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE state='idle in transaction' AND now()-state_change > INTERVAL '10 minutes';"}
 ]},
 
-{id:"terminate", name:"Шаблоны: завершение проблемных сессий ⚠ ОСТОРОЖНО", badge:"lock",
+{id:"terminate",pg_min:12,pg_max:null,os:null, name:"Шаблоны: завершение проблемных сессий ⚠ ОСТОРОЖНО", badge:"lock",
 desc:"⚠ ВЫПОЛНЯТЬ ОСТОРОЖНО. Готовые команды для всех ситуаций — мягко отменить запрос или убить сессию.",
 sql:`-- Мягко отменить запрос (транзакция откатится):
 SELECT pg_cancel_backend(12345);
@@ -1000,7 +1001,7 @@ cols:[
 // ═══════════════════════════════════════════════
 {section:"Репликация", icon:"🔄", color:"#0d2236", dot:"#79c0ff"},
 
-{id:"repl_replica_status", name:"Статус репликации на реплике", badge:"repl",
+{id:"repl_replica_status",pg_min:12,pg_max:null,os:null, name:"Статус репликации на реплике", badge:"repl",
 desc:"LSN, лаг в секундах, синхронизация. Основной мониторинг standby — запускать на реплике.",
 sql:`SELECT pg_is_in_recovery() AS is_replica, pg_last_wal_receive_lsn() AS receive_lsn, pg_last_wal_replay_lsn() AS replay_lsn, pg_last_wal_receive_lsn() = pg_last_wal_replay_lsn() AS is_synced, EXTRACT(EPOCH FROM now()) - EXTRACT(EPOCH FROM pg_last_xact_replay_timestamp()) AS lag_seconds, pg_last_xact_replay_timestamp() AS last_replay_at;`,
 cols:[
@@ -1010,7 +1011,7 @@ cols:[
   {n:"lag_seconds", d:"Лаг в секундах. При простое мастера может расти без реального отставания.", note:"Байтовое отставание: SELECT pg_wal_lsn_diff(pg_last_wal_receive_lsn(), pg_last_wal_replay_lsn());"}
 ]},
 
-{id:"repl_master_status", name:"Состояние всех реплик на мастере", badge:"repl",
+{id:"repl_master_status",pg_min:12,pg_max:null,os:null, name:"Состояние всех реплик на мастере", badge:"repl",
 desc:"Все подключённые реплики, их лаг на каждом этапе WAL-применения. Запускать на мастере.",
 sql:`SELECT client_addr, application_name, state, sync_state, sent_lsn, write_lsn, flush_lsn, replay_lsn, write_lag, flush_lag, replay_lag, pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn) AS total_lag_bytes, pg_size_pretty(pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn)) AS total_lag_size FROM pg_stat_replication ORDER BY total_lag_bytes DESC NULLS LAST;`,
 cols:[
@@ -1020,7 +1021,7 @@ cols:[
   {n:"total_lag_bytes", d:"Полное байтовое отставание. > 100 MB при высокой нагрузке = риск потери данных.", note:"NULL в replay_lag при streaming = реплика синхронна."}
 ]},
 
-{id:"repl_lag_detail", name:"Подробный лаг репликации по этапам", badge:"repl",
+{id:"repl_lag_detail",pg_min:12,pg_max:null,os:null, name:"Подробный лаг репликации по этапам", badge:"repl",
 desc:"Байтовое отставание на каждом этапе WAL — send, write, flush, replay.",
 sql:`SELECT client_addr, application_name, state, sync_state, pg_wal_lsn_diff(pg_current_wal_lsn(), sent_lsn) AS send_lag_bytes, pg_wal_lsn_diff(sent_lsn, write_lsn) AS write_lag_bytes, pg_wal_lsn_diff(write_lsn, flush_lsn) AS flush_lag_bytes, pg_wal_lsn_diff(flush_lsn, replay_lsn) AS replay_lag_bytes, pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn) AS total_lag_bytes, pg_size_pretty(pg_wal_lsn_diff(pg_current_wal_lsn(), replay_lsn)) AS total_lag_size, write_lag, flush_lag, replay_lag FROM pg_stat_replication ORDER BY total_lag_bytes DESC NULLS LAST;`,
 cols:[
@@ -1031,7 +1032,7 @@ cols:[
   {n:"total_lag_size", d:"Полное байтовое отставание. > 100 MB = риск потери данных при failover.", note:"0 = реплика синхронна."}
 ]},
 
-{id:"repl_slots", name:"Слоты репликации (мониторинг)", badge:"repl",
+{id:"repl_slots",pg_min:12,pg_max:null,os:null, name:"Слоты репликации (мониторинг)", badge:"repl",
 desc:"Зависший неактивный слот накапливает WAL и может исчерпать диск.",
 sql:`SELECT slot_name, slot_type, database, active, active_pid, restart_lsn, confirmed_flush_lsn, pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn) AS retained_bytes, pg_size_pretty(pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn)) AS retained_size FROM pg_replication_slots ORDER BY retained_bytes DESC NULLS LAST;`,
 cols:[
@@ -1039,7 +1040,7 @@ cols:[
   {n:"retained_bytes", d:"Сколько WAL держится на диске из-за этого слота. > 1 GB — опасно.", note:"Удалить зависший слот: SELECT pg_drop_replication_slot('slot_name'); — делай осторожно, данные реплики потеряются."}
 ]},
 
-{id:"repl_wal_receiver", name:"Статус WAL receiver на реплике (PG 9.6+)", badge:"repl",
+{id:"repl_wal_receiver",pg_min:12,pg_max:null,os:null, name:"Статус WAL receiver на реплике (PG 9.6+)", badge:"repl",
 desc:"Детали входящего WAL-потока на реплике — статус подключения к мастеру.",
 sql:`SELECT status, receive_start_lsn, receive_start_tli, written_lsn, flushed_lsn, received_tli, last_msg_send_time, last_msg_receipt_time, latest_end_lsn, latest_end_time, sender_host, sender_port, conninfo FROM pg_stat_wal_receiver;`,
 cols:[
@@ -1053,7 +1054,7 @@ cols:[
 // ═══════════════════════════════════════════════
 {section:"Производительность запросов", icon:"📊", color:"#0d2117", dot:"#3fb950"},
 
-{id:"top_queries_time", name:"Топ-20 запросов по суммарному времени", badge:"perf",
+{id:"top_queries_time",pg_min:12,pg_max:null,os:null, name:"Топ-20 запросов по суммарному времени", badge:"perf",
 desc:"Требует pg_stat_statements. Главный инструмент поиска самых дорогих запросов.",
 sql:`SELECT queryid, round(total_exec_time::numeric,1) AS total_ms, calls, round(mean_exec_time::numeric,2) AS mean_ms, round(stddev_exec_time::numeric,2) AS stddev_ms, round((100*total_exec_time/NULLIF(sum(total_exec_time) OVER (),0))::numeric,1) AS pct_cpu, round(100.0*shared_blks_hit/NULLIF(shared_blks_hit+shared_blks_read,0),1) AS cache_hit_pct, temp_blks_written, rows, left(query,100) AS short_query FROM pg_stat_statements ORDER BY total_exec_time DESC LIMIT 20;`,
 cols:[
@@ -1065,7 +1066,7 @@ cols:[
   {n:"temp_blks_written", d:"Ненулевое = work_mem не хватает для сортировки/хеша.", note:"Сбросить статистику: SELECT pg_stat_statements_reset();"}
 ]},
 
-{id:"top_queries_io", name:"Топ-20 запросов по физическому IO", badge:"perf",
+{id:"top_queries_io",pg_min:12,pg_max:null,os:null, name:"Топ-20 запросов по физическому IO", badge:"perf",
 desc:"Запросы с наибольшим числом физических чтений с диска — кандидаты на индексирование.",
 sql:`SELECT queryid, calls, shared_blks_read, shared_blks_hit, round(100.0*shared_blks_hit/NULLIF(shared_blks_hit+shared_blks_read,0),1) AS cache_hit_pct, round(mean_exec_time::numeric,2) AS mean_exec_ms, left(query,100) AS short_query FROM pg_stat_statements WHERE shared_blks_read > 0 ORDER BY shared_blks_read DESC LIMIT 20;`,
 cols:[
@@ -1073,7 +1074,7 @@ cols:[
   {n:"cache_hit_pct", d:"Процент попаданий в кеш. < 90% при большом трафике — проблема.", note:"Включить IO timing: ALTER SYSTEM SET track_io_timing=on; SELECT pg_reload_conf();"}
 ]},
 
-{id:"top_queries_rows", name:"Топ-20 запросов возвращающих больше всего строк", badge:"perf",
+{id:"top_queries_rows",pg_min:12,pg_max:null,os:null, name:"Топ-20 запросов возвращающих больше всего строк", badge:"perf",
 desc:"Запросы с аномально большим количеством обрабатываемых строк — возможно нет нужных условий WHERE.",
 sql:`SELECT queryid, calls, rows, round(rows::numeric/NULLIF(calls,0),0) AS avg_rows_per_call, round(total_exec_time::numeric,1) AS total_ms, round(mean_exec_time::numeric,2) AS mean_ms, left(query,100) AS short_query FROM pg_stat_statements WHERE rows > 0 ORDER BY rows DESC LIMIT 20;`,
 cols:[
@@ -1081,7 +1082,7 @@ cols:[
   {n:"avg_rows_per_call", d:"Среднее строк за один вызов. Миллионы строк при простом запросе = нет WHERE или нет LIMIT."}
 ]},
 
-{id:"unstable_plans", name:"Запросы с нестабильным временем (cv_pct)", badge:"perf",
+{id:"unstable_plans",pg_min:12,pg_max:null,os:null, name:"Запросы с нестабильным временем (cv_pct)", badge:"perf",
 desc:"Высокий cv_pct = нестабильный план, lock wait, или кеш-промахи. Непредсказуемое поведение.",
 sql:`SELECT queryid, calls, round(mean_exec_time::numeric,2) AS mean_ms, round(stddev_exec_time::numeric,2) AS stddev_ms, round((stddev_exec_time/NULLIF(mean_exec_time,0)*100)::numeric,1) AS cv_pct, round(min_exec_time::numeric,2) AS min_ms, round(max_exec_time::numeric,2) AS max_ms, left(query,100) AS short_query FROM pg_stat_statements WHERE calls > 50 ORDER BY cv_pct DESC LIMIT 20;`,
 cols:[
@@ -1089,7 +1090,7 @@ cols:[
   {n:"min_ms / max_ms", d:"max/min > 10x при одном запросе = почти всегда lock wait или cache miss.", note:"EXPLAIN (ANALYZE, BUFFERS) в момент медленного выполнения."}
 ]},
 
-{id:"top_queries_by_db", name:"Топ-5 дорогих запросов с привязкой к БД", badge:"perf",
+{id:"top_queries_by_db",pg_min:12,pg_max:null,os:null, name:"Топ-5 дорогих запросов с привязкой к БД", badge:"perf",
 desc:"Самые ресурсоёмкие запросы с именем базы данных — удобно для мультибазовых инстансов.",
 sql:`SELECT d.datname, round(s.total_exec_time::numeric,2) AS total_exec_ms, s.calls, s.rows, round(s.total_exec_time::numeric/calls,2) AS avg_ms, round((100*s.total_exec_time/NULLIF(sum(s.total_exec_time::numeric) OVER (),0))::numeric,2) AS pct_cpu, substring(s.query,1,80) AS short_query FROM pg_stat_statements s JOIN pg_database d ON s.dbid=d.oid ORDER BY pct_cpu DESC LIMIT 10;`,
 cols:[
@@ -1097,7 +1098,7 @@ cols:[
   {n:"pct_cpu", d:"Доля этого запроса в суммарном CPU всех запросов по всем базам."}
 ]},
 
-{id:"seq_scans", name:"Таблицы с аномальным числом sequential scan", badge:"perf",
+{id:"seq_scans",pg_min:12,pg_max:null,os:null, name:"Таблицы с аномальным числом sequential scan", badge:"perf",
 desc:"Большие таблицы с частыми seq scan без индексных — источник IO-нагрузки.",
 sql:`SELECT schemaname, relname, seq_scan, idx_scan, seq_scan-idx_scan AS seq_over_idx, pg_size_pretty(pg_relation_size(relid)) AS table_size, n_live_tup AS live_rows, CASE WHEN idx_scan=0 THEN 'no index scans!' WHEN seq_scan>idx_scan*3 THEN 'possible missing index' ELSE 'ok' END AS verdict FROM pg_stat_user_tables WHERE n_live_tup > 10000 AND seq_scan > 100 ORDER BY seq_over_idx DESC LIMIT 30;`,
 cols:[
@@ -1106,7 +1107,7 @@ cols:[
   {n:"verdict", d:"Автоматическая оценка.", note:"После добавления индекса сбросить счётчики: SELECT pg_stat_reset();"}
 ]},
 
-{id:"missing_indexes", name:"Таблицы без индексов с высоким seq_scan", badge:"perf",
+{id:"missing_indexes",pg_min:12,pg_max:null,os:null, name:"Таблицы без индексов с высоким seq_scan", badge:"perf",
 desc:"Кандидаты на создание индекса: много последовательных сканов, мало или ноль индексных.",
 sql:`SELECT schemaname, relname AS table_name, seq_scan, seq_tup_read, idx_scan, idx_tup_fetch, pg_size_pretty(pg_relation_size(relid)) AS table_size, round(seq_tup_read::numeric/NULLIF(seq_scan,0)) AS avg_rows_per_seq FROM pg_stat_user_tables WHERE seq_scan > 0 AND (idx_scan=0 OR seq_scan>idx_scan*5) AND pg_relation_size(relid) > 1024*1024 ORDER BY seq_tup_read DESC LIMIT 20;`,
 cols:[
@@ -1114,7 +1115,7 @@ cols:[
   {n:"avg_rows_per_seq", d:"Среднее строк за одно полное сканирование. Много = большая таблица, индекс очень нужен."}
 ]},
 
-{id:"duplicate_indexes", name:"Дублирующиеся индексы", badge:"perf",
+{id:"duplicate_indexes",pg_min:12,pg_max:null,os:null, name:"Дублирующиеся индексы", badge:"perf",
 desc:"Индексы с одинаковыми колонками — дублируют данные, замедляют INSERT/UPDATE/DELETE.",
 sql:`SELECT indrelid::regclass AS table_name, array_agg(indexrelid::regclass ORDER BY indexrelid) AS indexes, array_agg(pg_get_indexdef(indexrelid) ORDER BY indexrelid) AS index_defs, pg_size_pretty(sum(pg_relation_size(indexrelid))) AS total_size FROM pg_index GROUP BY indrelid, indkey HAVING count(*) > 1 ORDER BY sum(pg_relation_size(indexrelid)) DESC;`,
 cols:[
@@ -1123,7 +1124,7 @@ cols:[
   {n:"total_size", d:"Суммарный размер дублей — сколько места можно освободить.", note:"Перед удалением: проверь уникальность, внешние ключи, использование в конкретных запросах."}
 ]},
 
-{id:"fk_no_index", name:"Внешние ключи без индексов (риск lock)", badge:"perf",
+{id:"fk_no_index",pg_min:12,pg_max:null,os:null, name:"Внешние ключи без индексов (риск lock)", badge:"perf",
 desc:"FK без индекса = sequential scan при DELETE/UPDATE родителя + риск deadlock.",
 sql:`SELECT c.conname AS fk_name, c.conrelid::regclass AS child_table, c.confrelid::regclass AS parent_table, a.attname AS fk_column FROM pg_constraint c JOIN pg_attribute a ON a.attrelid=c.conrelid AND a.attnum=ANY(c.conkey) WHERE c.contype='f' AND NOT EXISTS (SELECT FROM pg_index i WHERE i.indrelid=c.conrelid AND i.indkey::int[]@>c.conkey::int[]) ORDER BY c.conrelid::regclass::text;`,
 cols:[
@@ -1132,7 +1133,7 @@ cols:[
   {n:"fk_column", d:"Колонка внешнего ключа — именно на неё нужно создать индекс.", note:"CREATE INDEX CONCURRENTLY ON child_table(fk_column);"}
 ]},
 
-{id:"unused_indexes", name:"Неиспользуемые индексы (idx_scan = 0)", badge:"perf",
+{id:"unused_indexes",pg_min:12,pg_max:null,os:null, name:"Неиспользуемые индексы (idx_scan = 0)", badge:"perf",
 desc:"Индексы которые ни разу не использовались — занимают место и тормозят DML.",
 sql:`SELECT n.nspname AS schema_name, t.relname AS table_name, i.relname AS index_name, ix.indisunique AS is_unique, ix.indisprimary AS is_primary, s.idx_scan, pg_size_pretty(pg_relation_size(i.oid)) AS index_size, pg_relation_size(i.oid) AS size_bytes FROM pg_index ix JOIN pg_class t ON t.oid=ix.indrelid JOIN pg_class i ON i.oid=ix.indexrelid JOIN pg_namespace n ON n.oid=t.relnamespace LEFT JOIN pg_stat_user_indexes s ON s.indexrelid=i.oid WHERE n.nspname NOT IN ('pg_catalog','information_schema','pg_toast') ORDER BY s.idx_scan ASC NULLS FIRST, size_bytes DESC LIMIT 50;`,
 cols:[
@@ -1141,7 +1142,7 @@ cols:[
   {n:"index_size", d:"Неиспользуемый индекс > 100 MB = явный кандидат на удаление.", note:"Перед удалением убедись что статистика репрезентативна (> 1 недели рабочей нагрузки)."}
 ]},
 
-{id:"index_stats_full", name:"Полная статистика использования индексов", badge:"perf",
+{id:"index_stats_full",pg_min:12,pg_max:null,os:null, name:"Полная статистика использования индексов", badge:"perf",
 desc:"Сканирования, чтения, fetch для каждого индекса — полная картина эффективности.",
 sql:`SELECT n.nspname AS schema_name, t.relname AS table_name, i.relname AS index_name, ix.indisunique AS is_unique, s.idx_scan, s.idx_tup_read, s.idx_tup_fetch, pg_size_pretty(pg_relation_size(i.oid)) AS index_size, ts.seq_scan AS table_seq_scans, ts.idx_scan AS table_idx_scans FROM pg_index ix JOIN pg_class t ON t.oid=ix.indrelid JOIN pg_class i ON i.oid=ix.indexrelid JOIN pg_namespace n ON n.oid=t.relnamespace LEFT JOIN pg_stat_user_indexes s ON s.indexrelid=i.oid LEFT JOIN pg_stat_user_tables ts ON ts.relid=ix.indrelid WHERE n.nspname NOT IN ('pg_catalog','information_schema') ORDER BY s.idx_scan DESC NULLS LAST LIMIT 50;`,
 cols:[
@@ -1149,7 +1150,7 @@ cols:[
   {n:"idx_tup_fetch", d:"Живых строк таблицы получено через индекс. Намного меньше idx_tup_read = много мёртвых кортежей."}
 ]},
 
-{id:"explain_template", name:"EXPLAIN ANALYZE — правильный шаблон", badge:"perf",
+{id:"explain_template",pg_min:12,pg_max:null,os:null, name:"EXPLAIN ANALYZE — правильный шаблон", badge:"perf",
 desc:"Полная диагностика плана: IO, буферы, реальные строки. Обязателен при расследовании тормозов.",
 sql:`EXPLAIN (ANALYZE, VERBOSE, BUFFERS, FORMAT TEXT) /* сюда вставить запрос */;
 
@@ -1169,7 +1170,7 @@ cols:[
 // ═══════════════════════════════════════════════
 {section:"VACUUM и Bloat", icon:"🧹", color:"#1a0d2e", dot:"#bc8cff"},
 
-{id:"dead_tuples", name:"Таблицы с наибольшим числом мёртвых кортежей", badge:"vac",
+{id:"dead_tuples",pg_min:12,pg_max:null,os:null, name:"Таблицы с наибольшим числом мёртвых кортежей", badge:"vac",
 desc:"Dead tuples занимают место и замедляют запросы. Приоритеты для VACUUM.",
 sql:`SELECT schemaname, relname AS table_name, n_dead_tup AS dead_tuples, n_live_tup AS live_tuples, round(100.0*n_dead_tup/NULLIF(n_live_tup+n_dead_tup,0),1) AS dead_pct, pg_size_pretty(pg_table_size(relid)) AS table_size, last_vacuum, last_autovacuum, last_analyze, last_autoanalyze FROM pg_stat_user_tables WHERE n_dead_tup > 1000 ORDER BY dead_pct DESC, n_dead_tup DESC LIMIT 30;`,
 cols:[
@@ -1178,7 +1179,7 @@ cols:[
   {n:"last_analyze", d:"Без свежей статистики планировщик строит плохие планы.", note:"Запустить вручную: VACUUM (ANALYZE, VERBOSE) tablename;"}
 ]},
 
-{id:"autovac_needed", name:"Ожидается ли запуск autovacuum", badge:"vac",
+{id:"autovac_needed",pg_min:12,pg_max:null,os:null, name:"Ожидается ли запуск autovacuum", badge:"vac",
 desc:"Превысила ли таблица порог для autovacuum. VACUUM NEEDED = нужен немедленно.",
 sql:`WITH rel_set AS (SELECT oid, NULLIF(split_part(split_part(array_to_string(reloptions,','),'autovacuum_vacuum_threshold=',2),',',1),'')::BIGINT AS rel_thr, NULLIF(split_part(split_part(array_to_string(reloptions,','),'autovacuum_vacuum_scale_factor=',2),',',1),'')::NUMERIC AS rel_scale FROM pg_class) SELECT n.nspname AS schema_name, c.relname, s.n_dead_tup, round(COALESCE(rs.rel_thr,current_setting('autovacuum_vacuum_threshold')::BIGINT)+COALESCE(rs.rel_scale,current_setting('autovacuum_vacuum_scale_factor')::NUMERIC)*c.reltuples) AS trigger_at, to_char(s.last_autovacuum,'YYYY-MM-DD HH24:MI') AS last_autovac, CASE WHEN COALESCE(rs.rel_thr,current_setting('autovacuum_vacuum_threshold')::BIGINT)+COALESCE(rs.rel_scale,current_setting('autovacuum_vacuum_scale_factor')::NUMERIC)*c.reltuples < s.n_dead_tup THEN 'VACUUM NEEDED' ELSE 'ok' END AS status FROM pg_stat_user_tables s JOIN pg_class c ON s.relid=c.oid JOIN rel_set rs ON s.relid=rs.oid JOIN pg_namespace n ON c.relnamespace=n.oid ORDER BY s.n_dead_tup DESC LIMIT 40;`,
 cols:[
@@ -1186,7 +1187,7 @@ cols:[
   {n:"status", d:"VACUUM NEEDED = таблица ждёт autovacuum. Долго висит = проверь autovacuum_max_workers.", note:"Сколько autovacuum воркеров сейчас: SELECT count(*) FROM pg_stat_activity WHERE query LIKE '%autovacuum%';"}
 ]},
 
-{id:"autovac_activity", name:"Текущая активность autovacuum", badge:"vac",
+{id:"autovac_activity",pg_min:12,pg_max:null,os:null, name:"Текущая активность autovacuum", badge:"vac",
 desc:"Что прямо сейчас делает autovacuum — на каких таблицах работает и сколько времени.",
 sql:`SELECT pid, now()-xact_start AS duration, CASE WHEN query ~ 'to prevent wraparound' THEN 'WRAPAROUND!' ELSE 'regular' END AS mode, left(query,100) AS query FROM pg_stat_activity WHERE query LIKE '%autovacuum%' AND state <> 'idle' AND pid <> pg_backend_pid() ORDER BY xact_start ASC;`,
 cols:[
@@ -1194,7 +1195,7 @@ cols:[
   {n:"mode", d:"WRAPAROUND! = критично, не убивай! regular = плановая работа.", note:"Детали через pg_stat_progress_vacuum по pid из этого запроса."}
 ]},
 
-{id:"xid_age", name:"Wraparound мониторинг (возраст XID)", badge:"vac",
+{id:"xid_age",pg_min:12,pg_max:null,os:null, name:"Wraparound мониторинг (возраст XID)", badge:"vac",
 desc:"КРИТИЧНО. При age > 1.5 млрд нужен срочный VACUUM FREEZE, иначе база заблокируется.",
 sql:`SELECT datname, age(datfrozenxid) AS xid_age, round(age(datfrozenxid)*100.0/2000000000,1) AS pct_to_wraparound, pg_size_pretty(pg_database_size(datname)) AS db_size FROM pg_database WHERE datallowconn=true ORDER BY xid_age DESC;`,
 cols:[
@@ -1202,7 +1203,7 @@ cols:[
   {n:"pct_to_wraparound", d:"% приближения к лимиту. > 50% = мониторинг; > 75% = срочно; > 90% = аварийно.", note:"При достижении autovacuum_freeze_max_age (200M) autovacuum запустит FREEZE. При высокой нагрузке может не успевать."}
 ]},
 
-{id:"table_xid_age", name:"Возраст XID по таблицам (не только по БД)", badge:"vac",
+{id:"table_xid_age",pg_min:12,pg_max:null,os:null, name:"Возраст XID по таблицам (не только по БД)", badge:"vac",
 desc:"Поиск конкретных таблиц которые тормозят VACUUM FREEZE и не дают снизить XID age базы.",
 sql:`SELECT n.nspname AS schema_name, c.relname AS table_name, age(c.relfrozenxid) AS xid_age, round(age(c.relfrozenxid)*100.0/2000000000,1) AS pct_to_wraparound, pg_size_pretty(pg_table_size(c.oid)) AS table_size FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE c.relkind='r' AND n.nspname NOT IN ('pg_catalog','information_schema') ORDER BY age(c.relfrozenxid) DESC LIMIT 30;`,
 cols:[
@@ -1210,7 +1211,7 @@ cols:[
   {n:"pct_to_wraparound", d:"Процент приближения таблицы к пределу.", note:"Запустить FREEZE: VACUUM FREEZE VERBOSE <table>;"}
 ]},
 
-{id:"bloat_tables", name:"Bloat таблиц и индексов (статистический расчёт)", badge:"vac",
+{id:"bloat_tables",pg_min:12,pg_max:null,os:null, name:"Bloat таблиц и индексов (статистический расчёт)", badge:"vac",
 desc:"Оценка раздутия на основе pg_stats без блокировок. Погрешность 10-30%.",
 sql:`SELECT current_database() AS db, schemaname, tablename, round(tbloat,1) AS tbl_bloat_ratio, pg_size_pretty(wastedbytes) AS tbl_wasted, iname AS index_name, round(ibloat,1) AS idx_bloat_ratio, pg_size_pretty(wastedibytes) AS idx_wasted FROM (SELECT schemaname, tablename, cc.reltuples, cc.relpages, bs, CEIL((cc.reltuples*((datahdr+ma-(CASE WHEN datahdr%ma=0 THEN ma ELSE datahdr%ma END))+nullhdr2+4))/(bs-20::float)) AS otta, COALESCE(c2.relname,'?') AS iname, COALESCE(c2.reltuples,0) AS ituples, COALESCE(c2.relpages,0) AS ipages, COALESCE(CEIL((c2.reltuples*(datahdr-12))/(bs-20::float)),0) AS iotta, ROUND((CASE WHEN otta=0 THEN 0.0 ELSE cc.relpages/otta END)::numeric,1) AS tbloat, CASE WHEN cc.relpages<otta THEN 0 ELSE bs*(cc.relpages-otta)::BIGINT END AS wastedbytes, ROUND((CASE WHEN iotta=0 OR ipages=0 THEN 0.0 ELSE ipages/iotta END)::numeric,1) AS ibloat, CASE WHEN ipages<iotta THEN 0 ELSE bs*(ipages-iotta) END AS wastedibytes FROM (SELECT schemaname, tablename, hdr, ma, bs, (datawidth+(hdr+ma-(CASE WHEN hdr%ma=0 THEN ma ELSE hdr%ma END)))::numeric AS datahdr, (maxfracsum*(nullhdr+ma-(CASE WHEN nullhdr%ma=0 THEN ma ELSE nullhdr%ma END))) AS nullhdr2 FROM (SELECT schemaname, tablename, hdr, ma, bs, SUM((1-null_frac)*avg_width) AS datawidth, MAX(null_frac) AS maxfracsum, hdr+(SELECT 1+count(*)/8 FROM pg_stats s2 WHERE null_frac<>0 AND s2.schemaname=s.schemaname AND s2.tablename=s.tablename) AS nullhdr FROM pg_stats s, (SELECT current_setting('block_size')::numeric AS bs, CASE WHEN substring(v,12,3) IN ('8.0','8.1','8.2') THEN 27 ELSE 23 END AS hdr, CASE WHEN v~'mingw32' THEN 8 ELSE 4 END AS ma FROM (SELECT version() AS v) foo) constants GROUP BY 1,2,3,4,5) foo2) foo JOIN pg_class cc ON cc.relname=tablename JOIN pg_namespace nn ON cc.relnamespace=nn.oid AND nn.nspname=schemaname AND nn.nspname<>'information_schema' LEFT JOIN pg_index i ON indrelid=cc.oid LEFT JOIN pg_class c2 ON c2.oid=i.indexrelid) sml WHERE wastedbytes>1024*1024 OR wastedibytes>1024*1024 ORDER BY wastedbytes+wastedibytes DESC LIMIT 30;`,
 cols:[
@@ -1223,7 +1224,7 @@ cols:[
 // ═══════════════════════════════════════════════
 {section:"Прогресс операций", icon:"⏳", color:"#0d1a2e", dot:"#58a6ff"},
 
-{id:"progress_all", name:"Все активные длительные операции (сводка)", badge:"",
+{id:"progress_all",pg_min:13,pg_max:null,os:null, name:"Все активные длительные операции (сводка)", badge:"",
 desc:"Один запрос — все текущие прогрессы: VACUUM, ANALYZE, CREATE INDEX, BASEBACKUP, COPY. PG 13+.",
 sql:`SELECT a.pid, a.datname, a.usename, CASE WHEN pv.pid IS NOT NULL THEN 'VACUUM' WHEN pa.pid IS NOT NULL THEN 'ANALYZE' WHEN pc.pid IS NOT NULL THEN 'CLUSTER/VACUUM FULL' WHEN pi.pid IS NOT NULL THEN 'CREATE INDEX/REINDEX' WHEN pb.pid IS NOT NULL THEN 'BASEBACKUP' WHEN po.pid IS NOT NULL THEN 'COPY' ELSE 'other' END AS operation, CASE WHEN pv.pid IS NOT NULL THEN pv.phase WHEN pa.pid IS NOT NULL THEN pa.phase WHEN pc.pid IS NOT NULL THEN pc.phase WHEN pi.pid IS NOT NULL THEN pi.phase WHEN pb.pid IS NOT NULL THEN pb.phase WHEN po.pid IS NOT NULL THEN 'active' ELSE '' END AS phase, CASE WHEN pv.pid IS NOT NULL THEN round(100.0*pv.heap_blks_vacuumed/NULLIF(pv.heap_blks_total,0),1) WHEN pa.pid IS NOT NULL THEN round(100.0*pa.sample_blks_scanned/NULLIF(pa.sample_blks_total,0),1) WHEN pc.pid IS NOT NULL THEN round(100.0*pc.heap_blks_scanned/NULLIF(pc.heap_blks_total,0),1) WHEN pi.pid IS NOT NULL THEN round(100.0*pi.blocks_done/NULLIF(pi.blocks_total,0),1) WHEN pb.pid IS NOT NULL THEN round(100.0*pb.backup_streamed/NULLIF(pb.backup_total,0),1) WHEN po.pid IS NOT NULL THEN round(100.0*po.tuples_processed/NULLIF(po.tuples_excluded+po.tuples_processed,0),1) ELSE NULL END AS pct_done, now()-a.query_start AS elapsed, left(a.query,80) AS query FROM pg_stat_activity a LEFT JOIN pg_stat_progress_vacuum pv ON pv.pid=a.pid LEFT JOIN pg_stat_progress_analyze pa ON pa.pid=a.pid LEFT JOIN pg_stat_progress_cluster pc ON pc.pid=a.pid LEFT JOIN pg_stat_progress_create_index pi ON pi.pid=a.pid LEFT JOIN pg_stat_progress_basebackup pb ON pb.pid=a.pid LEFT JOIN pg_stat_progress_copy po ON po.pid=a.pid WHERE pv.pid IS NOT NULL OR pa.pid IS NOT NULL OR pc.pid IS NOT NULL OR pi.pid IS NOT NULL OR pb.pid IS NOT NULL OR po.pid IS NOT NULL ORDER BY elapsed DESC;`,
 cols:[
@@ -1232,7 +1233,7 @@ cols:[
   {n:"pct_done", d:"Процент выполнения. NULL = данных для расчёта ещё нет.", note:"Для PG 12 убери LEFT JOIN pg_stat_progress_basebackup и pg_stat_progress_copy."}
 ]},
 
-{id:"progress_vacuum", name:"Прогресс VACUUM (детально)", badge:"vac",
+{id:"progress_vacuum",pg_min:12,pg_max:null,os:null, name:"Прогресс VACUUM (детально)", badge:"vac",
 desc:"Фаза, прогресс, режим работы (wraparound/user/regular), размеры в читаемом виде.",
 sql:`SELECT p.pid, now()-a.xact_start AS duration, COALESCE(a.wait_event_type||'.'||a.wait_event,'-') AS waiting, CASE WHEN a.query~'^autovacuum.*to prevent wraparound' THEN 'WRAPAROUND!' WHEN a.query~'^vacuum' THEN 'user' ELSE 'regular' END AS mode, p.datname, p.relid::regclass AS table_name, p.phase, pg_size_pretty(p.heap_blks_total*current_setting('block_size')::int) AS table_size, pg_size_pretty(pg_total_relation_size(p.relid)) AS total_size, round(100.0*p.heap_blks_vacuumed/NULLIF(p.heap_blks_total,0),1) AS pct_done, p.index_vacuum_count FROM pg_stat_progress_vacuum p JOIN pg_stat_activity a ON a.pid=p.pid ORDER BY duration DESC;
 -- Примечание: num_dead_tuples/max_dead_tuples удалены в PG17+`,
@@ -1243,7 +1244,7 @@ cols:[
   {n:"dead_buf_pct", d:"Заполненность буфера dead tuples. При 100% VACUUM прерывается и начинает новый проход.", note:"mode=WRAPAROUND! + долгая duration = аварийная ситуация. Не убивай!"}
 ]},
 
-{id:"progress_create_index", name:"Прогресс CREATE INDEX / REINDEX", badge:"perf",
+{id:"progress_create_index",pg_min:12,pg_max:null,os:null, name:"Прогресс CREATE INDEX / REINDEX", badge:"perf",
 desc:"Фазы, блоки, строки. Включает все фазы CONCURRENTLY.",
 sql:`SELECT d.datname, c.relname AS table_name, ci.relname AS index_name, i.phase, i.blocks_total, i.blocks_done, round(100.0*i.blocks_done/NULLIF(i.blocks_total,0),1) AS pct_blocks, i.tuples_total, i.tuples_done, round(100.0*i.tuples_done/NULLIF(i.tuples_total,0),1) AS pct_tuples, now()-a.query_start AS elapsed FROM pg_stat_progress_create_index i JOIN pg_database d ON i.datid=d.oid JOIN pg_class c ON i.relid=c.oid JOIN pg_class ci ON i.index_relid=ci.oid JOIN pg_stat_activity a ON a.pid=i.pid ORDER BY elapsed DESC;`,
 cols:[
@@ -1251,7 +1252,7 @@ cols:[
   {n:"pct_blocks", d:"Основной индикатор прогресса для обычного CREATE INDEX.", note:"CONCURRENTLY: 2 прохода + дополнительные ожидания, но не блокирует DML."}
 ]},
 
-{id:"progress_basebackup", name:"Прогресс pg_basebackup (PG 13+)", badge:"repl",
+{id:"progress_basebackup",pg_min:13,pg_max:null,os:null, name:"Прогресс pg_basebackup (PG 13+)", badge:"repl",
 desc:"Прогресс создания базовой резервной копии. Запускать на мастере.",
 sql:`SELECT a.pid, a.usename, a.client_addr, b.phase, pg_size_pretty(b.backup_total) AS backup_total, pg_size_pretty(b.backup_streamed) AS streamed, round(100.0*b.backup_streamed/NULLIF(b.backup_total,0),1) AS pct_done, b.tablespaces_total, b.tablespaces_streamed, now()-a.query_start AS elapsed FROM pg_stat_progress_basebackup b JOIN pg_stat_activity a ON a.pid=b.pid ORDER BY elapsed DESC;`,
 cols:[
@@ -1264,7 +1265,7 @@ cols:[
 // ═══════════════════════════════════════════════
 {section:"Размеры объектов", icon:"💾", color:"#1a1a0d", dot:"#e3b341"},
 
-{id:"db_sizes", name:"Размер всех баз данных", badge:"",
+{id:"db_sizes",pg_min:12,pg_max:null,os:null, name:"Размер всех баз данных", badge:"",
 desc:"Дисковое потребление по базам + возраст XID + количество подключений.",
 sql:`SELECT d.datname AS database, pg_size_pretty(pg_database_size(d.datname)) AS size, pg_database_size(d.datname) AS size_bytes, age(d.datfrozenxid) AS xid_age, (SELECT count(*) FROM pg_stat_activity WHERE datname=d.datname) AS connections FROM pg_database d WHERE d.datallowconn=true ORDER BY size_bytes DESC;`,
 cols:[
@@ -1273,7 +1274,7 @@ cols:[
   {n:"xid_age", d:"Возраст XID для мониторинга wraparound."}
 ]},
 
-{id:"table_sizes", name:"Топ-30 таблиц по размеру", badge:"",
+{id:"table_sizes",pg_min:12,pg_max:null,os:null, name:"Топ-30 таблиц по размеру", badge:"",
 desc:"Полная картина: данные + индексы + TOAST отдельно.",
 sql:`SELECT n.nspname AS schema_name, c.relname AS table_name, pg_size_pretty(pg_table_size(c.oid)) AS table_size, pg_size_pretty(pg_indexes_size(c.oid)) AS indexes_size, pg_size_pretty(pg_total_relation_size(c.oid)) AS total_size, pg_total_relation_size(c.oid) AS total_bytes, c.reltuples::bigint AS est_rows FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE c.relkind IN ('r','p') AND n.nspname NOT IN ('pg_catalog','information_schema','pg_toast') ORDER BY total_bytes DESC LIMIT 30;`,
 cols:[
@@ -1282,7 +1283,7 @@ cols:[
   {n:"total_size", d:"Таблица + индексы + TOAST — реальный размер на диске.", note:"total_size >> table_size = много индексов или большие TOAST-поля (json/text/bytea)."}
 ]},
 
-{id:"schema_sizes", name:"Размер всех схем", badge:"",
+{id:"schema_sizes",pg_min:12,pg_max:null,os:null, name:"Размер всех схем", badge:"",
 desc:"Суммарное дисковое потребление по схемам внутри текущей базы.",
 sql:`SELECT n.nspname AS schema_name, count(c.oid) AS table_count, pg_size_pretty(sum(pg_total_relation_size(c.oid))) AS total_size, sum(pg_total_relation_size(c.oid)) AS total_bytes FROM pg_namespace n LEFT JOIN pg_class c ON c.relnamespace=n.oid AND c.relkind IN ('r','p') WHERE n.nspname NOT IN ('pg_catalog','information_schema','pg_toast') GROUP BY n.nspname ORDER BY total_bytes DESC NULLS LAST;`,
 cols:[
@@ -1290,7 +1291,7 @@ cols:[
   {n:"table_count", d:"Количество таблиц в схеме."}
 ]},
 
-{id:"table_row_count", name:"Точное количество строк в таблицах", badge:"",
+{id:"table_row_count",pg_min:12,pg_max:null,os:null, name:"Точное количество строк в таблицах", badge:"",
 desc:"Точные данные через pg_stat_get_live_tuples — актуально после VACUUM/ANALYZE.",
 sql:`SELECT n.nspname AS schema_name, c.relname AS table_name, pg_stat_get_live_tuples(c.oid) AS live_rows, pg_stat_get_dead_tuples(c.oid) AS dead_rows, pg_size_pretty(pg_table_size(c.oid)) AS table_size FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE c.relkind='r' AND n.nspname NOT IN ('pg_catalog','information_schema') ORDER BY live_rows DESC LIMIT 50;`,
 cols:[
@@ -1298,7 +1299,7 @@ cols:[
   {n:"dead_rows", d:"Мёртвые кортежи — если много, нужен VACUUM."}
 ]},
 
-{id:"tablespace_sizes", name:"Размер tablespace-ов", badge:"",
+{id:"tablespace_sizes",pg_min:12,pg_max:null,os:null, name:"Размер tablespace-ов", badge:"",
 desc:"Размер каждого tablespace — полезно если данные разнесены по разным дискам.",
 sql:`SELECT spcname AS tablespace_name, pg_tablespace_location(oid) AS location, pg_size_pretty(pg_tablespace_size(oid)) AS size, pg_tablespace_size(oid) AS size_bytes FROM pg_tablespace ORDER BY size_bytes DESC;`,
 cols:[
@@ -1311,7 +1312,7 @@ cols:[
 // ═══════════════════════════════════════════════
 {section:"Конфигурация и здоровье", icon:"❤️", color:"#1a0d0d", dot:"#f85149"},
 
-{id:"cache_hit_ratio", name:"Cache hit ratio и статистика ошибок по БД", badge:"",
+{id:"cache_hit_ratio",pg_min:12,pg_max:null,os:null, name:"Cache hit ratio и статистика ошибок по БД", badge:"",
 desc:"Главный показатель эффективности shared_buffers + rollback%, deadlocks, temp files.",
 sql:`SELECT datname, blks_read, blks_hit, round(100.0*blks_hit/NULLIF(blks_hit+blks_read,0),2) AS cache_hit_pct, xact_commit, xact_rollback, round(100.0*xact_rollback/NULLIF(xact_commit+xact_rollback,0),2) AS rollback_pct, deadlocks, temp_files, pg_size_pretty(temp_bytes) AS temp_size, stats_reset FROM pg_stat_database WHERE datname NOT IN ('template0','template1') ORDER BY blks_hit+blks_read DESC;`,
 cols:[
@@ -1321,7 +1322,7 @@ cols:[
   {n:"temp_size", d:"Размер временных файлов = work_mem мал. Увеличь work_mem.", note:"Норма cache_hit_pct: > 99% для OLTP, > 95% для аналитики."}
 ]},
 
-{id:"bgwriter_stats", name:"Статистика bgwriter (PG < 17)", badge:"",
+{id:"bgwriter_stats",pg_min:12,pg_max:16,os:null, name:"Статистика bgwriter (PG < 17)", badge:"",
 desc:"Эффективность буферного менеджера. Много buffers_backend = shared_buffers мал. Для PG < 17.",
 sql:`SELECT checkpoints_timed, checkpoints_req, round(100.0*checkpoints_req/NULLIF(checkpoints_timed+checkpoints_req,0),1) AS forced_pct, checkpoint_write_time, checkpoint_sync_time, buffers_checkpoint, buffers_clean, buffers_backend, round(100.0*buffers_backend/NULLIF(buffers_checkpoint+buffers_clean+buffers_backend,0),1) AS backend_write_pct, buffers_alloc, stats_reset FROM pg_stat_bgwriter;`,
 cols:[
@@ -1330,7 +1331,7 @@ cols:[
   {n:"backend_write_pct", d:"% записей через backend. > 10% = увеличь shared_buffers или bgwriter_lru_maxpages.", note:"Сбросить: SELECT pg_stat_reset_shared('bgwriter'); Для PG 17+ используй pg_stat_checkpointer."}
 ]},
 
-{id:"checkpointer_stats", name:"Статистика checkpointer (PG 17+)", badge:"",
+{id:"checkpointer_stats",pg_min:17,pg_max:null,os:null, name:"Статистика checkpointer (PG 17+)", badge:"",
 desc:"Статистика checkpointer вынесена в отдельное вью начиная с PG 17.",
 sql:`SELECT num_timed AS checkpoints_timed, num_requested AS checkpoints_req, round(100.0*num_requested/NULLIF(num_timed+num_requested,0),1) AS forced_pct, write_time AS checkpoint_write_ms, sync_time AS checkpoint_sync_ms, buffers_written, stats_reset FROM pg_stat_checkpointer;`,
 cols:[
@@ -1339,7 +1340,7 @@ cols:[
   {n:"checkpoint_sync_ms", d:"Суммарное время fsync. Высокое = медленный диск или много грязных страниц.", note:"Доступно только в PostgreSQL 17+."}
 ]},
 
-{id:"wal_stat_pg14", name:"Статистика WAL (PG 14+)", badge:"",
+{id:"wal_stat_pg14",pg_min:14,pg_max:null,os:null, name:"Статистика WAL (PG 14+)", badge:"",
 desc:"Объём сгенерированного WAL, количество записей и синхронизаций.",
 sql:`SELECT wal_records, wal_fpi, wal_bytes, pg_size_pretty(wal_bytes) AS wal_size_pretty, wal_buffers_full, wal_write, wal_sync, wal_write_time, wal_sync_time, stats_reset FROM pg_stat_wal;`,
 cols:[
@@ -1348,7 +1349,7 @@ cols:[
   {n:"wal_buffers_full", d:"Сколько раз WAL-буферы переполнялись вне плана. Увеличь wal_buffers.", note:"Доступно с PostgreSQL 14."}
 ]},
 
-{id:"pg_stat_io_pg16", name:"Статистика IO по типам процессов (PG 16+)", badge:"",
+{id:"pg_stat_io_pg16",pg_min:16,pg_max:null,os:null, name:"Статистика IO по типам процессов (PG 16+)", badge:"",
 desc:"Детальная статистика чтений и записей с разбивкой по типу процесса.",
 sql:`SELECT backend_type, object, context, reads, writes, writebacks, hits, evictions, reuses, fsyncs, read_time, write_time FROM pg_stat_io WHERE reads+writes+hits > 0 ORDER BY reads+writes DESC LIMIT 30;`,
 cols:[
@@ -1362,7 +1363,7 @@ cols:[
 // ═══════════════════════════════════════════════
 {section:"Схема и метаданные", icon:"🗄", color:"#0d1a2e", dot:"#79c0ff"},
 
-{id:"table_structure", name:"Структура таблицы (колонки, типы, nullable)", badge:"",
+{id:"table_structure",pg_min:12,pg_max:null,os:null, name:"Структура таблицы (колонки, типы, nullable)", badge:"",
 desc:"Полная структура таблицы — колонки, типы данных, значения по умолчанию, NULL-допустимость.",
 sql:`SELECT ordinal_position AS pos, column_name, data_type, character_maximum_length AS max_len, numeric_precision, numeric_scale, is_nullable, column_default FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'your_table_name' ORDER BY ordinal_position;`,
 cols:[
@@ -1371,7 +1372,7 @@ cols:[
   {n:"column_default", d:"Значение по умолчанию или NULL если не задано.", note:"Замени 'your_table_name' на нужное имя таблицы."}
 ]},
 
-{id:"indexes_for_table", name:"Все индексы таблицы с определениями", badge:"",
+{id:"indexes_for_table",pg_min:12,pg_max:null,os:null, name:"Все индексы таблицы с определениями", badge:"",
 desc:"Список индексов конкретной таблицы с полным DDL, типами и уникальностью.",
 sql:`SELECT i.relname AS indexname, pg_get_indexdef(i.oid) AS indexdef, pg_size_pretty(pg_relation_size(i.oid)) AS size, ix.indisunique AS is_unique, ix.indisprimary AS is_primary, ix.indisvalid AS is_valid, s.idx_scan, s.idx_tup_read, s.idx_tup_fetch FROM pg_index ix JOIN pg_class t ON t.oid=ix.indrelid JOIN pg_class i ON i.oid=ix.indexrelid JOIN pg_namespace n ON n.oid=t.relnamespace LEFT JOIN pg_stat_user_indexes s ON s.indexrelid=i.oid WHERE n.nspname='public' AND t.relname='your_table_name' ORDER BY s.idx_scan DESC NULLS LAST;`,
 cols:[
@@ -1380,7 +1381,7 @@ cols:[
   {n:"idx_scan", d:"Количество сканирований. 0 = индекс не используется.", note:"Замени 'your_table_name' на нужное имя таблицы."}
 ]},
 
-{id:"constraints_for_table", name:"Ограничения таблицы (PK, FK, CHECK, UNIQUE)", badge:"",
+{id:"constraints_for_table",pg_min:12,pg_max:null,os:null, name:"Ограничения таблицы (PK, FK, CHECK, UNIQUE)", badge:"",
 desc:"Все constraints таблицы с определениями — полезно при диагностике ошибок.",
 sql:`SELECT c.conname AS constraint_name, c.contype AS type, CASE c.contype WHEN 'p' THEN 'PRIMARY KEY' WHEN 'f' THEN 'FOREIGN KEY' WHEN 'c' THEN 'CHECK' WHEN 'u' THEN 'UNIQUE' WHEN 'x' THEN 'EXCLUSION' ELSE c.contype::text END AS type_name, pg_get_constraintdef(c.oid) AS definition FROM pg_constraint c JOIN pg_class t ON t.oid=c.conrelid WHERE t.relname='your_table_name' ORDER BY c.contype;`,
 cols:[
@@ -1388,7 +1389,7 @@ cols:[
   {n:"definition", d:"Полное определение ограничения.", note:"Замени 'your_table_name' на нужное имя таблицы."}
 ]},
 
-{id:"partitions_list", name:"Список секций партиционированной таблицы", badge:"",
+{id:"partitions_list",pg_min:12,pg_max:null,os:null, name:"Список секций партиционированной таблицы", badge:"",
 desc:"Все секции (partitions) с размерами, числом строк и диапазонами значений.",
 sql:`-- Замени 'public' на нужную схему, 'your_table_name' на имя таблицы
 SELECT n.nspname AS schema_name, parent.relname AS parent_table, child.relname AS partition_name, pg_get_expr(child.relpartbound, child.oid) AS partition_bound, pg_size_pretty(pg_total_relation_size(child.oid)) AS total_size, pg_stat_get_live_tuples(child.oid) AS live_rows FROM pg_class parent JOIN pg_namespace n ON n.oid=parent.relnamespace JOIN pg_inherits ON parent.oid=pg_inherits.inhparent JOIN pg_class child ON child.oid=pg_inherits.inhrelid WHERE parent.relname='your_table_name' AND n.nspname='public' ORDER BY pg_total_relation_size(child.oid) DESC;`,
@@ -1398,7 +1399,7 @@ cols:[
   {n:"live_rows", d:"Живых строк в секции.", note:"Замени 'your_table_name' на имя родительской таблицы."}
 ]},
 
-{id:"tables_without_pk", name:"Таблицы без первичного ключа", badge:"perf",
+{id:"tables_without_pk",pg_min:12,pg_max:null,os:null, name:"Таблицы без первичного ключа", badge:"perf",
 desc:"Таблицы без PK — проблема для репликации (особенно logical), обновлений и join-ов.",
 sql:`SELECT n.nspname AS schema_name, c.relname AS table_name, pg_size_pretty(pg_table_size(c.oid)) AS table_size, pg_stat_get_live_tuples(c.oid) AS live_rows FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE c.relkind='r' AND n.nspname NOT IN ('pg_catalog','information_schema') AND NOT EXISTS (SELECT FROM pg_index WHERE indrelid=c.oid AND indisprimary) ORDER BY pg_table_size(c.oid) DESC;`,
 cols:[
@@ -1406,7 +1407,7 @@ cols:[
   {n:"table_size", d:"Размер таблицы — большие таблицы без PK особенно проблематичны.", note:"Для logical replication таблицы без PK нужно иметь REPLICA IDENTITY FULL — это медленно."}
 ]},
 
-{id:"object_owner", name:"Список объектов БД с владельцами", badge:"",
+{id:"object_owner",pg_min:12,pg_max:null,os:null, name:"Список объектов БД с владельцами", badge:"",
 desc:"Таблицы, вьюхи, функции — кто является owner каждого объекта.",
 sql:`SELECT n.nspname AS schema_name, c.relname AS object_name, CASE c.relkind WHEN 'r' THEN 'table' WHEN 'v' THEN 'view' WHEN 'm' THEN 'materialized view' WHEN 'p' THEN 'partitioned table' WHEN 'i' THEN 'index' WHEN 'S' THEN 'sequence' END AS object_type, pg_get_userbyid(c.relowner) AS owner, pg_size_pretty(pg_total_relation_size(c.oid)) AS size FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname NOT IN ('pg_catalog','information_schema','pg_toast') AND c.relkind IN ('r','v','m','p','S') ORDER BY n.nspname, c.relkind, c.relname;`,
 cols:[
@@ -1419,7 +1420,7 @@ cols:[
 // ═══════════════════════════════════════════════
 {section:"Роли и права", icon:"🔑", color:"#1a1a0a", dot:"#e3b341"},
 
-{id:"roles_list", name:"Список всех ролей и их атрибуты", badge:"",
+{id:"roles_list",pg_min:12,pg_max:null,os:null, name:"Список всех ролей и их атрибуты", badge:"",
 desc:"Все роли PostgreSQL: суперюзер, создание БД, репликация, срок действия пароля.",
 sql:`SELECT rolname AS role_name, rolsuper AS is_superuser, rolinherit AS inherits, rolcreaterole AS can_create_roles, rolcreatedb AS can_create_db, rolcanlogin AS can_login, rolreplication AS is_replication, rolconnlimit AS conn_limit, rolvaliduntil AS password_expires FROM pg_roles ORDER BY rolsuper DESC, rolcanlogin DESC, rolname;`,
 cols:[
@@ -1429,7 +1430,7 @@ cols:[
   {n:"password_expires", d:"Дата истечения пароля. NULL = бессрочный. Проверяй регулярно.", note:"Роли без can_login — это группы, используемые для управления правами."}
 ]},
 
-{id:"role_memberships", name:"Членство в группах (кто в какой роли)", badge:"",
+{id:"role_memberships",pg_min:12,pg_max:null,os:null, name:"Членство в группах (кто в какой роли)", badge:"",
 desc:"Иерархия ролей — какие роли включены в другие роли (GRANT role TO user).",
 sql:`SELECT r.rolname AS role, m.rolname AS member, am.admin_option, g.rolname AS granted_by FROM pg_auth_members am JOIN pg_roles r ON r.oid=am.roleid JOIN pg_roles m ON m.oid=am.member LEFT JOIN pg_roles g ON g.oid=am.grantor ORDER BY r.rolname, m.rolname;`,
 cols:[
@@ -1438,7 +1439,7 @@ cols:[
   {n:"admin_option", d:"true = этот member может сам добавлять других в группу."}
 ]},
 
-{id:"table_grants", name:"Права на таблицы текущей БД", badge:"",
+{id:"table_grants",pg_min:12,pg_max:null,os:null, name:"Права на таблицы текущей БД", badge:"",
 desc:"Кто имеет доступ к каким таблицам — полный список прав.",
 sql:`SELECT table_schema, table_name, grantee, privilege_type, is_grantable FROM information_schema.role_table_grants WHERE table_schema NOT IN ('pg_catalog','information_schema') ORDER BY table_schema, table_name, grantee, privilege_type;`,
 cols:[
@@ -1447,7 +1448,7 @@ cols:[
   {n:"is_grantable", d:"YES = этот grantee может сам выдавать это право другим (WITH GRANT OPTION)."}
 ]},
 
-{id:"schema_usage_check", name:"Права USAGE на схемы для роли", badge:"",
+{id:"schema_usage_check",pg_min:12,pg_max:null,os:null, name:"Права USAGE на схемы для роли", badge:"",
 desc:"Проверка: есть ли у конкретной роли права USAGE на все схемы. Замени 'your_role'.",
 sql:`SELECT n.nspname AS schema_name, has_schema_privilege('your_role', n.nspname, 'USAGE') AS has_usage, has_schema_privilege('your_role', n.nspname, 'CREATE') AS has_create FROM pg_namespace n WHERE n.nspname NOT LIKE 'pg_%' AND n.nspname <> 'information_schema' ORDER BY n.nspname;`,
 cols:[
@@ -1455,14 +1456,14 @@ cols:[
   {n:"has_create", d:"true = роль может создавать объекты в схеме.", note:"Замени 'your_role' на нужное имя роли."}
 ]},
 
-{id:"grant_usage_all_schemas", name:"Выдать USAGE на все схемы для роли", badge:"",
+{id:"grant_usage_all_schemas",pg_min:12,pg_max:null,os:null, name:"Выдать USAGE на все схемы для роли", badge:"",
 desc:"Скрипт: выдать права USAGE на все пользовательские схемы одной командой.",
 sql:`DO $$ DECLARE r RECORD; BEGIN FOR r IN SELECT nspname FROM pg_namespace WHERE nspname NOT LIKE 'pg_%' AND nspname <> 'information_schema' LOOP EXECUTE format('GRANT USAGE ON SCHEMA %I TO your_role;', r.nspname); END LOOP; END $$;`,
 cols:[
   {n:"EXECUTE format()", d:"Динамически формирует и выполняет GRANT для каждой схемы.", note:"Замени 'your_role' на нужное имя роли. Добавь аналогично GRANT SELECT ON ALL TABLES IN SCHEMA..."}
 ]},
 
-{id:"active_connections_by_role", name:"Активные подключения по ролям", badge:"",
+{id:"active_connections_by_role",pg_min:12,pg_max:null,os:null, name:"Активные подключения по ролям", badge:"",
 desc:"Сколько активных соединений у каждого пользователя прямо сейчас.",
 sql:`SELECT usename AS role_name, count(*) AS connections, count(*) FILTER (WHERE state='active') AS active, count(*) FILTER (WHERE state='idle in transaction') AS idle_in_txn, count(*) FILTER (WHERE state='idle') AS idle, max(now()-backend_start) AS longest_connection FROM pg_stat_activity WHERE pid <> pg_backend_pid() GROUP BY usename ORDER BY connections DESC;`,
 cols:[
@@ -1476,7 +1477,7 @@ cols:[
 // ═══════════════════════════════════════════════
 {section:"Операционная система", icon:"🐧", color:"#1f2a0d", dot:"#56d364"},
 
-{id:"os_disk", name:"Использование дискового пространства", badge:"os",
+{id:"os_disk",pg_min:12,pg_max:null,os:"linux", name:"Использование дискового пространства", badge:"os",
 desc:"Все файловые системы: размер, занято, свободно. > 85% = алерт.",
 sql:`df -hT | grep -vE '^tmpfs|^devtmpfs|^udev|^overlay'`,
 cols:[
@@ -1484,15 +1485,15 @@ cols:[
   {n:"Use%", d:"> 85% = алерт; > 95% = аварийная ситуация. PostgreSQL при 100% падает с PANIC.", note:"Настрой алерт на 80%."}
 ]},
 
-{id:"os_disk_pg", name:"Размер директорий PostgreSQL", badge:"os",
+{id:"os_disk_pg",pg_min:12,pg_max:null,os:"linux", name:"Размер директорий PostgreSQL", badge:"os",
 desc:"Реальный размер: data, WAL, логи — по отдельности.",
 sql:`du -sh $PGDATA && echo "" && du -sh $PGDATA/base $PGDATA/pg_wal $PGDATA/pg_log $PGDATA/pg_tblspc 2>/dev/null | sort -rh`,
 cols:[
   {n:"pg_wal/", d:"WAL-сегменты. Большой размер = много незаархивированных WAL или реплика отстаёт."},
   {n:"pg_log/", d:"Лог-файлы. Можно безопасно ротировать/удалять старые."}
-]},
+],os_sql:{ubuntu:"du -sh $PGDATA && echo \"\" && du -sh $PGDATA/base $PGDATA/pg_wal $PGDATA/log $PGDATA/pg_tblspc 2>/dev/null | sort -rh\n# Стандартный путь Ubuntu: /var/lib/postgresql/17/main",rhel:"du -sh $PGDATA && echo \"\" && du -sh $PGDATA/base $PGDATA/pg_wal $PGDATA/log $PGDATA/pg_tblspc 2>/dev/null | sort -rh\n# Стандартный путь RHEL: /var/lib/pgsql/17/data"}},
 
-{id:"os_mem", name:"Использование памяти и swap", badge:"os",
+{id:"os_mem",pg_min:12,pg_max:null,os:"linux", name:"Использование памяти и swap", badge:"os",
 desc:"Состояние RAM и swap. PostgreSQL в свопе = катастрофа производительности.",
 sql:`free -h && echo "" && grep -E 'MemTotal|MemAvailable|SwapTotal|SwapFree|Dirty:|Cached:' /proc/meminfo`,
 cols:[
@@ -1501,15 +1502,15 @@ cols:[
   {n:"SwapFree", d:"Swap используется = postgres работает в разы медленнее.", note:"vm.swappiness = 1-10 для серверов с PostgreSQL."}
 ]},
 
-{id:"os_io", name:"Нагрузка на диск в реальном времени", badge:"os",
+{id:"os_io",pg_min:12,pg_max:null,os:"linux", name:"Нагрузка на диск в реальном времени", badge:"os",
 desc:"IOPS, пропускная способность, утилизация и latency по каждому устройству.",
 sql:`iostat -xhd 2 5`,
 cols:[
   {n:"%util", d:"Загруженность устройства. > 80% стабильно = диск перегружен."},
   {n:"await", d:"Среднее время ожидания IO (мс). NVMe < 0.1; SSD < 1; HDD < 10.", note:"apt install sysstat — если iostat не установлен."}
-]},
+],os_sql:{ubuntu:"iostat -xhd 2 5\n# Если не установлен:\n# sudo apt install sysstat",rhel:"iostat -xhd 2 5\n# Если не установлен:\n# sudo dnf install sysstat"}},
 
-{id:"os_cpu", name:"Нагрузка CPU и топ postgres-процессов", badge:"os",
+{id:"os_cpu",pg_min:12,pg_max:null,os:"linux", name:"Нагрузка CPU и топ postgres-процессов", badge:"os",
 desc:"Load average и какие postgres-процессы нагружают CPU прямо сейчас.",
 sql:`echo "=== CPU ===" && echo "Cores: $(nproc)" && echo "Load: $(uptime | awk -F'load average:' '{print $2}')" && echo "" && echo "=== Top PostgreSQL ===" && ps aux --sort=-%cpu | awk 'NR==1 || /postgres/' | head -15`,
 cols:[
@@ -1517,7 +1518,7 @@ cols:[
   {n:"%CPU", d:"100% одного postgres-процесса = один тяжёлый запрос. Найди в pg_stat_activity по pid.", note:"При высоком CPU: найди в pg_stat_activity, запусти EXPLAIN ANALYZE."}
 ]},
 
-{id:"os_network", name:"TCP-соединения к PostgreSQL (порт 5432)", badge:"os",
+{id:"os_network",pg_min:12,pg_max:null,os:"linux", name:"TCP-соединения к PostgreSQL (порт 5432)", badge:"os",
 desc:"Количество и статусы соединений. Много TIME-WAIT = нет пулинга.",
 sql:`echo "=== States ===" && ss -tn '( dport = :5432 or sport = :5432 )' | awk '{print $1}' | sort | uniq -c | sort -rn && echo "" && echo "=== Top IPs ===" && ss -tn state established '( dport = :5432 or sport = :5432 )' | awk 'NR>1 {print $5}' | sed 's/:[0-9]*$//' | sort | uniq -c | sort -rn | head -15`,
 cols:[
@@ -1526,7 +1527,7 @@ cols:[
   {n:"CLOSE-WAIT", d:"Много = утечка соединений в приложении.", note:"Решение: PgBouncer в transaction pooling mode."}
 ]},
 
-{id:"os_swap_top", name:"Топ процессов по потреблению swap", badge:"os",
+{id:"os_swap_top",pg_min:12,pg_max:null,os:"linux", name:"Топ процессов по потреблению swap", badge:"os",
 desc:"PostgreSQL в свопе = катастрофа. Найди виновника.",
 sql:`for pid in $(ls /proc | grep -E '^[0-9]+$'); do swap=$(awk '/VmSwap/{print $2}' /proc/$pid/status 2>/dev/null); name=$(awk '/Name/{print $2}' /proc/$pid/status 2>/dev/null); [ -n "$swap" ] && [ "$swap" -gt 0 ] && echo "$swap $name $pid"; done | sort -rn | head -10 | awk '{printf "PID: %-8s  Swap: %7s kB  Name: %s\\n", $3, $1, $2}'`,
 cols:[
@@ -1534,16 +1535,14 @@ cols:[
   {n:"PID", d:"SELECT query FROM pg_stat_activity WHERE pid = <pid>;", note:"vm.swappiness=1 — минимизирует использование swap."}
 ]},
 
-{id:"os_open_files", name:"Открытые файлы PostgreSQL (ulimit)", badge:"os",
+{id:"os_open_files",pg_min:12,pg_max:null,os:"linux", name:"Открытые файлы PostgreSQL (ulimit)", badge:"os",
 desc:"Проверка лимита open files — частая причина ошибок 'too many open files'.",
 sql:`PG_PID=$(pgrep -u postgres -x postgres | head -1) && echo "PID: $PG_PID" && echo "Open: $(ls /proc/$PG_PID/fd 2>/dev/null | wc -l)" && echo "Limit: $(awk '/open files/{print $4}' /proc/$PG_PID/limits 2>/dev/null)" && echo "System: $(ulimit -n)"`,
 cols:[
   {n:"Open", d:"Текущее число открытых дескрипторов. Если близко к Limit — увеличить."},
   {n:"Limit", d:"Максимально допустимое. Рекомендуется: 65536.", note:"В /etc/security/limits.conf: postgres soft nofile 65536"}
-]},
-// __INJECT_START__
-{id:"custom_1778751567074",name:"Скрипт для создания реплики (без слота)",badge:"",desc:"",sql:"#!/bin/bash\n\nset -e\n\nPG_VERSION=17\nPGDATA=\"/var/lib/postgresql/${PG_VERSION}/main\"\n\nPRIMARY_HOST=\"172.17.47.12\"\nPRIMARY_PORT=\"5432\"\n\nREPL_USER=\"repl\"\n\necho \"Stopping PostgreSQL...\"\nsystemctl stop postgresql\n\necho \"Cleaning PGDATA...\"\nrm -rf ${PGDATA:?}/*\n\necho \"Starting basebackup...\"\n\nsudo -u postgres pg_basebackup -h ${PRIMARY_HOST} -p ${PRIMARY_PORT} -U ${REPL_USER} -D ${PGDATA} -Fp -Xs -P -R\n\necho \"Fixing permissions...\"\nchown -R postgres:postgres ${PGDATA}\nchmod 700 ${PGDATA}\n\necho \"Starting PostgreSQL...\"\nsystemctl start postgresql\n\necho \"Checking replica status...\"\nsudo -u postgres psql -c \"select pg_is_in_recovery();\"\n\necho \"Done.\"",cols:[]}
-// __INJECT_END__
+],os_sql:{ubuntu:"PG_PID=$(pgrep -u postgres -x postgres | head -1) && echo \"PID: $PG_PID\" && echo \"Open: $(ls /proc/$PG_PID/fd 2>/dev/null | wc -l)\" && echo \"Limit: $(awk '/open files/{print $4}' /proc/$PG_PID/limits 2>/dev/null)\" && echo \"System: $(ulimit -n)\"\n# Изменить лимит: /etc/security/limits.conf\n# postgres soft nofile 65536\n# Или: /etc/systemd/system/postgresql.service.d/limits.conf\n# [Service]\n# LimitNOFILE=65536",rhel:"PG_PID=$(pgrep -u postgres -x postgres | head -1) && echo \"PID: $PG_PID\" && echo \"Open: $(ls /proc/$PG_PID/fd 2>/dev/null | wc -l)\" && echo \"Limit: $(awk '/open files/{print $4}' /proc/$PG_PID/limits 2>/dev/null)\" && echo \"System: $(ulimit -n)\"\n# Изменить лимит: /etc/security/limits.conf\n# postgres soft nofile 65536\n# Для systemd: /etc/systemd/system/postgresql-17.service.d/limits.conf\n# [Service]\n# LimitNOFILE=65536"}},
+
 ];
 
 
@@ -2032,11 +2031,16 @@ function render(filter){
   }
   const allSectionItems=[...DATA,...getCustomSections().map(s=>({section:s.name,icon:s.icon,color:s.color,dot:s.dot,custom:true}))];
   allSectionItems.forEach(item=>{
-    if(item.section){
+    if(item.section && !item.id){
+      // Section header (no id = section marker, not a card)
       if(curSection){const cc=customCards.filter(c=>c.section===curSection.name);cc.forEach(c=>{const hay=(c.name+c.desc+c.sql+(c.cols||[]).map(x=>x.n+x.d).join(' ')).toLowerCase();if(!q||hay.includes(q)){curSectionCards+=renderCustomCard(c);curSectionCount++;cardCount++;}});}
       flushSection();
       curSection={name:item.section,icon:item.icon,color:item.color,dot:item.dot,id:item.section.replace(/\s+/g,'-')};
       curSectionCards='';curSectionCount=0;return;
+    }
+    // Card with explicit section field (injected built-in section card) - skip if not current section
+    if(item.section && item.id){
+      if(!curSection || item.section !== curSection.name) return;
     }
     if(q){const hay=(item.name+item.desc+item.sql+(item.cols||[]).map(c=>c.n+c.d).join(' ')).toLowerCase();if(!hay.includes(q))return;}
     curSectionCards+=renderCard(item);curSectionCount++;cardCount++;
@@ -2081,18 +2085,34 @@ function saveToFile(){
   }
 
   // Build injection code for new cards
+  // Group cards by section for proper rendering
   var inject = '';
+  // First: add custom section markers
   customSections.forEach(function(s){
     inject += ',\n{section:'+JSON.stringify(s.name)+',icon:'+JSON.stringify(s.icon)+',color:'+JSON.stringify(s.color)+',dot:'+JSON.stringify(s.dot)+'}';
+    // Add cards belonging to this custom section right after their section marker
+    customCards.filter(function(c){ return c.section===s.name; }).forEach(function(c){
+      var sql  = sqlEdits[c.id]  || c.sql  || '';
+      var name = nameEdits[c.id] || c.name || '';
+      var desc = descEdits[c.id] || c.desc || '';
+      var cols = (c.cols||[]).map(function(col){
+        return '{n:'+JSON.stringify(col.n||'')+',d:'+JSON.stringify(col.d||'')+'}';
+      }).join(',');
+      inject += ',\n{id:'+JSON.stringify(c.id)+',name:'+JSON.stringify(name)+',badge:"",desc:'+JSON.stringify(desc)+',sql:'+JSON.stringify(sql)+',cols:['+cols+']}';
+    });
   });
-  customCards.forEach(function(c){
+  // Then: add cards belonging to BUILT-IN sections
+  // They need to be placed after their section in DATA, not at the end
+  // We handle this by storing section field and letting render() place them correctly
+  var builtinSectionNames = DATA.filter(function(d){return d.section;}).map(function(d){return d.section;});
+  customCards.filter(function(c){ return builtinSectionNames.indexOf(c.section)>=0; }).forEach(function(c){
     var sql  = sqlEdits[c.id]  || c.sql  || '';
     var name = nameEdits[c.id] || c.name || '';
     var desc = descEdits[c.id] || c.desc || '';
     var cols = (c.cols||[]).map(function(col){
       return '{n:'+JSON.stringify(col.n||'')+',d:'+JSON.stringify(col.d||'')+'}';
     }).join(',');
-    inject += ',\n{id:'+JSON.stringify(c.id)+',name:'+JSON.stringify(name)+',badge:"",desc:'+JSON.stringify(desc)+',sql:'+JSON.stringify(sql)+',cols:['+cols+']}';
+    inject += ',\n{id:'+JSON.stringify(c.id)+',name:'+JSON.stringify(name)+',badge:"",desc:'+JSON.stringify(desc)+',sql:'+JSON.stringify(sql)+',section:'+JSON.stringify(c.section)+',cols:['+cols+']}';
   });
 
   // Get current JS from this script tag
