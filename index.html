@@ -729,13 +729,13 @@ textarea.sql-editor:focus { background: #0d1117; }
     </div>
     <div class="filter-label" style="margin-bottom:6px"><span class="filter-label-icon">🐧</span> Операционная система</div>
     <div class="ver-btns" id="os-ver-btns">
-      <button class="ver-btn" data-os="all" onclick="setOs('all',this)">Все</button>
-      <button class="ver-btn os-active-ubuntu" data-os="ubuntu" onclick="setOs('ubuntu',this)">Ubuntu/Debian</button>
+      <button class="ver-btn pg-active" data-os="all" onclick="setOs('all',this)">Все</button>
+      <button class="ver-btn" data-os="ubuntu" onclick="setOs('ubuntu',this)">Ubuntu/Debian</button>
       <button class="ver-btn" data-os="rhel" onclick="setOs('rhel',this)">RHEL/CentOS</button>
     </div>
-    <div class="filter-active-hint visible" id="filter-hint">⚡ Фильтр: Ubuntu/Debian</div>
+    <div class="filter-active-hint" id="filter-hint"></div>
   </div>
-  <div id="nav-links"><div class="nav-section">Состояние сервера</div><a class="nav-item" href="#card-uptime" onclick="navClick('uptime')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Аптайм и версия PostgreSQL</span></a><a class="nav-item" href="#card-pg_settings_nondefault" onclick="navClick('pg_settings_nondefault')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Параметры, изменённые относительно дефолтных</span></a><a class="nav-item" href="#card-params_pending_restart" onclick="navClick('params_pending_restart')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Параметры, ожидающие рестарта</span></a><a class="nav-item" href="#card-conn_max_check" onclick="navClick('conn_max_check')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Использование пула соединений (% от max)</span></a><a class="nav-item" href="#card-conn_by_db_state" onclick="navClick('conn_by_db_state')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Подключения по базам и состояниям</span></a><a class="nav-item" href="#card-conn_by_app" onclick="navClick('conn_by_app')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Подключения по приложениям</span></a><a class="nav-item" href="#card-wal_stat" onclick="navClick('wal_stat')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статистика WAL</span></a><a class="nav-item" href="#card-wal_stat_pg17" onclick="navClick('wal_stat_pg17')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статистика WAL</span></a><a class="nav-item" href="#card-wal_archiver" onclick="navClick('wal_archiver')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статус архивирования WAL</span></a><div class="nav-section">Быстрая диагностика</div><a class="nav-item" href="#card-session_summary" onclick="navClick('session_summary')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Общая сводка по сессиям (дашборд)</span></a><a class="nav-item" href="#card-top5_active" onclick="navClick('top5_active')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-10 самых долгих активных запросов</span></a><a class="nav-item" href="#card-top5_waiting" onclick="navClick('top5_waiting')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-10 запросов в ожидании блокировки</span></a><a class="nav-item" href="#card-top5_long_xact" onclick="navClick('top5_long_xact')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-10 самых старых транзакций (любое состояние)</span></a><a class="nav-item" href="#card-top5_temp_files" onclick="navClick('top5_temp_files')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-10 запросов, пишущих временные файлы</span></a><a class="nav-item" href="#card-activity_full" onclick="navClick('activity_full')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Все активные запросы и зависшие транзакции</span></a><div class="nav-section">Блокировки</div><a class="nav-item" href="#card-blocking_graph" onclick="navClick('blocking_graph')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Граф блокировок: кто кого блокирует</span></a><a class="nav-item" href="#card-locks_detail" onclick="navClick('locks_detail')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Все активные блокировки с деталями объекта</span></a><a class="nav-item" href="#card-locks_not_granted" onclick="navClick('locks_not_granted')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Только неполученные блокировки (что именно ждёт)</span></a><a class="nav-item" href="#card-blocking_detail_legacy" onclick="navClick('blocking_detail_legacy')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Детали блокировок: что именно заблокировано</span></a><a class="nav-item" href="#card-lock_tree" onclick="navClick('lock_tree')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Дерево блокировок с deadlock-цепочками</span></a><a class="nav-item" href="#card-idle_txn" onclick="navClick('idle_txn')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Зависшие транзакции idle in transaction &gt; 5 мин</span></a><a class="nav-item" href="#card-terminate" onclick="navClick('terminate')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Шаблоны: завершение проблемных сессий ⚠ ОСТОРОЖНО</span></a><div class="nav-section">Репликация</div><a class="nav-item" href="#card-custom_1779076160323" onclick="navClick('custom_1779076160323')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--green)">Скрипт для создания реплики (без слота)</span></a><a class="nav-item" href="#card-repl_replica_status" onclick="navClick('repl_replica_status')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статус репликации на реплике</span></a><a class="nav-item" href="#card-repl_master_status" onclick="navClick('repl_master_status')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Состояние всех реплик на мастере</span></a><a class="nav-item" href="#card-repl_lag_detail" onclick="navClick('repl_lag_detail')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Подробный лаг репликации по этапам</span></a><a class="nav-item" href="#card-repl_slots" onclick="navClick('repl_slots')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Слоты репликации (мониторинг)</span></a><a class="nav-item" href="#card-repl_wal_receiver" onclick="navClick('repl_wal_receiver')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статус WAL receiver на реплике</span></a><div class="nav-section">Производительность запросов</div><a class="nav-item" href="#card-top_queries_time" onclick="navClick('top_queries_time')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-20 запросов по суммарному времени</span></a><a class="nav-item" href="#card-top_queries_io" onclick="navClick('top_queries_io')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-20 запросов по физическому IO</span></a><a class="nav-item" href="#card-top_queries_rows" onclick="navClick('top_queries_rows')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-20 запросов возвращающих больше всего строк</span></a><a class="nav-item" href="#card-unstable_plans" onclick="navClick('unstable_plans')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Запросы с нестабильным временем (cv_pct)</span></a><a class="nav-item" href="#card-top_queries_by_db" onclick="navClick('top_queries_by_db')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-5 дорогих запросов с привязкой к БД</span></a><a class="nav-item" href="#card-seq_scans" onclick="navClick('seq_scans')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Таблицы с аномальным числом sequential scan</span></a><a class="nav-item" href="#card-missing_indexes" onclick="navClick('missing_indexes')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Таблицы без индексов с высоким seq_scan</span></a><a class="nav-item" href="#card-duplicate_indexes" onclick="navClick('duplicate_indexes')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Дублирующиеся индексы</span></a><a class="nav-item" href="#card-fk_no_index" onclick="navClick('fk_no_index')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Внешние ключи без индексов (риск lock)</span></a><a class="nav-item" href="#card-unused_indexes" onclick="navClick('unused_indexes')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Неиспользуемые индексы (idx_scan = 0)</span></a><a class="nav-item" href="#card-index_table_ratio" onclick="navClick('index_table_ratio')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Соотношение размера индексов к таблице</span></a><a class="nav-item" href="#card-index_stats_full" onclick="navClick('index_stats_full')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Полная статистика использования индексов</span></a><a class="nav-item" href="#card-explain_template" onclick="navClick('explain_template')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">EXPLAIN ANALYZE — правильный шаблон</span></a><div class="nav-section">VACUUM и Bloat</div><a class="nav-item" href="#card-dead_tuples" onclick="navClick('dead_tuples')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Таблицы с наибольшим числом мёртвых кортежей</span></a><a class="nav-item" href="#card-autovac_needed" onclick="navClick('autovac_needed')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Ожидается ли запуск autovacuum</span></a><a class="nav-item" href="#card-autovac_activity" onclick="navClick('autovac_activity')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Текущая активность autovacuum</span></a><a class="nav-item" href="#card-xid_age" onclick="navClick('xid_age')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Wraparound мониторинг (возраст XID)</span></a><a class="nav-item" href="#card-table_xid_age" onclick="navClick('table_xid_age')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Возраст XID по таблицам (не только по БД)</span></a><a class="nav-item" href="#card-bloat_tables" onclick="navClick('bloat_tables')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Bloat индексов (точный расчёт, Josh Berkus)</span></a><div class="nav-section">Прогресс операций</div><a class="nav-item" href="#card-progress_all" onclick="navClick('progress_all')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Все активные длительные операции (сводка)</span></a><a class="nav-item" href="#card-progress_vacuum" onclick="navClick('progress_vacuum')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс VACUUM (детально)</span></a><a class="nav-item" href="#card-progress_create_index" onclick="navClick('progress_create_index')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс CREATE INDEX / REINDEX</span></a><a class="nav-item" href="#card-progress_basebackup" onclick="navClick('progress_basebackup')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс pg_basebackup (PG 13+)</span></a><a class="nav-item" href="#card-progress_analyze" onclick="navClick('progress_analyze')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс ANALYZE</span></a><a class="nav-item" href="#card-progress_cluster" onclick="navClick('progress_cluster')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс CLUSTER / VACUUM FULL</span></a><a class="nav-item" href="#card-progress_copy" onclick="navClick('progress_copy')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс COPY</span></a><div class="nav-section">Размеры объектов</div><a class="nav-item" href="#card-db_sizes" onclick="navClick('db_sizes')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Размер всех баз данных</span></a><a class="nav-item" href="#card-table_sizes" onclick="navClick('table_sizes')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-30 таблиц по размеру</span></a><a class="nav-item" href="#card-schema_sizes" onclick="navClick('schema_sizes')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Размер всех схем</span></a><a class="nav-item" href="#card-table_row_count" onclick="navClick('table_row_count')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Точное количество строк в таблицах</span></a><a class="nav-item" href="#card-tablespace_sizes" onclick="navClick('tablespace_sizes')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Размер tablespace-ов</span></a><div class="nav-section">Конфигурация и здоровье</div><a class="nav-item" href="#card-cache_hit_ratio" onclick="navClick('cache_hit_ratio')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Cache hit ratio и статистика ошибок по БД</span></a><a class="nav-item" href="#card-dml_ratio" onclick="navClick('dml_ratio')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Профиль нагрузки: INSERT / UPDATE / DELETE</span></a><a class="nav-item" href="#card-bgwriter_stats" onclick="navClick('bgwriter_stats')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статистика bgwriter (PG &lt; 17)</span></a><a class="nav-item" href="#card-checkpointer_stats" onclick="navClick('checkpointer_stats')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статистика checkpointer (PG 17+)</span></a><a class="nav-item" href="#card-pg_stat_io_pg16" onclick="navClick('pg_stat_io_pg16')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статистика IO по типам процессов (PG 16+)</span></a><div class="nav-section">Схема и метаданные</div><a class="nav-item" href="#card-custom_1779166293254" onclick="navClick('custom_1779166293254')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--green)">Поиск  основной таблицы по TOAST</span></a><a class="nav-item" href="#card-table_structure" onclick="navClick('table_structure')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Структура таблицы (колонки, типы, nullable)</span></a><a class="nav-item" href="#card-indexes_for_table" onclick="navClick('indexes_for_table')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Все индексы таблицы с определениями</span></a><a class="nav-item" href="#card-constraints_for_table" onclick="navClick('constraints_for_table')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Ограничения таблицы (PK, FK, CHECK, UNIQUE)</span></a><a class="nav-item" href="#card-partitions_list" onclick="navClick('partitions_list')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Список секций партиционированной таблицы</span></a><a class="nav-item" href="#card-tables_without_pk" onclick="navClick('tables_without_pk')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Таблицы без первичного ключа</span></a><a class="nav-item" href="#card-object_owner" onclick="navClick('object_owner')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Список объектов БД с владельцами</span></a><div class="nav-section">Роли и права</div><a class="nav-item" href="#card-roles_list" onclick="navClick('roles_list')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Список всех ролей и их атрибуты</span></a><a class="nav-item" href="#card-role_memberships" onclick="navClick('role_memberships')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Членство в группах (кто в какой роли)</span></a><a class="nav-item" href="#card-table_grants" onclick="navClick('table_grants')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Права на таблицы текущей БД</span></a><a class="nav-item" href="#card-schema_usage_check" onclick="navClick('schema_usage_check')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Права USAGE на схемы для роли</span></a><a class="nav-item" href="#card-grant_usage_all_schemas" onclick="navClick('grant_usage_all_schemas')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Выдать USAGE на все схемы для роли</span></a><a class="nav-item" href="#card-active_connections_by_role" onclick="navClick('active_connections_by_role')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Активные подключения по ролям</span></a><div class="nav-section">Развёртывание и настройка</div><a class="nav-item" href="#card-install_ubuntu" onclick="navClick('install_ubuntu')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Установка PostgreSQL из PGDG (Ubuntu/Debian)</span></a><a class="nav-item" href="#card-install_rhel" onclick="navClick('install_rhel')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Установка PostgreSQL из PGDG (RHEL/CentOS/Rocky/AlmaLinux)</span></a><a class="nav-item" href="#card-pg_hba_setup" onclick="navClick('pg_hba_setup')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Настройка pg_hba.conf — аутентификация</span></a><a class="nav-item" href="#card-create_user_db" onclick="navClick('create_user_db')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Создание пользователя и базы данных</span></a><a class="nav-item" href="#card-postgresql_conf_tuning" onclick="navClick('postgresql_conf_tuning')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Ключевые параметры postgresql.conf</span></a><a class="nav-item" href="#card-pg_upgrade_major" onclick="navClick('pg_upgrade_major')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Мажорный апгрейд pg_upgrade (общий алгоритм)</span></a><a class="nav-item" href="#card-pgbouncer_install" onclick="navClick('pgbouncer_install')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Установка и настройка PgBouncer</span></a><a class="nav-item" href="#card-backup_basebackup" onclick="navClick('backup_basebackup')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Резервное копирование pg_basebackup</span></a><a class="nav-item" href="#card-logical_replication_setup" onclick="navClick('logical_replication_setup')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Настройка логической репликации</span></a><a class="nav-item" href="#card-streaming_replication_setup" onclick="navClick('streaming_replication_setup')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Настройка потоковой репликации (шаги)</span></a><a class="nav-item" href="#card-ssl_setup" onclick="navClick('ssl_setup')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Настройка SSL/TLS в PostgreSQL</span></a><div class="nav-section">Операционная система</div><a class="nav-item" href="#card-os_disk" onclick="navClick('os_disk')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Использование дискового пространства</span></a><a class="nav-item" href="#card-os_disk_pg" onclick="navClick('os_disk_pg')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Размер директорий PostgreSQL</span></a><a class="nav-item" href="#card-os_mem" onclick="navClick('os_mem')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Использование памяти и swap</span></a><a class="nav-item" href="#card-os_io" onclick="navClick('os_io')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Нагрузка на диск в реальном времени</span></a><a class="nav-item" href="#card-os_cpu" onclick="navClick('os_cpu')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Нагрузка CPU и топ postgres-процессов</span></a><a class="nav-item" href="#card-os_network" onclick="navClick('os_network')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">TCP-соединения к PostgreSQL (порт 5432)</span></a><a class="nav-item" href="#card-os_swap_top" onclick="navClick('os_swap_top')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ процессов по потреблению swap</span></a><a class="nav-item" href="#card-os_open_files" onclick="navClick('os_open_files')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Открытые файлы PostgreSQL (ulimit)</span></a></div>
+  <div id="nav-links"><div class="nav-section">Состояние сервера</div><a class="nav-item" href="#card-uptime" onclick="navClick('uptime')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Аптайм и версия PostgreSQL</span></a><a class="nav-item" href="#card-instance_info" onclick="navClick('instance_info')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Расширенная информация об инстансе</span></a><a class="nav-item" href="#card-pg_settings_nondefault" onclick="navClick('pg_settings_nondefault')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Параметры, изменённые относительно дефолтных</span></a><a class="nav-item" href="#card-params_pending_restart" onclick="navClick('params_pending_restart')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Параметры, ожидающие рестарта</span></a><a class="nav-item" href="#card-conn_max_check" onclick="navClick('conn_max_check')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Использование пула соединений (% от max)</span></a><a class="nav-item" href="#card-conn_by_db_state" onclick="navClick('conn_by_db_state')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Подключения по базам и состояниям</span></a><a class="nav-item" href="#card-conn_by_app" onclick="navClick('conn_by_app')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Подключения по приложениям</span></a><a class="nav-item" href="#card-wal_stat" onclick="navClick('wal_stat')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статистика WAL</span></a><a class="nav-item" href="#card-wal_stat_pg17" onclick="navClick('wal_stat_pg17')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статистика WAL</span></a><a class="nav-item" href="#card-wal_archiver" onclick="navClick('wal_archiver')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статус архивирования WAL</span></a><div class="nav-section">Быстрая диагностика</div><a class="nav-item" href="#card-session_summary" onclick="navClick('session_summary')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Общая сводка по сессиям (дашборд)</span></a><a class="nav-item" href="#card-top5_active" onclick="navClick('top5_active')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-10 самых долгих активных запросов</span></a><a class="nav-item" href="#card-top5_waiting" onclick="navClick('top5_waiting')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-10 запросов в ожидании блокировки</span></a><a class="nav-item" href="#card-top5_long_xact" onclick="navClick('top5_long_xact')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-10 самых старых транзакций (любое состояние)</span></a><a class="nav-item" href="#card-top5_temp_files" onclick="navClick('top5_temp_files')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-10 запросов, пишущих временные файлы</span></a><a class="nav-item" href="#card-activity_full" onclick="navClick('activity_full')"><span class="nav-dot" style="background:#f778ba"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Все активные запросы и зависшие транзакции</span></a><div class="nav-section">Блокировки</div><a class="nav-item" href="#card-blocking_graph" onclick="navClick('blocking_graph')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Граф блокировок: кто кого блокирует</span></a><a class="nav-item" href="#card-locks_detail" onclick="navClick('locks_detail')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Все активные блокировки с деталями объекта</span></a><a class="nav-item" href="#card-locks_not_granted" onclick="navClick('locks_not_granted')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Только неполученные блокировки (что именно ждёт)</span></a><a class="nav-item" href="#card-blocking_detail_legacy" onclick="navClick('blocking_detail_legacy')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Детали блокировок: что именно заблокировано</span></a><a class="nav-item" href="#card-lock_tree" onclick="navClick('lock_tree')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Дерево блокировок с deadlock-цепочками</span></a><a class="nav-item" href="#card-idle_txn" onclick="navClick('idle_txn')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Зависшие транзакции idle in transaction &gt; 5 мин</span></a><a class="nav-item" href="#card-terminate" onclick="navClick('terminate')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Шаблоны: завершение проблемных сессий ⚠ ОСТОРОЖНО</span></a><div class="nav-section">Репликация</div><a class="nav-item" href="#card-custom_1780044836262" onclick="navClick('custom_1780044836262')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--green)">Скрипт для создания реплики (без слота)</span></a><a class="nav-item" href="#card-repl_replica_status" onclick="navClick('repl_replica_status')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статус репликации на реплике</span></a><a class="nav-item" href="#card-repl_master_status" onclick="navClick('repl_master_status')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Состояние всех реплик на мастере</span></a><a class="nav-item" href="#card-repl_lag_detail" onclick="navClick('repl_lag_detail')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Подробный лаг репликации по этапам</span></a><a class="nav-item" href="#card-repl_slots" onclick="navClick('repl_slots')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Слоты репликации (мониторинг)</span></a><a class="nav-item" href="#card-repl_wal_receiver" onclick="navClick('repl_wal_receiver')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статус WAL receiver на реплике</span></a><div class="nav-section">Производительность запросов</div><a class="nav-item" href="#card-top_queries_time" onclick="navClick('top_queries_time')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-20 запросов по суммарному времени</span></a><a class="nav-item" href="#card-top_queries_io" onclick="navClick('top_queries_io')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-20 запросов по физическому IO</span></a><a class="nav-item" href="#card-top_queries_rows" onclick="navClick('top_queries_rows')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-20 запросов возвращающих больше всего строк</span></a><a class="nav-item" href="#card-unstable_plans" onclick="navClick('unstable_plans')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Запросы с нестабильным временем (cv_pct)</span></a><a class="nav-item" href="#card-top_queries_by_db" onclick="navClick('top_queries_by_db')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-5 дорогих запросов с привязкой к БД</span></a><a class="nav-item" href="#card-seq_scans" onclick="navClick('seq_scans')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Таблицы с аномальным числом sequential scan</span></a><a class="nav-item" href="#card-missing_indexes" onclick="navClick('missing_indexes')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Таблицы без индексов с высоким seq_scan</span></a><a class="nav-item" href="#card-duplicate_indexes" onclick="navClick('duplicate_indexes')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Дублирующиеся индексы</span></a><a class="nav-item" href="#card-fk_no_index" onclick="navClick('fk_no_index')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Внешние ключи без индексов (риск lock)</span></a><a class="nav-item" href="#card-unused_indexes" onclick="navClick('unused_indexes')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Неиспользуемые индексы (idx_scan = 0)</span></a><a class="nav-item" href="#card-invalid_indexes" onclick="navClick('invalid_indexes')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Невалидные индексы (indisvalid = false)</span></a><a class="nav-item" href="#card-indexes_summary" onclick="navClick('indexes_summary')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Сводка индексов по таблице (single/multi-column)</span></a><a class="nav-item" href="#card-index_table_ratio" onclick="navClick('index_table_ratio')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Соотношение размера индексов к таблице</span></a><a class="nav-item" href="#card-index_stats_full" onclick="navClick('index_stats_full')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Полная статистика использования индексов</span></a><a class="nav-item" href="#card-explain_template" onclick="navClick('explain_template')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">EXPLAIN ANALYZE — правильный шаблон</span></a><div class="nav-section">VACUUM и Bloat</div><a class="nav-item" href="#card-dead_tuples" onclick="navClick('dead_tuples')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Таблицы с наибольшим числом мёртвых кортежей</span></a><a class="nav-item" href="#card-autovac_needed" onclick="navClick('autovac_needed')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Ожидается ли запуск autovacuum</span></a><a class="nav-item" href="#card-autovac_activity" onclick="navClick('autovac_activity')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Текущая активность autovacuum</span></a><a class="nav-item" href="#card-xid_age" onclick="navClick('xid_age')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Wraparound мониторинг (возраст XID)</span></a><a class="nav-item" href="#card-table_xid_age" onclick="navClick('table_xid_age')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Возраст XID по таблицам (не только по БД)</span></a><a class="nav-item" href="#card-bloat_tables" onclick="navClick('bloat_tables')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Bloat индексов (точный расчёт, Josh Berkus)</span></a><a class="nav-item" href="#card-bloat_table_data" onclick="navClick('bloat_table_data')"><span class="nav-dot" style="background:#bc8cff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Bloat таблиц (точный расчёт)</span></a><div class="nav-section">Прогресс операций</div><a class="nav-item" href="#card-progress_all" onclick="navClick('progress_all')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Все активные длительные операции (сводка)</span></a><a class="nav-item" href="#card-progress_vacuum" onclick="navClick('progress_vacuum')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс VACUUM (детально)</span></a><a class="nav-item" href="#card-progress_create_index" onclick="navClick('progress_create_index')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс CREATE INDEX / REINDEX</span></a><a class="nav-item active" href="#card-progress_basebackup" onclick="navClick('progress_basebackup')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс pg_basebackup (PG 13+)</span></a><a class="nav-item" href="#card-progress_analyze" onclick="navClick('progress_analyze')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс ANALYZE</span></a><a class="nav-item" href="#card-progress_cluster" onclick="navClick('progress_cluster')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс CLUSTER / VACUUM FULL</span></a><a class="nav-item" href="#card-progress_copy" onclick="navClick('progress_copy')"><span class="nav-dot" style="background:#58a6ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Прогресс COPY</span></a><div class="nav-section">Размеры объектов</div><a class="nav-item" href="#card-db_sizes" onclick="navClick('db_sizes')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Размер всех баз данных</span></a><a class="nav-item" href="#card-table_sizes" onclick="navClick('table_sizes')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ-30 таблиц по размеру</span></a><a class="nav-item" href="#card-schema_sizes" onclick="navClick('schema_sizes')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Размер всех схем</span></a><a class="nav-item" href="#card-table_row_count" onclick="navClick('table_row_count')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Точное количество строк в таблицах</span></a><a class="nav-item" href="#card-partition_aware_sizes" onclick="navClick('partition_aware_sizes')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Размер таблиц с агрегацией секций</span></a><a class="nav-item" href="#card-tablespace_sizes" onclick="navClick('tablespace_sizes')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Размер tablespace-ов</span></a><div class="nav-section">Конфигурация и здоровье</div><a class="nav-item" href="#card-cache_hit_ratio" onclick="navClick('cache_hit_ratio')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Cache hit ratio и статистика ошибок по БД</span></a><a class="nav-item" href="#card-buffer_cache_top" onclick="navClick('buffer_cache_top')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ объектов в shared_buffers (pg_buffercache)</span></a><a class="nav-item" href="#card-settings_context" onclick="navClick('settings_context')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Контекст применения параметров (когда нужен restart)</span></a><a class="nav-item" href="#card-dml_ratio" onclick="navClick('dml_ratio')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Профиль нагрузки: INSERT / UPDATE / DELETE</span></a><a class="nav-item" href="#card-bgwriter_stats" onclick="navClick('bgwriter_stats')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статистика bgwriter (PG &lt; 17)</span></a><a class="nav-item" href="#card-checkpointer_stats" onclick="navClick('checkpointer_stats')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статистика checkpointer (PG 17+)</span></a><a class="nav-item" href="#card-pg_stat_io_pg16" onclick="navClick('pg_stat_io_pg16')"><span class="nav-dot" style="background:#f85149"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Статистика IO по типам процессов (PG 16+)</span></a><div class="nav-section">Схема и метаданные</div><a class="nav-item" href="#card-table_structure" onclick="navClick('table_structure')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Структура таблицы (колонки, типы, nullable)</span></a><a class="nav-item" href="#card-indexes_for_table" onclick="navClick('indexes_for_table')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Все индексы таблицы с определениями</span></a><a class="nav-item" href="#card-constraints_for_table" onclick="navClick('constraints_for_table')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Ограничения таблицы (PK, FK, CHECK, UNIQUE)</span></a><a class="nav-item" href="#card-partitions_list" onclick="navClick('partitions_list')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Список секций партиционированной таблицы</span></a><a class="nav-item" href="#card-tables_without_pk" onclick="navClick('tables_without_pk')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Таблицы без первичного ключа</span></a><a class="nav-item" href="#card-object_owner" onclick="navClick('object_owner')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Список объектов БД с владельцами</span></a><a class="nav-item" href="#card-func_definition" onclick="navClick('func_definition')"><span class="nav-dot" style="background:#79c0ff"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Определение функции / процедуры</span></a><div class="nav-section">Роли и права</div><a class="nav-item" href="#card-roles_list" onclick="navClick('roles_list')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Список всех ролей и их атрибуты</span></a><a class="nav-item" href="#card-role_memberships" onclick="navClick('role_memberships')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Членство в группах (кто в какой роли)</span></a><a class="nav-item" href="#card-table_grants" onclick="navClick('table_grants')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Права на таблицы текущей БД</span></a><a class="nav-item" href="#card-grant_generator" onclick="navClick('grant_generator')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Генератор GRANT на все схемы</span></a><a class="nav-item" href="#card-schema_usage_check" onclick="navClick('schema_usage_check')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Права USAGE на схемы для роли</span></a><a class="nav-item" href="#card-grant_usage_all_schemas" onclick="navClick('grant_usage_all_schemas')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Выдать USAGE на все схемы для роли</span></a><a class="nav-item" href="#card-active_connections_by_role" onclick="navClick('active_connections_by_role')"><span class="nav-dot" style="background:#e3b341"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Активные подключения по ролям</span></a><div class="nav-section">Развёртывание и настройка</div><a class="nav-item" href="#card-install_ubuntu" onclick="navClick('install_ubuntu')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Установка PostgreSQL из PGDG (Ubuntu/Debian)</span></a><a class="nav-item" href="#card-install_rhel" onclick="navClick('install_rhel')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Установка PostgreSQL из PGDG (RHEL/CentOS/Rocky/AlmaLinux)</span></a><a class="nav-item" href="#card-pg_hba_setup" onclick="navClick('pg_hba_setup')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Настройка pg_hba.conf — аутентификация</span></a><a class="nav-item" href="#card-create_user_db" onclick="navClick('create_user_db')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Создание пользователя и базы данных</span></a><a class="nav-item" href="#card-postgresql_conf_tuning" onclick="navClick('postgresql_conf_tuning')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Ключевые параметры postgresql.conf</span></a><a class="nav-item" href="#card-pg_upgrade_major" onclick="navClick('pg_upgrade_major')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Мажорный апгрейд pg_upgrade (общий алгоритм)</span></a><a class="nav-item" href="#card-pgbouncer_install" onclick="navClick('pgbouncer_install')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Установка и настройка PgBouncer</span></a><a class="nav-item" href="#card-backup_basebackup" onclick="navClick('backup_basebackup')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Резервное копирование pg_basebackup</span></a><a class="nav-item" href="#card-logical_replication_setup" onclick="navClick('logical_replication_setup')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Настройка логической репликации</span></a><a class="nav-item" href="#card-streaming_replication_setup" onclick="navClick('streaming_replication_setup')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Настройка потоковой репликации (шаги)</span></a><a class="nav-item" href="#card-ssl_setup" onclick="navClick('ssl_setup')"><span class="nav-dot" style="background:#3fb950"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Настройка SSL/TLS в PostgreSQL</span></a><div class="nav-section">Операционная система</div><a class="nav-item" href="#card-os_disk" onclick="navClick('os_disk')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Использование дискового пространства</span></a><a class="nav-item" href="#card-os_disk_pg" onclick="navClick('os_disk_pg')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Размер директорий PostgreSQL</span></a><a class="nav-item" href="#card-os_mem" onclick="navClick('os_mem')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Использование памяти и swap</span></a><a class="nav-item" href="#card-os_io" onclick="navClick('os_io')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Нагрузка на диск в реальном времени</span></a><a class="nav-item" href="#card-os_cpu" onclick="navClick('os_cpu')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Нагрузка CPU и топ postgres-процессов</span></a><a class="nav-item" href="#card-os_network" onclick="navClick('os_network')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">TCP-соединения к PostgreSQL (порт 5432)</span></a><a class="nav-item" href="#card-os_swap_top" onclick="navClick('os_swap_top')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Топ процессов по потреблению swap</span></a><a class="nav-item" href="#card-os_open_files" onclick="navClick('os_open_files')"><span class="nav-dot" style="background:#56d364"></span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Открытые файлы PostgreSQL (ulimit)</span></a></div>
   <div class="nav-manage-groups" onclick="openGroupModal()">
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6" r="5"></circle><line x1="6" y1="3" x2="6" y2="9"></line><line x1="3" y1="6" x2="9" y2="6"></line></svg>
     Управление группами
@@ -746,7 +746,7 @@ textarea.sql-editor:focus { background: #0d1117; }
   <div class="topbar">
     <span class="topbar-title">~/<span>pg_dba_cheatsheet</span>.html</span>
     <div class="topbar-stats">
-      <span class="topbar-stat"><strong id="stat-visible">95</strong> скриптов</span>
+      <span class="topbar-stat"><strong id="stat-visible">104</strong> скриптов</span>
       <span class="topbar-stat"><strong id="stat-sections">13</strong> разделов</span>
     </div>
     <button class="add-btn" onclick="openAddModal()">+ добавить</button>
@@ -754,7 +754,7 @@ textarea.sql-editor:focus { background: #0d1117; }
     <label class="import-btn">⬆ импорт<input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)"></label>
     <button class="save-file-btn" onclick="saveToFile()">💾 сохранить в файл</button>
   </div>
-  <div class="content" id="content"><div class="section-header" id="sec-Состояние-сервера"><div class="section-icon" style="background:#1f3050">🖥</div><div class="section-title-text">Состояние сервера</div><div class="section-count">9 скриптов</div></div><div class="card" id="card-uptime">
+  <div class="content" id="content"><div class="section-header" id="sec-Состояние-сервера"><div class="section-icon" style="background:#1f3050">🖥</div><div class="section-title-text">Состояние сервера</div><div class="section-count">10 скриптов</div></div><div class="card" id="card-uptime">
     <div class="card-header" onclick="toggle('uptime')">
       <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
       <div class="card-meta">
@@ -783,6 +783,47 @@ textarea.sql-editor:focus { background: #0d1117; }
     <tr>
       <td class="col-n">pg_version</td>
       <td class="col-d">Полная строка версии PostgreSQL. Нужна при обращении в поддержку.</td>
+    </tr></tbody></table>
+    </div>
+  </div><div class="card" id="card-instance_info">
+    <div class="card-header" onclick="toggle('instance_info')">
+      <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
+      <div class="card-meta">
+        <div class="card-name">Расширенная информация об инстансе </div>
+        <div class="card-desc">Адрес/порт сервера, версия, БД, пользователь, аптайм, путь к конфигу и data_directory, статус реплики — всё разом.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-wrap">
+        <pre id="pre-instance_info"><span class="k">SELECT</span>
+    inet_server_addr() <span class="k">AS</span> server,
+    inet_server_port() <span class="k">AS</span> port,
+    version() <span class="k">AS</span> version,
+    current_database() <span class="k">AS</span> database,
+    current_schema() <span class="k">AS</span> schema,
+    current_user <span class="k">AS</span> "user",
+    date_trunc(<span class="s">'second'</span>, now() - <span class="f">pg_postmaster_start_time</span>()) <span class="k">AS</span> uptime,
+    (<span class="k">SELECT</span> setting <span class="k">FROM</span> pg_settings <span class="k">WHERE</span> name = <span class="s">'config_file'</span>) <span class="k">AS</span> config_file,
+    (<span class="k">SELECT</span> setting <span class="k">FROM</span> pg_settings <span class="k">WHERE</span> name = <span class="s">'data_directory'</span>) <span class="k">AS</span> data_dir,
+    <span class="f">pg_is_in_recovery</span>() <span class="k">AS</span> is_replica;</pre>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+          <button class="edit-btn" id="editbtn-instance_info" onclick="openEditModal('instance_info',event)">редактировать</button>
+          <button class="copy-btn" id="copybtn-instance_info" onclick="copyCode('instance_info',event)">копировать</button>
+        </div>
+      </div>
+
+      <div class="cols-label">Пояснения по колонкам</div><table class="cols-table"><tbody>
+    <tr>
+      <td class="col-n">server / port</td>
+      <td class="col-d">IP и порт текущего подключения (NULL для unix-socket).</td>
+    </tr>
+    <tr>
+      <td class="col-n">config_file / data_dir</td>
+      <td class="col-d">Полный путь к postgresql.conf и data directory. Удобно для скриптов и при заходе на новый сервер.</td>
+    </tr>
+    <tr>
+      <td class="col-n">is_replica</td>
+      <td class="col-d">true = это реплика (recovery mode), запись запрещена.</td>
     </tr></tbody></table>
     </div>
   </div><div class="card" id="card-pg_settings_nondefault">
@@ -1176,7 +1217,7 @@ textarea.sql-editor:focus { background: #0d1117; }
     <div class="card-body">
       <div class="code-wrap">
         <pre id="pre-top5_temp_files"><span class="c">-- Требует <span class="f">pg_stat_statements</span>. Запросы которым не хватило work_mem:</span>
-<span class="k">SELECT</span> queryid, calls, temp_blks_written, temp_blks_read, round(temp_blks_written*<span class="s">8192</span>/<span class="s">1024.0</span>/<span class="s">1024.0</span>,<span class="s">1</span>) <span class="k">AS</span> temp_mb, round(total_exec_time::numeric,<span class="s">1</span>) <span class="k">AS</span> total_ms, round(mean_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> mean_ms, left(query,<span class="s">100</span>) <span class="k">AS</span> short_query <span class="k">FROM</span> <span class="f">pg_stat_statements</span> <span class="k">WHERE</span> temp_blks_written &gt; <span class="s">0</span> <span class="k">ORDER</span> <span class="k">BY</span> temp_blks_written DESC <span class="k">LIMIT</span> <span class="s">10</span>;</pre>
+<span class="k">SELECT</span> left(trim(regexp_replace(query, <span class="s">'[[:space:]]+'</span>, <span class="s">' '</span>, <span class="s">'g'</span>)), <span class="s">100</span>) <span class="k">AS</span> short_query, queryid, calls, temp_blks_written, temp_blks_read, round(temp_blks_written*<span class="s">8192</span>/<span class="s">1024.0</span>/<span class="s">1024.0</span>,<span class="s">1</span>) <span class="k">AS</span> temp_mb, round(total_exec_time::numeric,<span class="s">1</span>) <span class="k">AS</span> total_ms, round(mean_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> mean_ms <span class="k">FROM</span> <span class="f">pg_stat_statements</span> <span class="k">WHERE</span> temp_blks_written &gt; <span class="s">0</span> <span class="k">ORDER</span> <span class="k">BY</span> temp_blks_written DESC <span class="k">LIMIT</span> <span class="s">10</span>;</pre>
         <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
           <button class="edit-btn" id="editbtn-top5_temp_files" onclick="openEditModal('top5_temp_files',event)">редактировать</button>
           <button class="copy-btn" id="copybtn-top5_temp_files" onclick="copyCode('top5_temp_files',event)">копировать</button>
@@ -1640,7 +1681,7 @@ textarea.sql-editor:focus { background: #0d1117; }
       <td class="col-d">Время последнего полученного сообщения от мастера. Давнее = проблемы с сетью.<span class="col-note">▸ Доступно только на реплике (WHERE pg_is_in_recovery() = true).</span></td>
     </tr></tbody></table>
     </div>
-  </div><div class="card" id="card-custom_1779076160323" style="border-color:var(--green-border)"><div class="card-header" onclick="toggle('custom_1779076160323')"><svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg><div class="card-meta"><div class="card-name">Скрипт для создания реплики (без слота) <span style="font-size:10px;padding:1px 7px;border-radius:10px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);font-family:var(--mono)">мой</span></div><div class="card-desc"></div></div></div><div class="card-body"><div class="code-wrap"><pre id="pre-custom_1779076160323">#!/bin/bash
+  </div><div class="card" id="card-custom_1780044836262" style="border-color:var(--green-border)"><div class="card-header" onclick="toggle('custom_1780044836262')"><svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg><div class="card-meta"><div class="card-name">Скрипт для создания реплики (без слота) <span style="font-size:10px;padding:1px 7px;border-radius:10px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);font-family:var(--mono)">мой</span></div><div class="card-desc"></div></div></div><div class="card-body"><div class="code-wrap"><pre id="pre-custom_1780044836262">#!/bin/bash
 
 set -e
 
@@ -1672,7 +1713,7 @@ systemctl start postgresql
 echo "Checking replica status..."
 sudo -u postgres psql -c "select <span class="f">pg_is_in_recovery</span>();"
 
-echo "Done."</pre><div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;"><button class="edit-btn" onclick="openEditModal('custom_1779076160323');event.stopPropagation()">редактировать</button><button class="copy-btn" id="copybtn-custom_1779076160323" onclick="copyCode('custom_1779076160323',event)">копировать</button><button class="del-card-btn" onclick="deleteCustomCard('custom_1779076160323',event)">удалить</button></div></div></div></div><div class="section-header" id="sec-Производительность-запросов"><div class="section-icon" style="background:#0d2117">📊</div><div class="section-title-text">Производительность запросов</div><div class="section-count">13 скриптов</div></div><div class="card" id="card-top_queries_time">
+echo "Done."</pre><div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;"><button class="edit-btn" onclick="openEditModal('custom_1780044836262');event.stopPropagation()">редактировать</button><button class="copy-btn" id="copybtn-custom_1780044836262" onclick="copyCode('custom_1780044836262',event)">копировать</button><button class="del-card-btn" onclick="deleteCustomCard('custom_1780044836262',event)">удалить</button></div></div></div></div><div class="section-header" id="sec-Производительность-запросов"><div class="section-icon" style="background:#0d2117">📊</div><div class="section-title-text">Производительность запросов</div><div class="section-count">15 скриптов</div></div><div class="card" id="card-top_queries_time">
     <div class="card-header" onclick="toggle('top_queries_time')">
       <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
       <div class="card-meta">
@@ -1682,7 +1723,7 @@ echo "Done."</pre><div style="position:absolute;top:8px;right:8px;display:flex;g
     </div>
     <div class="card-body">
       <div class="code-wrap">
-        <pre id="pre-top_queries_time"><span class="k">SELECT</span> queryid, round(total_exec_time::numeric,<span class="s">1</span>) <span class="k">AS</span> total_ms, calls, round(mean_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> mean_ms, round(stddev_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> stddev_ms, round((<span class="s">100</span>*total_exec_time/<span class="k">NULLIF</span>(sum(total_exec_time) OVER (),<span class="s">0</span>))::numeric,<span class="s">1</span>) <span class="k">AS</span> pct_cpu, round(<span class="s">100.0</span>*shared_blks_hit/<span class="k">NULLIF</span>(shared_blks_hit+shared_blks_read,<span class="s">0</span>),<span class="s">1</span>) <span class="k">AS</span> cache_hit_pct, temp_blks_written, rows, left(query,<span class="s">100</span>) <span class="k">AS</span> short_query <span class="k">FROM</span> <span class="f">pg_stat_statements</span> <span class="k">ORDER</span> <span class="k">BY</span> total_exec_time DESC <span class="k">LIMIT</span> <span class="s">20</span>;</pre>
+        <pre id="pre-top_queries_time"><span class="k">SELECT</span> left(trim(regexp_replace(query, <span class="s">'[[:space:]]+'</span>, <span class="s">' '</span>, <span class="s">'g'</span>)), <span class="s">100</span>) <span class="k">AS</span> short_query, queryid, round(total_exec_time::numeric,<span class="s">1</span>) <span class="k">AS</span> total_ms, calls, round(mean_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> mean_ms, round(stddev_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> stddev_ms, round((<span class="s">100</span>*total_exec_time/<span class="k">NULLIF</span>(sum(total_exec_time) OVER (),<span class="s">0</span>))::numeric,<span class="s">1</span>) <span class="k">AS</span> pct_cpu, round(<span class="s">100.0</span>*shared_blks_hit/<span class="k">NULLIF</span>(shared_blks_hit+shared_blks_read,<span class="s">0</span>),<span class="s">1</span>) <span class="k">AS</span> cache_hit_pct, temp_blks_written, rows <span class="k">FROM</span> <span class="f">pg_stat_statements</span> <span class="k">ORDER</span> <span class="k">BY</span> total_exec_time DESC <span class="k">LIMIT</span> <span class="s">20</span>;</pre>
         <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
           <button class="edit-btn" id="editbtn-top_queries_time" onclick="openEditModal('top_queries_time',event)">редактировать</button>
           <button class="copy-btn" id="copybtn-top_queries_time" onclick="copyCode('top_queries_time',event)">копировать</button>
@@ -1725,7 +1766,7 @@ echo "Done."</pre><div style="position:absolute;top:8px;right:8px;display:flex;g
     </div>
     <div class="card-body">
       <div class="code-wrap">
-        <pre id="pre-top_queries_io"><span class="k">SELECT</span> queryid, calls, shared_blks_read, shared_blks_hit, round(<span class="s">100.0</span>*shared_blks_hit/<span class="k">NULLIF</span>(shared_blks_hit+shared_blks_read,<span class="s">0</span>),<span class="s">1</span>) <span class="k">AS</span> cache_hit_pct, round(mean_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> mean_exec_ms, left(query,<span class="s">100</span>) <span class="k">AS</span> short_query <span class="k">FROM</span> <span class="f">pg_stat_statements</span> <span class="k">WHERE</span> shared_blks_read &gt; <span class="s">0</span> <span class="k">ORDER</span> <span class="k">BY</span> shared_blks_read DESC <span class="k">LIMIT</span> <span class="s">20</span>;</pre>
+        <pre id="pre-top_queries_io"><span class="k">SELECT</span> left(trim(regexp_replace(query, <span class="s">'[[:space:]]+'</span>, <span class="s">' '</span>, <span class="s">'g'</span>)), <span class="s">100</span>) <span class="k">AS</span> short_query, queryid, calls, shared_blks_read, shared_blks_hit, round(<span class="s">100.0</span>*shared_blks_hit/<span class="k">NULLIF</span>(shared_blks_hit+shared_blks_read,<span class="s">0</span>),<span class="s">1</span>) <span class="k">AS</span> cache_hit_pct, round(mean_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> mean_exec_ms <span class="k">FROM</span> <span class="f">pg_stat_statements</span> <span class="k">WHERE</span> shared_blks_read &gt; <span class="s">0</span> <span class="k">ORDER</span> <span class="k">BY</span> shared_blks_read DESC <span class="k">LIMIT</span> <span class="s">20</span>;</pre>
         <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
           <button class="edit-btn" id="editbtn-top_queries_io" onclick="openEditModal('top_queries_io',event)">редактировать</button>
           <button class="copy-btn" id="copybtn-top_queries_io" onclick="copyCode('top_queries_io',event)">копировать</button>
@@ -1752,7 +1793,7 @@ echo "Done."</pre><div style="position:absolute;top:8px;right:8px;display:flex;g
     </div>
     <div class="card-body">
       <div class="code-wrap">
-        <pre id="pre-top_queries_rows"><span class="k">SELECT</span> queryid, calls, rows, round(rows::numeric/<span class="k">NULLIF</span>(calls,<span class="s">0</span>),<span class="s">0</span>) <span class="k">AS</span> avg_rows_per_call, round(total_exec_time::numeric,<span class="s">1</span>) <span class="k">AS</span> total_ms, round(mean_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> mean_ms, left(query,<span class="s">100</span>) <span class="k">AS</span> short_query <span class="k">FROM</span> <span class="f">pg_stat_statements</span> <span class="k">WHERE</span> rows &gt; <span class="s">0</span> <span class="k">ORDER</span> <span class="k">BY</span> rows DESC <span class="k">LIMIT</span> <span class="s">20</span>;</pre>
+        <pre id="pre-top_queries_rows"><span class="k">SELECT</span> left(trim(regexp_replace(query, <span class="s">'[[:space:]]+'</span>, <span class="s">' '</span>, <span class="s">'g'</span>)), <span class="s">100</span>) <span class="k">AS</span> short_query, queryid, calls, rows, round(rows::numeric/<span class="k">NULLIF</span>(calls,<span class="s">0</span>),<span class="s">0</span>) <span class="k">AS</span> avg_rows_per_call, round(total_exec_time::numeric,<span class="s">1</span>) <span class="k">AS</span> total_ms, round(mean_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> mean_ms <span class="k">FROM</span> <span class="f">pg_stat_statements</span> <span class="k">WHERE</span> rows &gt; <span class="s">0</span> <span class="k">ORDER</span> <span class="k">BY</span> rows DESC <span class="k">LIMIT</span> <span class="s">20</span>;</pre>
         <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
           <button class="edit-btn" id="editbtn-top_queries_rows" onclick="openEditModal('top_queries_rows',event)">редактировать</button>
           <button class="copy-btn" id="copybtn-top_queries_rows" onclick="copyCode('top_queries_rows',event)">копировать</button>
@@ -1779,7 +1820,7 @@ echo "Done."</pre><div style="position:absolute;top:8px;right:8px;display:flex;g
     </div>
     <div class="card-body">
       <div class="code-wrap">
-        <pre id="pre-unstable_plans"><span class="k">SELECT</span> queryid, calls, round(mean_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> mean_ms, round(stddev_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> stddev_ms, round((stddev_exec_time/<span class="k">NULLIF</span>(mean_exec_time,<span class="s">0</span>)*<span class="s">100</span>)::numeric,<span class="s">1</span>) <span class="k">AS</span> cv_pct, round(min_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> min_ms, round(max_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> max_ms, left(query,<span class="s">100</span>) <span class="k">AS</span> short_query <span class="k">FROM</span> <span class="f">pg_stat_statements</span> <span class="k">WHERE</span> calls &gt; <span class="s">50</span> <span class="k">ORDER</span> <span class="k">BY</span> cv_pct DESC <span class="k">LIMIT</span> <span class="s">20</span>;</pre>
+        <pre id="pre-unstable_plans"><span class="k">SELECT</span> left(trim(regexp_replace(query, <span class="s">'[[:space:]]+'</span>, <span class="s">' '</span>, <span class="s">'g'</span>)), <span class="s">100</span>) <span class="k">AS</span> short_query, queryid, calls, round(mean_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> mean_ms, round(stddev_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> stddev_ms, round((stddev_exec_time/<span class="k">NULLIF</span>(mean_exec_time,<span class="s">0</span>)*<span class="s">100</span>)::numeric,<span class="s">1</span>) <span class="k">AS</span> cv_pct, round(min_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> min_ms, round(max_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> max_ms <span class="k">FROM</span> <span class="f">pg_stat_statements</span> <span class="k">WHERE</span> calls &gt; <span class="s">50</span> <span class="k">ORDER</span> <span class="k">BY</span> cv_pct DESC <span class="k">LIMIT</span> <span class="s">20</span>;</pre>
         <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
           <button class="edit-btn" id="editbtn-unstable_plans" onclick="openEditModal('unstable_plans',event)">редактировать</button>
           <button class="copy-btn" id="copybtn-unstable_plans" onclick="copyCode('unstable_plans',event)">копировать</button>
@@ -1806,7 +1847,7 @@ echo "Done."</pre><div style="position:absolute;top:8px;right:8px;display:flex;g
     </div>
     <div class="card-body">
       <div class="code-wrap">
-        <pre id="pre-top_queries_by_db"><span class="k">SELECT</span> d.datname, round(s.total_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> total_exec_ms, s.calls, s.rows, round(s.total_exec_time::numeric/calls,<span class="s">2</span>) <span class="k">AS</span> avg_ms, round((<span class="s">100</span>*s.total_exec_time/<span class="k">NULLIF</span>(sum(s.total_exec_time::numeric) OVER (),<span class="s">0</span>))::numeric,<span class="s">2</span>) <span class="k">AS</span> pct_cpu, substring(s.query,<span class="s">1</span>,<span class="s">80</span>) <span class="k">AS</span> short_query <span class="k">FROM</span> <span class="f">pg_stat_statements</span> s <span class="k">JOIN</span> <span class="f">pg_database</span> d <span class="k">ON</span> s.dbid=d.oid <span class="k">ORDER</span> <span class="k">BY</span> pct_cpu DESC <span class="k">LIMIT</span> <span class="s">10</span>;</pre>
+        <pre id="pre-top_queries_by_db"><span class="k">SELECT</span> left(trim(regexp_replace(s.query, <span class="s">'[[:space:]]+'</span>, <span class="s">' '</span>, <span class="s">'g'</span>)), <span class="s">100</span>) <span class="k">AS</span> short_query, d.datname, round(s.total_exec_time::numeric,<span class="s">2</span>) <span class="k">AS</span> total_exec_ms, s.calls, s.rows, round(s.total_exec_time::numeric/calls,<span class="s">2</span>) <span class="k">AS</span> avg_ms, round((<span class="s">100</span>*s.total_exec_time/<span class="k">NULLIF</span>(sum(s.total_exec_time::numeric) OVER (),<span class="s">0</span>))::numeric,<span class="s">2</span>) <span class="k">AS</span> pct_cpu <span class="k">FROM</span> <span class="f">pg_stat_statements</span> s <span class="k">JOIN</span> <span class="f">pg_database</span> d <span class="k">ON</span> s.dbid=d.oid <span class="k">ORDER</span> <span class="k">BY</span> pct_cpu DESC <span class="k">LIMIT</span> <span class="s">10</span>;</pre>
         <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
           <button class="edit-btn" id="editbtn-top_queries_by_db" onclick="openEditModal('top_queries_by_db',event)">редактировать</button>
           <button class="copy-btn" id="copybtn-top_queries_by_db" onclick="copyCode('top_queries_by_db',event)">копировать</button>
@@ -1974,6 +2015,93 @@ echo "Done."</pre><div style="position:absolute;top:8px;right:8px;display:flex;g
       <td class="col-d">Неиспользуемый индекс &gt; 100 MB = явный кандидат на удаление.<span class="col-note">▸ Перед удалением убедись что статистика репрезентативна (&gt; 1 недели рабочей нагрузки).</span></td>
     </tr></tbody></table>
     </div>
+  </div><div class="card" id="card-invalid_indexes">
+    <div class="card-header" onclick="toggle('invalid_indexes')">
+      <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
+      <div class="card-meta">
+        <div class="card-name">Невалидные индексы (indisvalid = false) <span class="badge b-perf">Производительность</span></div>
+        <div class="card-desc">Индексы которые остались битыми после неудачного CREATE INDEX CONCURRENTLY. Не используются планировщиком, но занимают место и обновляются при записи.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-wrap">
+        <pre id="pre-invalid_indexes"><span class="c">-- Невалидные индексы (indisvalid = false). Появляются после неудачного <span class="k">CREATE</span> <span class="k">INDEX</span> CONCURRENTLY.</span>
+<span class="k">SELECT</span>
+    n.nspname <span class="k">AS</span> schema,
+    c.relname <span class="k">AS</span> index_name,
+    t.relname <span class="k">AS</span> table_name,
+    <span class="f">pg_size_pretty</span>(<span class="f">pg_relation_size</span>(c.oid)) <span class="k">AS</span> index_size,
+    i.indisvalid <span class="k">AS</span> is_valid,
+    i.indisready <span class="k">AS</span> is_ready,
+    pg_get_indexdef(c.oid) <span class="k">AS</span> definition
+<span class="k">FROM</span> <span class="f">pg_class</span> c
+<span class="k">JOIN</span> <span class="f">pg_namespace</span> n <span class="k">ON</span> n.oid = c.relnamespace
+<span class="k">JOIN</span> <span class="f">pg_index</span> i <span class="k">ON</span> i.indexrelid = c.oid
+<span class="k">JOIN</span> <span class="f">pg_class</span> t <span class="k">ON</span> t.oid = i.indrelid
+<span class="k">WHERE</span> <span class="k">NOT</span> i.indisvalid <span class="k">OR</span> <span class="k">NOT</span> i.indisready;</pre>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+          <button class="edit-btn" id="editbtn-invalid_indexes" onclick="openEditModal('invalid_indexes',event)">редактировать</button>
+          <button class="copy-btn" id="copybtn-invalid_indexes" onclick="copyCode('invalid_indexes',event)">копировать</button>
+        </div>
+      </div>
+
+      <div class="cols-label">Пояснения по колонкам</div><table class="cols-table"><tbody>
+    <tr>
+      <td class="col-n">is_valid</td>
+      <td class="col-d">false = индекс не используется планировщиком, но обновляется при INSERT/UPDATE. Бесполезный груз.</td>
+    </tr>
+    <tr>
+      <td class="col-n">is_ready</td>
+      <td class="col-d">false = индекс ещё в процессе построения. true + is_valid=false = построение завершилось с ошибкой.<span class="col-note">▸ Чинить: DROP INDEX CONCURRENTLY schema.idx_name; CREATE INDEX CONCURRENTLY ... — повторить создание заново.</span></td>
+    </tr></tbody></table>
+    </div>
+  </div><div class="card" id="card-indexes_summary">
+    <div class="card-header" onclick="toggle('indexes_summary')">
+      <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
+      <div class="card-meta">
+        <div class="card-name">Сводка индексов по таблице (single/multi-column) <span class="badge b-perf">Производительность</span></div>
+        <div class="card-desc">Топ-30 таблиц по числу индексов. Видно сколько индексов на одну колонку, сколько составных, есть ли уникальный.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-wrap">
+        <pre id="pre-indexes_summary"><span class="c">-- Сводка по индексам каждой таблицы: сколько индексов, есть ли уникальный, single/multi-column.</span>
+<span class="k">SELECT</span>
+    n.nspname <span class="k">AS</span> schema_name,
+    c.relname <span class="k">AS</span> table_name,
+    c.reltuples::bigint <span class="k">AS</span> num_rows,
+    <span class="f">pg_size_pretty</span>(<span class="f">pg_relation_size</span>(c.oid)) <span class="k">AS</span> table_size,
+    count(i.indexrelid) <span class="k">AS</span> index_count,
+    <span class="k">CASE</span> <span class="k">WHEN</span> max(i.indisunique::int) = <span class="s">1</span> <span class="k">THEN</span> <span class="s">'Y'</span> <span class="k">ELSE</span> <span class="s">'N'</span> <span class="k">END</span> <span class="k">AS</span> has_unique,
+    sum(<span class="k">CASE</span> <span class="k">WHEN</span> i.indnatts = <span class="s">1</span> <span class="k">THEN</span> <span class="s">1</span> <span class="k">ELSE</span> <span class="s">0</span> <span class="k">END</span>) <span class="k">AS</span> single_column_idx,
+    sum(<span class="k">CASE</span> <span class="k">WHEN</span> i.indnatts &gt; <span class="s">1</span> <span class="k">THEN</span> <span class="s">1</span> <span class="k">ELSE</span> <span class="s">0</span> <span class="k">END</span>) <span class="k">AS</span> multi_column_idx
+<span class="k">FROM</span> <span class="f">pg_class</span> c
+<span class="k">JOIN</span> <span class="f">pg_namespace</span> n <span class="k">ON</span> n.oid = c.relnamespace
+<span class="k">LEFT</span> <span class="k">JOIN</span> <span class="f">pg_index</span> i <span class="k">ON</span> i.indrelid = c.oid
+<span class="k">WHERE</span> c.relkind = <span class="s">'r'</span> <span class="k">AND</span> n.nspname <span class="k">NOT</span> <span class="k">IN</span> (<span class="s">'pg_catalog'</span>,<span class="s">'information_schema'</span>)
+<span class="k">GROUP</span> <span class="k">BY</span> n.nspname, c.relname, c.reltuples, c.oid
+<span class="k">ORDER</span> <span class="k">BY</span> count(i.indexrelid) DESC, <span class="f">pg_relation_size</span>(c.oid) DESC
+<span class="k">LIMIT</span> <span class="s">30</span>;</pre>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+          <button class="edit-btn" id="editbtn-indexes_summary" onclick="openEditModal('indexes_summary',event)">редактировать</button>
+          <button class="copy-btn" id="copybtn-indexes_summary" onclick="copyCode('indexes_summary',event)">копировать</button>
+        </div>
+      </div>
+
+      <div class="cols-label">Пояснения по колонкам</div><table class="cols-table"><tbody>
+    <tr>
+      <td class="col-n">index_count</td>
+      <td class="col-d">Всего индексов на таблице. &gt;5 на таблицу = повод проверить duplicate_indexes и unused_indexes.</td>
+    </tr>
+    <tr>
+      <td class="col-n">has_unique</td>
+      <td class="col-d">Есть ли хоть один уникальный индекс. N = таблица без PK/UNIQUE — кандидат на проверку tables_without_pk.</td>
+    </tr>
+    <tr>
+      <td class="col-n">single_column_idx / multi_column_idx</td>
+      <td class="col-d">Соотношение одноколоночных и составных индексов. Много single-column на одной таблице часто перекрываются составными.</td>
+    </tr></tbody></table>
+    </div>
   </div><div class="card" id="card-index_table_ratio">
     <div class="card-header" onclick="toggle('index_table_ratio')">
       <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
@@ -2093,7 +2221,7 @@ limit <span class="s">20</span>;</pre>
       <td class="col-d">Данные читались с диска. Много read = нет индекса или плохой план.<span class="col-note">▸ ВАЖНО: ANALYZE реально выполняет запрос! UPDATE/DELETE — только в BEGIN...ROLLBACK!</span></td>
     </tr></tbody></table>
     </div>
-  </div><div class="section-header" id="sec-VACUUM-и-Bloat"><div class="section-icon" style="background:#1a0d2e">🧹</div><div class="section-title-text">VACUUM и Bloat</div><div class="section-count">6 скриптов</div></div><div class="card" id="card-dead_tuples">
+  </div><div class="section-header" id="sec-VACUUM-и-Bloat"><div class="section-icon" style="background:#1a0d2e">🧹</div><div class="section-title-text">VACUUM и Bloat</div><div class="section-count">7 скриптов</div></div><div class="card" id="card-dead_tuples">
     <div class="card-header" onclick="toggle('dead_tuples')">
       <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
       <div class="card-meta">
@@ -2319,6 +2447,94 @@ raw_bloat <span class="k">AS</span> (
     <tr>
       <td class="col-n">index_scans</td>
       <td class="col-d">Сколько раз индекс использовался. 0 при большом bloat = кандидат на DROP, а не REINDEX.<span class="col-note">▸ REINDEX INDEX CONCURRENTLY schema.index_name; — перестройка без блокировки (PG 12+).</span></td>
+    </tr></tbody></table>
+    </div>
+  </div><div class="card" id="card-bloat_table_data">
+    <div class="card-header" onclick="toggle('bloat_table_data')">
+      <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
+      <div class="card-meta">
+        <div class="card-name">Bloat таблиц (точный расчёт) <span class="badge b-vac">VACUUM</span></div>
+        <div class="card-desc">Точная оценка раздутия heap-страниц таблиц с учётом fillfactor. Показывает только реально раздутые: &gt;60% bloat и &gt;10 МБ потерь.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-wrap">
+        <pre id="pre-bloat_table_data"><span class="c">-- Bloat таблиц (DataEgret/Samokhvalov). Показывает только реально раздутые: &gt;<span class="s">60</span>% bloat и &gt;<span class="s">10</span> МБ потерь.</span>
+with step1 as (
+    select
+        tbl.oid tblid,
+        ns.nspname as schema_name,
+        tbl.relname as table_name,
+        tbl.reltuples,
+        tbl.relpages as heappages,
+        coalesce(toast.relpages, <span class="s">0</span>) as toastpages,
+        coalesce(toast.reltuples, <span class="s">0</span>) as toasttuples,
+        coalesce(substring(array_to_string(tbl.reloptions, <span class="s">' '</span>) from <span class="s">'%fillfactor=#"__#"%'</span> for <span class="s">'#'</span>)::int2, <span class="s">100</span>) as fillfactor,
+        current_setting(<span class="s">'block_size'</span>)::numeric as bs,
+        case when version() ~ <span class="s">'mingw32|<span class="s">64</span>-bit|x86_64|ppc64|ia64|amd64'</span> then <span class="s">8</span> else <span class="s">4</span> end as ma,
+        <span class="s">24</span> as page_hdr,
+        <span class="s">23</span> + case when max(coalesce(null_frac, <span class="s">0</span>)) &gt; <span class="s">0</span> then (<span class="s">7</span> + count(*)) / <span class="s">8</span> else <span class="s">0</span>::int end as tpl_hdr_size,
+        sum((<span class="s">1</span> - coalesce(s.null_frac, <span class="s">0</span>)) * coalesce(s.avg_width, <span class="s">1024</span>)) as tpl_data_size,
+        bool_or(att.atttypid = <span class="s">'pg_catalog.name'</span>::regtype) or count(att.attname) &lt;&gt; count(s.attname) as is_na
+    from pg_attribute as att
+    join <span class="f">pg_class</span> as tbl on att.attrelid = tbl.oid and tbl.relkind = <span class="s">'r'</span>
+    join <span class="f">pg_namespace</span> as ns on ns.oid = tbl.relnamespace
+    join pg_stats as s on s.schemaname = ns.nspname and s.tablename = tbl.relname and not s.inherited and s.attname = att.attname
+    left join <span class="f">pg_class</span> as toast on tbl.reltoastrelid = toast.oid
+    where att.attnum &gt; <span class="s">0</span> and not att.attisdropped and s.schemaname not in (<span class="s">'pg_catalog'</span>,<span class="s">'information_schema'</span>) and tbl.relpages &gt; <span class="s">2000</span>
+    group by <span class="s">1</span>,<span class="s">2</span>,<span class="s">3</span>,<span class="s">4</span>,<span class="s">5</span>,<span class="s">6</span>,<span class="s">7</span>,<span class="s">8</span>,<span class="s">9</span>,<span class="s">10</span>
+), step2 as (
+    select *,
+        (<span class="s">4</span> + tpl_hdr_size + tpl_data_size + (<span class="s">2</span>*ma)
+         - case when tpl_hdr_size%ma = <span class="s">0</span> then ma else tpl_hdr_size%ma end
+         - case when ceil(tpl_data_size)::int%ma = <span class="s">0</span> then ma else ceil(tpl_data_size)::int%ma end) as tpl_size,
+        bs - page_hdr as size_per_block,
+        (heappages + toastpages) as tblpages
+    from step1
+), step3 as (
+    select *,
+        ceil(reltuples / ((bs - page_hdr) / tpl_size)) + ceil(toasttuples/<span class="s">4</span>) as est_tblpages,
+        ceil(reltuples / ((bs - page_hdr)*fillfactor / (tpl_size*<span class="s">100</span>))) + ceil(toasttuples/<span class="s">4</span>) as est_tblpages_ff
+    from step2
+), step4 as (
+    select *,
+        tblpages*bs as real_size,
+        (tblpages - est_tblpages_ff)*bs as bloat_size,
+        case when tblpages - est_tblpages_ff &gt; <span class="s">0</span> then <span class="s">100</span>*(tblpages - est_tblpages_ff)/tblpages::float else <span class="s">0</span> end as bloat_ratio
+    from step3
+)
+select schema_name, table_name,
+    round(bloat_ratio::numeric, <span class="s">2</span>) as bloat_pct,
+    <span class="f">pg_size_pretty</span>(bloat_size::numeric)::text as bloat_size,
+    <span class="f">pg_size_pretty</span>(real_size::numeric) as table_size,
+    case when (real_size - bloat_size)::numeric &gt;= <span class="s">0</span> then <span class="s">'~'</span>||<span class="f">pg_size_pretty</span>((real_size - bloat_size)::numeric) else null end as live,
+    (select coalesce(substring(array_to_string(reloptions,<span class="s">' '</span>) from <span class="s">'fillfactor=([<span class="s">0</span>-<span class="s">9</span>]+)'</span>)::smallint, <span class="s">100</span>) from <span class="f">pg_class</span> where oid = tblid) as fillfactor
+from step4
+where bloat_ratio &gt;= <span class="s">60</span> and bloat_size &gt; <span class="s">1024</span>*<span class="s">1024</span>*<span class="s">10</span>
+order by bloat_size desc nulls last
+limit <span class="s">20</span>;</pre>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+          <button class="edit-btn" id="editbtn-bloat_table_data" onclick="openEditModal('bloat_table_data',event)">редактировать</button>
+          <button class="copy-btn" id="copybtn-bloat_table_data" onclick="copyCode('bloat_table_data',event)">копировать</button>
+        </div>
+      </div>
+
+      <div class="cols-label">Пояснения по колонкам</div><table class="cols-table"><tbody>
+    <tr>
+      <td class="col-n">bloat_pct</td>
+      <td class="col-d">Процент раздутия heap-страниц таблицы. &gt;60% = пора чистить (VACUUM FULL, pg_repack, или CLUSTER).</td>
+    </tr>
+    <tr>
+      <td class="col-n">bloat_size</td>
+      <td class="col-d">Сколько места можно освободить, убрав bloat (даёт оценку выигрыша).</td>
+    </tr>
+    <tr>
+      <td class="col-n">live</td>
+      <td class="col-d">Примерный размер живых данных без bloat.</td>
+    </tr>
+    <tr>
+      <td class="col-n">fillfactor</td>
+      <td class="col-d">Текущий fillfactor таблицы. Для часто обновляемых таблиц помогает 80-90 — оставляет место для HOT-updates.<span class="col-note">▸ Удобнее всего убирать bloat через pg_repack (без долгой блокировки): pg_repack -d db -t schema.table</span></td>
     </tr></tbody></table>
     </div>
   </div><div class="section-header" id="sec-Прогресс-операций"><div class="section-icon" style="background:#0d1a2e">⏳</div><div class="section-title-text">Прогресс операций</div><div class="section-count">7 скриптов</div></div><div class="card" id="card-progress_all">
@@ -2584,7 +2800,7 @@ raw_bloat <span class="k">AS</span> (
       <td class="col-d">Сколько строк загружено и сколько отсеяно условием WHERE.<span class="col-note">▸ Требуется PostgreSQL 14+. Карточка скрывает COPY с AccessExclusiveLock (идёт внутри ALTER/TRUNCATE).</span></td>
     </tr></tbody></table>
     </div>
-  </div><div class="section-header" id="sec-Размеры-объектов"><div class="section-icon" style="background:#1a1a0d">💾</div><div class="section-title-text">Размеры объектов</div><div class="section-count">5 скриптов</div></div><div class="card" id="card-db_sizes">
+  </div><div class="section-header" id="sec-Размеры-объектов"><div class="section-icon" style="background:#1a1a0d">💾</div><div class="section-title-text">Размеры объектов</div><div class="section-count">6 скриптов</div></div><div class="card" id="card-db_sizes">
     <div class="card-header" onclick="toggle('db_sizes')">
       <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
       <div class="card-meta">
@@ -2700,6 +2916,71 @@ raw_bloat <span class="k">AS</span> (
       <td class="col-d">Мёртвые кортежи — если много, нужен VACUUM.</td>
     </tr></tbody></table>
     </div>
+  </div><div class="card" id="card-partition_aware_sizes">
+    <div class="card-header" onclick="toggle('partition_aware_sizes')">
+      <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
+      <div class="card-meta">
+        <div class="card-name">Размер таблиц с агрегацией секций </div>
+        <div class="card-desc">Топ-30 таблиц по полному размеру. В отличие от table_sizes — суммирует все секции партиционированной таблицы в одну строку.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-wrap">
+        <pre id="pre-partition_aware_sizes"><span class="c">-- Размер таблиц с агрегацией секций. Для партиционированных таблиц возвращает суммарный размер всех секций как одну строку.</span>
+<span class="k">WITH</span> RECURSIVE pg_inherit(inhrelid, inhparent) <span class="k">AS</span> (
+    <span class="k">SELECT</span> inhrelid, inhparent <span class="k">FROM</span> pg_inherits
+    <span class="k">UNION</span>
+    <span class="k">SELECT</span> child.inhrelid, parent.inhparent
+    <span class="k">FROM</span> pg_inherit child, pg_inherits parent
+    <span class="k">WHERE</span> child.inhparent = parent.inhrelid),
+pg_inherit_short <span class="k">AS</span> (
+    <span class="k">SELECT</span> * <span class="k">FROM</span> pg_inherit <span class="k">WHERE</span> inhparent <span class="k">NOT</span> <span class="k">IN</span> (<span class="k">SELECT</span> inhrelid <span class="k">FROM</span> pg_inherit))
+<span class="k">SELECT</span> table_schema, table_name, row_estimate,
+    <span class="f">pg_size_pretty</span>(total_bytes) <span class="k">AS</span> total,
+    <span class="f">pg_size_pretty</span>(index_bytes) <span class="k">AS</span> index,
+    <span class="f">pg_size_pretty</span>(toast_bytes) <span class="k">AS</span> toast,
+    <span class="f">pg_size_pretty</span>(table_bytes) <span class="k">AS</span> "table"
+<span class="k">FROM</span> (
+    <span class="k">SELECT</span> *, total_bytes - index_bytes - <span class="k">COALESCE</span>(toast_bytes, <span class="s">0</span>) <span class="k">AS</span> table_bytes <span class="k">FROM</span> (
+        <span class="k">SELECT</span> c.oid, nspname <span class="k">AS</span> table_schema, relname <span class="k">AS</span> table_name,
+            <span class="k">SUM</span>(c.reltuples) OVER (PARTITION <span class="k">BY</span> parent) <span class="k">AS</span> row_estimate,
+            <span class="k">SUM</span>(<span class="f">pg_total_relation_size</span>(c.oid)) OVER (PARTITION <span class="k">BY</span> parent) <span class="k">AS</span> total_bytes,
+            <span class="k">SUM</span>(<span class="f">pg_indexes_size</span>(c.oid)) OVER (PARTITION <span class="k">BY</span> parent) <span class="k">AS</span> index_bytes,
+            <span class="k">SUM</span>(<span class="f">pg_total_relation_size</span>(reltoastrelid)) OVER (PARTITION <span class="k">BY</span> parent) <span class="k">AS</span> toast_bytes,
+            parent
+        <span class="k">FROM</span> (
+            <span class="k">SELECT</span> <span class="f">pg_class</span>.oid, reltuples, relname, relnamespace, <span class="f">pg_class</span>.reltoastrelid,
+                <span class="k">COALESCE</span>(inhparent, <span class="f">pg_class</span>.oid) <span class="k">AS</span> parent
+            <span class="k">FROM</span> <span class="f">pg_class</span>
+            <span class="k">LEFT</span> <span class="k">JOIN</span> pg_inherit_short <span class="k">ON</span> inhrelid = oid
+            <span class="k">WHERE</span> relkind <span class="k">IN</span> (<span class="s">'r'</span>,<span class="s">'p'</span>)
+        ) c
+        <span class="k">LEFT</span> <span class="k">JOIN</span> <span class="f">pg_namespace</span> n <span class="k">ON</span> n.oid = c.relnamespace
+    ) a
+    <span class="k">WHERE</span> oid = parent
+) a
+<span class="k">ORDER</span> <span class="k">BY</span> total_bytes DESC
+<span class="k">LIMIT</span> <span class="s">30</span>;</pre>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+          <button class="edit-btn" id="editbtn-partition_aware_sizes" onclick="openEditModal('partition_aware_sizes',event)">редактировать</button>
+          <button class="copy-btn" id="copybtn-partition_aware_sizes" onclick="copyCode('partition_aware_sizes',event)">копировать</button>
+        </div>
+      </div>
+
+      <div class="cols-label">Пояснения по колонкам</div><table class="cols-table"><tbody>
+    <tr>
+      <td class="col-n">total</td>
+      <td class="col-d">pg_total_relation_size: таблица + индексы + TOAST. Для партиционированной — сумма по всем секциям.</td>
+    </tr>
+    <tr>
+      <td class="col-n">index / toast</td>
+      <td class="col-d">Размер индексов и TOAST-таблицы отдельно. Большой TOAST = много текстовых/jsonb-полей.</td>
+    </tr>
+    <tr>
+      <td class="col-n">row_estimate</td>
+      <td class="col-d">Оценка количества строк по pg_class.reltuples (актуальна после ANALYZE).</td>
+    </tr></tbody></table>
+    </div>
   </div><div class="card" id="card-tablespace_sizes">
     <div class="card-header" onclick="toggle('tablespace_sizes')">
       <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
@@ -2727,7 +3008,7 @@ raw_bloat <span class="k">AS</span> (
       <td class="col-d">Суммарный размер всех объектов в этом tablespace.</td>
     </tr></tbody></table>
     </div>
-  </div><div class="section-header" id="sec-Конфигурация-и-здоровье"><div class="section-icon" style="background:#1a0d0d">❤️</div><div class="section-title-text">Конфигурация и здоровье</div><div class="section-count">5 скриптов</div></div><div class="card" id="card-cache_hit_ratio">
+  </div><div class="section-header" id="sec-Конфигурация-и-здоровье"><div class="section-icon" style="background:#1a0d0d">❤️</div><div class="section-title-text">Конфигурация и здоровье</div><div class="section-count">7 скриптов</div></div><div class="card" id="card-cache_hit_ratio">
     <div class="card-header" onclick="toggle('cache_hit_ratio')">
       <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
       <div class="card-meta">
@@ -2760,6 +3041,101 @@ raw_bloat <span class="k">AS</span> (
     <tr>
       <td class="col-n">temp_size</td>
       <td class="col-d">Размер временных файлов = work_mem мал. Увеличь work_mem.<span class="col-note">▸ Норма cache_hit_pct: &gt; 99% для OLTP, &gt; 95% для аналитики.</span></td>
+    </tr></tbody></table>
+    </div>
+  </div><div class="card" id="card-buffer_cache_top">
+    <div class="card-header" onclick="toggle('buffer_cache_top')">
+      <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
+      <div class="card-meta">
+        <div class="card-name">Топ объектов в shared_buffers (pg_buffercache) </div>
+        <div class="card-desc">Какие таблицы и индексы сейчас в shared_buffers. Помогает понять что реально кешируется.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-wrap">
+        <pre id="pre-buffer_cache_top"><span class="c">-- Требует расширение pg_buffercache (<span class="k">CREATE</span> EXTENSION pg_buffercache).</span>
+<span class="k">SELECT</span> c.relname,
+    <span class="k">COUNT</span>(*) <span class="k">AS</span> blocks,
+    <span class="f">pg_size_pretty</span>(<span class="k">COUNT</span>(*)*<span class="s">8192</span>::bigint) <span class="k">AS</span> in_cache,
+    <span class="k">ROUND</span>(<span class="s">100.0</span> * <span class="s">8192</span> * <span class="k">COUNT</span>(*) / <span class="k">NULLIF</span>(<span class="f">pg_table_size</span>(c.oid),<span class="s">0</span>)) <span class="k">AS</span> pct_of_relation,
+    <span class="k">ROUND</span>(<span class="s">100.0</span> * <span class="s">8192</span> * <span class="k">COUNT</span>(*) FILTER(<span class="k">WHERE</span> b.usagecount &gt; <span class="s">3</span>) / <span class="k">NULLIF</span>(<span class="f">pg_table_size</span>(c.oid),<span class="s">0</span>)) <span class="k">AS</span> pct_hot
+<span class="k">FROM</span> pg_buffercache b
+<span class="k">JOIN</span> <span class="f">pg_class</span> c <span class="k">ON</span> pg_relation_filenode(c.oid) = b.relfilenode
+<span class="k">WHERE</span> b.reldatabase <span class="k">IN</span> (<span class="s">0</span>, (<span class="k">SELECT</span> oid <span class="k">FROM</span> <span class="f">pg_database</span> <span class="k">WHERE</span> datname = current_database()))
+  <span class="k">AND</span> b.usagecount <span class="k">IS</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="k">GROUP</span> <span class="k">BY</span> c.relname, c.oid
+<span class="k">ORDER</span> <span class="k">BY</span> blocks DESC
+<span class="k">LIMIT</span> <span class="s">30</span>;</pre>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+          <button class="edit-btn" id="editbtn-buffer_cache_top" onclick="openEditModal('buffer_cache_top',event)">редактировать</button>
+          <button class="copy-btn" id="copybtn-buffer_cache_top" onclick="copyCode('buffer_cache_top',event)">копировать</button>
+        </div>
+      </div>
+
+      <div class="cols-label">Пояснения по колонкам</div><table class="cols-table"><tbody>
+    <tr>
+      <td class="col-n">in_cache</td>
+      <td class="col-d">Сколько объект занимает в shared_buffers прямо сейчас.</td>
+    </tr>
+    <tr>
+      <td class="col-n">pct_of_relation</td>
+      <td class="col-d">Процент объекта который закеширован. 100% = вся таблица влезла в кеш.</td>
+    </tr>
+    <tr>
+      <td class="col-n">pct_hot</td>
+      <td class="col-d">Доля горячих страниц (usagecount &gt; 3) — наиболее активно используемых.<span class="col-note">▸ Требует CREATE EXTENSION pg_buffercache. Тяжёлый запрос — берёт partition lock на BufferDescriptors, не запускай часто на нагруженном проде.</span></td>
+    </tr></tbody></table>
+    </div>
+  </div><div class="card" id="card-settings_context">
+    <div class="card-header" onclick="toggle('settings_context')">
+      <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
+      <div class="card-meta">
+        <div class="card-name">Контекст применения параметров (когда нужен restart) </div>
+        <div class="card-desc">Для каждого параметра показывает что нужно сделать чтобы изменение вступило в силу: рестарт, reload или новая сессия. Шире чем params_pending_restart.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-wrap">
+        <pre id="pre-settings_context"><span class="c">-- Как применяется изменение параметра: рестарт, reload, новая сессия или прямо сейчас.</span>
+<span class="k">SELECT</span> name,
+    <span class="k">CASE</span> context
+        <span class="k">WHEN</span> <span class="s">'postmaster'</span> <span class="k">THEN</span> <span class="s">'REQUIRED RESTART'</span>
+        <span class="k">WHEN</span> <span class="s">'sighup'</span> <span class="k">THEN</span> <span class="s">'<span class="f">pg_reload_conf</span>()'</span>
+        <span class="k">WHEN</span> <span class="s">'backend'</span> <span class="k">THEN</span> <span class="s">'новая сессия'</span>
+        <span class="k">WHEN</span> <span class="s">'superuser-backend'</span> <span class="k">THEN</span> <span class="s">'новая сессия (только суперюзер)'</span>
+        <span class="k">WHEN</span> <span class="s">'user'</span> <span class="k">THEN</span> <span class="s">'<span class="k">SET</span> в сессии'</span>
+        <span class="k">WHEN</span> <span class="s">'superuser'</span> <span class="k">THEN</span> <span class="s">'<span class="k">SET</span> (только суперюзер)'</span>
+        <span class="k">ELSE</span> context
+    <span class="k">END</span> <span class="k">AS</span> apply_when,
+    setting <span class="k">AS</span> current_value,
+    unit,
+    short_desc
+<span class="k">FROM</span> pg_settings
+<span class="k">WHERE</span> context &lt;&gt; <span class="s">'internal'</span>
+<span class="k">ORDER</span> <span class="k">BY</span>
+    <span class="k">CASE</span> context
+        <span class="k">WHEN</span> <span class="s">'postmaster'</span> <span class="k">THEN</span> <span class="s">1</span>
+        <span class="k">WHEN</span> <span class="s">'sighup'</span> <span class="k">THEN</span> <span class="s">2</span>
+        <span class="k">ELSE</span> <span class="s">3</span>
+    <span class="k">END</span>, name;</pre>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+          <button class="edit-btn" id="editbtn-settings_context" onclick="openEditModal('settings_context',event)">редактировать</button>
+          <button class="copy-btn" id="copybtn-settings_context" onclick="copyCode('settings_context',event)">копировать</button>
+        </div>
+      </div>
+
+      <div class="cols-label">Пояснения по колонкам</div><table class="cols-table"><tbody>
+    <tr>
+      <td class="col-n">apply_when</td>
+      <td class="col-d">REQUIRED RESTART — нужен полный рестарт (shared_buffers, max_connections, port). pg_reload_conf() — достаточно reload. Новая сессия — параметр применяется к новым backend-ам.</td>
+    </tr>
+    <tr>
+      <td class="col-n">current_value</td>
+      <td class="col-d">Текущее значение из памяти процессов (может отличаться от postgresql.conf если есть несохранённые изменения).</td>
+    </tr>
+    <tr>
+      <td class="col-n">_подсказка</td>
+      <td class="col-d">Сортировка по приоритету: сначала параметры требующие рестарт, потом reload, потом сессионные.<span class="col-note">▸ Применить reload без рестарта: SELECT pg_reload_conf(); или из shell: pg_ctl reload -D /var/lib/pgsql/data</span></td>
     </tr></tbody></table>
     </div>
   </div><div class="card" id="card-dml_ratio">
@@ -3080,16 +3456,44 @@ from s;</pre>
       <td class="col-d">Владелец объекта. Важно проверять при миграции или создании новых ролей.</td>
     </tr></tbody></table>
     </div>
-  </div><div class="card" id="card-custom_1779166293254" style="border-color:var(--green-border)"><div class="card-header" onclick="toggle('custom_1779166293254')"><svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg><div class="card-meta"><div class="card-name">Поиск  основной таблицы по TOAST <span style="font-size:10px;padding:1px 7px;border-radius:10px;background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);font-family:var(--mono)">мой</span></div><div class="card-desc"></div></div></div><div class="card-body"><div class="code-wrap"><pre id="pre-custom_1779166293254"><span class="k">SELECT</span>
-    c.relname <span class="k">AS</span> toast_table,
-    n.nspname,
-    t.relname <span class="k">AS</span> parent_table
-<span class="k">FROM</span> <span class="f">pg_class</span> c
-<span class="k">JOIN</span> <span class="f">pg_class</span> t
-    <span class="k">ON</span> t.reltoastrelid = c.oid
-<span class="k">JOIN</span> <span class="f">pg_namespace</span> n
-    <span class="k">ON</span> n.oid = t.relnamespace
-<span class="k">WHERE</span> c.relname = <span class="s">'название тоста'</span>;</pre><div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;"><button class="edit-btn" onclick="openEditModal('custom_1779166293254');event.stopPropagation()">редактировать</button><button class="copy-btn" id="copybtn-custom_1779166293254" onclick="copyCode('custom_1779166293254',event)">копировать</button><button class="del-card-btn" onclick="deleteCustomCard('custom_1779166293254',event)">удалить</button></div></div><div class="cols-label">Пояснения по колонкам</div><table class="cols-table"><tbody><tr><td class="col-n">toast_table</td><td class="col-d">Название TOAST</td></tr><tr><td class="col-n">nspname</td><td class="col-d">Название схемы</td></tr><tr><td class="col-n">parent_table</td><td class="col-d">Название основной таблицы</td></tr></tbody></table></div></div><div class="section-header" id="sec-Роли-и-права"><div class="section-icon" style="background:#1a1a0a">🔑</div><div class="section-title-text">Роли и права</div><div class="section-count">6 скриптов</div></div><div class="card" id="card-roles_list">
+  </div><div class="card" id="card-func_definition">
+    <div class="card-header" onclick="toggle('func_definition')">
+      <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
+      <div class="card-meta">
+        <div class="card-name">Определение функции / процедуры </div>
+        <div class="card-desc">Полный CREATE OR REPLACE для существующей функции или процедуры, плюс список всех пользовательских функций.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-wrap">
+        <pre id="pre-func_definition"><span class="c">-- Полное определение функции/процедуры. Замени schema.func_name на свою.</span>
+<span class="k">SELECT</span> pg_get_functiondef(<span class="s">'schema.func_name'</span>::regproc);
+
+<span class="c">-- Список всех функций пользователя:</span>
+<span class="k">SELECT</span> n.nspname <span class="k">AS</span> schema, p.proname <span class="k">AS</span> name, pg_get_function_identity_arguments(p.oid) <span class="k">AS</span> args,
+       l.lanname <span class="k">AS</span> language, p.prokind <span class="k">AS</span> kind
+<span class="k">FROM</span> pg_proc p
+<span class="k">JOIN</span> <span class="f">pg_namespace</span> n <span class="k">ON</span> n.oid = p.pronamespace
+<span class="k">JOIN</span> pg_language l <span class="k">ON</span> l.oid = p.prolang
+<span class="k">WHERE</span> n.nspname <span class="k">NOT</span> <span class="k">IN</span> (<span class="s">'pg_catalog'</span>,<span class="s">'information_schema'</span>)
+<span class="k">ORDER</span> <span class="k">BY</span> <span class="s">1</span>,<span class="s">2</span>;</pre>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+          <button class="edit-btn" id="editbtn-func_definition" onclick="openEditModal('func_definition',event)">редактировать</button>
+          <button class="copy-btn" id="copybtn-func_definition" onclick="copyCode('func_definition',event)">копировать</button>
+        </div>
+      </div>
+
+      <div class="cols-label">Пояснения по колонкам</div><table class="cols-table"><tbody>
+    <tr>
+      <td class="col-n">language</td>
+      <td class="col-d">Язык реализации: plpgsql, sql, c, plpython3u и т.д.</td>
+    </tr>
+    <tr>
+      <td class="col-n">kind</td>
+      <td class="col-d">f = function, p = procedure, a = aggregate, w = window function.<span class="col-note">▸ Альтернатива в psql: \sf schema.func_name — показывает определение функции.</span></td>
+    </tr></tbody></table>
+    </div>
+  </div><div class="section-header" id="sec-Роли-и-права"><div class="section-icon" style="background:#1a1a0a">🔑</div><div class="section-title-text">Роли и права</div><div class="section-count">7 скриптов</div></div><div class="card" id="card-roles_list">
     <div class="card-header" onclick="toggle('roles_list')">
       <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
       <div class="card-meta">
@@ -3186,6 +3590,51 @@ from s;</pre>
       <td class="col-d">YES = этот grantee может сам выдавать это право другим (WITH GRANT OPTION).</td>
     </tr></tbody></table>
     </div>
+  </div><div class="card" id="card-grant_generator">
+    <div class="card-header" onclick="toggle('grant_generator')">
+      <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
+      <div class="card-meta">
+        <div class="card-name">Генератор GRANT на все схемы </div>
+        <div class="card-desc">Генерирует GRANT-команды разом на все пользовательские схемы. Удобно для массовой выдачи прав новой роли.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-wrap">
+        <pre id="pre-grant_generator"><span class="c">-- Генератор GRANT на все пользовательские схемы. Замени example_user на свою роль.</span>
+<span class="c">-- В psql выполнить с gexec — сгенерированные команды будут сразу применены.</span>
+<span class="k">SELECT</span> <span class="s">'GRANT <span class="k">SELECT</span>, <span class="k">UPDATE</span>, <span class="k">DELETE</span> <span class="k">ON</span> <span class="k">ALL</span> TABLES <span class="k">IN</span> SCHEMA '</span>||n.nspname||<span class="s">' TO example_user;'</span>
+<span class="k">FROM</span> pg_catalog.<span class="f">pg_namespace</span> n
+<span class="k">WHERE</span> n.nspname !~ <span class="s">'^pg_'</span> <span class="k">AND</span> n.nspname &lt;&gt; <span class="s">'information_schema'</span>;
+
+<span class="c">-- Аналогично для последовательностей:</span>
+<span class="k">SELECT</span> <span class="s">'GRANT USAGE, <span class="k">SELECT</span> <span class="k">ON</span> <span class="k">ALL</span> SEQUENCES <span class="k">IN</span> SCHEMA '</span>||n.nspname||<span class="s">' TO example_user;'</span>
+<span class="k">FROM</span> pg_catalog.<span class="f">pg_namespace</span> n
+<span class="k">WHERE</span> n.nspname !~ <span class="s">'^pg_'</span> <span class="k">AND</span> n.nspname &lt;&gt; <span class="s">'information_schema'</span>;
+
+<span class="c">-- Чтобы права применялись и к будущим объектам — <span class="k">ALTER</span> DEFAULT PRIVILEGES:</span>
+<span class="k">SELECT</span> <span class="s">'<span class="k">ALTER</span> DEFAULT PRIVILEGES <span class="k">IN</span> SCHEMA '</span>||n.nspname||<span class="s">' GRANT <span class="k">SELECT</span> <span class="k">ON</span> TABLES TO example_user;'</span>
+<span class="k">FROM</span> pg_catalog.<span class="f">pg_namespace</span> n
+<span class="k">WHERE</span> n.nspname !~ <span class="s">'^pg_'</span> <span class="k">AND</span> n.nspname &lt;&gt; <span class="s">'information_schema'</span>;</pre>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+          <button class="edit-btn" id="editbtn-grant_generator" onclick="openEditModal('grant_generator',event)">редактировать</button>
+          <button class="copy-btn" id="copybtn-grant_generator" onclick="copyCode('grant_generator',event)">копировать</button>
+        </div>
+      </div>
+
+      <div class="cols-label">Пояснения по колонкам</div><table class="cols-table"><tbody>
+    <tr>
+      <td class="col-n">_шаблон</td>
+      <td class="col-d">Замени example_user на нужную роль и выбери набор привилегий (SELECT/INSERT/UPDATE/DELETE).</td>
+    </tr>
+    <tr>
+      <td class="col-n">_применить</td>
+      <td class="col-d">В psql выполни запрос с \gexec вместо ; — сгенерированные строки будут сразу выполнены.</td>
+    </tr>
+    <tr>
+      <td class="col-n">_DEFAULT PRIVILEGES</td>
+      <td class="col-d">Третий блок настраивает права на БУДУЩИЕ объекты. Без него каждая новая таблица потребует отдельного GRANT.<span class="col-note">▸ Альтернатива одной командой (если устраивает дать всё разом): GRANT pg_read_all_data TO example_user; — встроенная роль с PG 14+.</span></td>
+    </tr></tbody></table>
+    </div>
   </div><div class="card" id="card-schema_usage_check">
     <div class="card-header" onclick="toggle('schema_usage_check')">
       <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
@@ -3267,7 +3716,7 @@ from s;</pre>
       <td class="col-d">Продолжительность самого старого соединения этой роли.</td>
     </tr></tbody></table>
     </div>
-  </div><div class="section-header" id="sec-Развёртывание-и-настройка"><div class="section-icon" style="background:#0d1f0d">🚀</div><div class="section-title-text">Развёртывание и настройка</div><div class="section-count">10 скриптов</div></div><div class="card" id="card-install_ubuntu">
+  </div><div class="section-header" id="sec-Развёртывание-и-настройка"><div class="section-icon" style="background:#0d1f0d">🚀</div><div class="section-title-text">Развёртывание и настройка</div><div class="section-count">11 скриптов</div></div><div class="card" id="card-install_ubuntu">
     <div class="card-header" onclick="toggle('install_ubuntu')">
       <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
       <div class="card-meta">
@@ -3312,6 +3761,55 @@ sudo -u postgres psql -c "<span class="k">SELECT</span> version();"
     <tr>
       <td class="col-n">PGDATA</td>
       <td class="col-d">Ubuntu: /var/lib/postgresql/17/main. Конфиг: /etc/postgresql/17/main/.</td>
+    </tr></tbody></table>
+    </div>
+  </div><div class="card" id="card-install_rhel">
+    <div class="card-header" onclick="toggle('install_rhel')">
+      <svg class="chevron" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 10,7 4,12"></polyline></svg>
+      <div class="card-meta">
+        <div class="card-name">Установка PostgreSQL из PGDG (RHEL/CentOS/Rocky/AlmaLinux) <span class="badge b-os">ОС</span></div>
+        <div class="card-desc">Официальный репозиторий PGDG для Red Hat семейства. Работает на RHEL/CentOS/Rocky/Alma 7/8/9.</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="code-wrap">
+        <pre id="pre-install_rhel"># <span class="s">1</span>. Установить репозиторий PGDG (для RHEL <span class="s">9</span> / x86_64)
+sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-<span class="s">9</span>-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+
+# <span class="s">2</span>. Отключить встроенный модуль postgresql (важно!)
+sudo dnf -qy module disable postgresql
+
+# <span class="s">3</span>. Установить нужную версию (замени <span class="s">17</span> на свою)
+sudo dnf install -y postgresql17-server postgresql17
+
+# <span class="s">4</span>. Инициализировать базу данных
+sudo /usr/pgsql-<span class="s">17</span>/bin/postgresql-<span class="s">17</span>-setup initdb
+
+# <span class="s">5</span>. Запустить и включить автозапуск
+sudo systemctl enable postgresql-<span class="s">17</span>
+sudo systemctl start postgresql-<span class="s">17</span>
+
+# <span class="s">6</span>. Проверить
+sudo systemctl status postgresql-<span class="s">17</span>
+sudo -u postgres psql -c "<span class="k">SELECT</span> version();"</pre>
+        <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
+          <button class="edit-btn" id="editbtn-install_rhel" onclick="openEditModal('install_rhel',event)">редактировать</button>
+          <button class="copy-btn" id="copybtn-install_rhel" onclick="copyCode('install_rhel',event)">копировать</button>
+        </div>
+      </div>
+
+      <div class="cols-label">Пояснения по колонкам</div><table class="cols-table"><tbody>
+    <tr>
+      <td class="col-n">EL-9</td>
+      <td class="col-d">Для RHEL 8: замени EL-9 на EL-8. Для RHEL 7: EL-7.</td>
+    </tr>
+    <tr>
+      <td class="col-n">postgresql17</td>
+      <td class="col-d">Замени 17 на нужную версию: 12, 13, 14, 15, 16, 17, 18.</td>
+    </tr>
+    <tr>
+      <td class="col-n">PGDATA</td>
+      <td class="col-d">RHEL: /var/lib/pgsql/17/data. Конфиг лежит прямо в PGDATA.</td>
     </tr></tbody></table>
     </div>
   </div><div class="card" id="card-pg_hba_setup">
@@ -3868,8 +4366,7 @@ chown postgres:postgres /etc/postgresql/<span class="s">17</span>/main/server.{c
     </div>
     <div class="card-body">
       <div class="code-wrap">
-        <pre id="pre-os_disk_pg">du -sh $PGDATA &amp;&amp; echo "" &amp;&amp; du -sh $PGDATA/base $PGDATA/pg_wal $PGDATA/log $PGDATA/pg_tblspc <span class="s">2</span>&gt;/dev/null | sort -rh
-# Стандартный путь Ubuntu: /var/lib/postgresql/<span class="s">17</span>/main</pre>
+        <pre id="pre-os_disk_pg">du -sh $PGDATA &amp;&amp; echo "" &amp;&amp; du -sh $PGDATA/base $PGDATA/pg_wal $PGDATA/pg_log $PGDATA/pg_tblspc <span class="s">2</span>&gt;/dev/null | sort -rh</pre>
         <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
           <button class="edit-btn" id="editbtn-os_disk_pg" onclick="openEditModal('os_disk_pg',event)">редактировать</button>
           <button class="copy-btn" id="copybtn-os_disk_pg" onclick="copyCode('os_disk_pg',event)">копировать</button>
@@ -3927,9 +4424,7 @@ chown postgres:postgres /etc/postgresql/<span class="s">17</span>/main/server.{c
     </div>
     <div class="card-body">
       <div class="code-wrap">
-        <pre id="pre-os_io">iostat -xhd <span class="s">2</span> <span class="s">5</span>
-# Если не установлен:
-# sudo apt install sysstat</pre>
+        <pre id="pre-os_io">iostat -xhd <span class="s">2</span> <span class="s">5</span></pre>
         <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
           <button class="edit-btn" id="editbtn-os_io" onclick="openEditModal('os_io',event)">редактировать</button>
           <button class="copy-btn" id="copybtn-os_io" onclick="copyCode('os_io',event)">копировать</button>
@@ -4041,12 +4536,7 @@ chown postgres:postgres /etc/postgresql/<span class="s">17</span>/main/server.{c
     </div>
     <div class="card-body">
       <div class="code-wrap">
-        <pre id="pre-os_open_files">PG_PID=$(pgrep -u postgres -x postgres | head -<span class="s">1</span>) &amp;&amp; echo "PID: $PG_PID" &amp;&amp; echo "Open: $(ls /proc/$PG_PID/fd <span class="s">2</span>&gt;/dev/null | wc -l)" &amp;&amp; echo "Limit: $(awk <span class="s">'/open files/{print $<span class="s">4</span>}'</span> /proc/$PG_PID/limits <span class="s">2</span>&gt;/dev/null)" &amp;&amp; echo "System: $(ulimit -n)"
-# Изменить лимит: /etc/security/limits.conf
-# postgres soft nofile <span class="s">65536</span>
-# Или: /etc/systemd/system/postgresql.service.d/limits.conf
-# [Service]
-# LimitNOFILE=<span class="s">65536</span></pre>
+        <pre id="pre-os_open_files">PG_PID=$(pgrep -u postgres -x postgres | head -<span class="s">1</span>) &amp;&amp; echo "PID: $PG_PID" &amp;&amp; echo "Open: $(ls /proc/$PG_PID/fd <span class="s">2</span>&gt;/dev/null | wc -l)" &amp;&amp; echo "Limit: $(awk <span class="s">'/open files/{print $<span class="s">4</span>}'</span> /proc/$PG_PID/limits <span class="s">2</span>&gt;/dev/null)" &amp;&amp; echo "System: $(ulimit -n)"</pre>
         <div style="position:absolute;top:8px;right:8px;display:flex;gap:6px;">
           <button class="edit-btn" id="editbtn-os_open_files" onclick="openEditModal('os_open_files',event)">редактировать</button>
           <button class="copy-btn" id="copybtn-os_open_files" onclick="copyCode('os_open_files',event)">копировать</button>
@@ -4079,7 +4569,7 @@ chown postgres:postgres /etc/postgresql/<span class="s">17</span>/main/server.{c
     <div class="modal-body">
       <div class="form-row">
         <label class="form-label">Раздел</label>
-        <div class="section-chips" id="section-chips"><div class="s-chip" data-section="Состояние сервера" data-dot="#58a6ff" data-color="#1f3050" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#58a6ff"></span>Состояние сервера</div><div class="s-chip" data-section="Быстрая диагностика" data-dot="#f778ba" data-color="#1a0a2e" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#f778ba"></span>Быстрая диагностика</div><div class="s-chip" data-section="Блокировки" data-dot="#f85149" data-color="#2d0d0d" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#f85149"></span>Блокировки</div><div class="s-chip" data-section="Репликация" data-dot="#79c0ff" data-color="#0d2236" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#79c0ff"></span>Репликация</div><div class="s-chip" data-section="Производительность запросов" data-dot="#3fb950" data-color="#0d2117" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#3fb950"></span>Производительность запросов</div><div class="s-chip" data-section="VACUUM и Bloat" data-dot="#bc8cff" data-color="#1a0d2e" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#bc8cff"></span>VACUUM и Bloat</div><div class="s-chip" data-section="Прогресс операций" data-dot="#58a6ff" data-color="#0d1a2e" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#58a6ff"></span>Прогресс операций</div><div class="s-chip" data-section="Размеры объектов" data-dot="#e3b341" data-color="#1a1a0d" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#e3b341"></span>Размеры объектов</div><div class="s-chip" data-section="Конфигурация и здоровье" data-dot="#f85149" data-color="#1a0d0d" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#f85149"></span>Конфигурация и здоровье</div><div class="s-chip sel" data-section="Схема и метаданные" data-dot="#79c0ff" data-color="#0d1a2e" style="background: rgb(13, 26, 46); border-color: rgb(121, 192, 255);"><span class="s-chip-dot" style="background:#79c0ff"></span>Схема и метаданные</div><div class="s-chip" data-section="Роли и права" data-dot="#e3b341" data-color="#1a1a0a" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#e3b341"></span>Роли и права</div><div class="s-chip" data-section="Развёртывание и настройка" data-dot="#3fb950" data-color="#0d1f0d" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#3fb950"></span>Развёртывание и настройка</div><div class="s-chip" data-section="Операционная система" data-dot="#56d364" data-color="#1f2a0d" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#56d364"></span>Операционная система</div></div>
+        <div class="section-chips" id="section-chips"><div class="s-chip" data-section="Состояние сервера" data-dot="#58a6ff" data-color="#1f3050" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#58a6ff"></span>Состояние сервера</div><div class="s-chip" data-section="Быстрая диагностика" data-dot="#f778ba" data-color="#1a0a2e" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#f778ba"></span>Быстрая диагностика</div><div class="s-chip" data-section="Блокировки" data-dot="#f85149" data-color="#2d0d0d" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#f85149"></span>Блокировки</div><div class="s-chip sel" data-section="Репликация" data-dot="#79c0ff" data-color="#0d2236" style="background: rgb(13, 34, 54); border-color: rgb(121, 192, 255);"><span class="s-chip-dot" style="background:#79c0ff"></span>Репликация</div><div class="s-chip" data-section="Производительность запросов" data-dot="#3fb950" data-color="#0d2117" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#3fb950"></span>Производительность запросов</div><div class="s-chip" data-section="VACUUM и Bloat" data-dot="#bc8cff" data-color="#1a0d2e" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#bc8cff"></span>VACUUM и Bloat</div><div class="s-chip" data-section="Прогресс операций" data-dot="#58a6ff" data-color="#0d1a2e" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#58a6ff"></span>Прогресс операций</div><div class="s-chip" data-section="Размеры объектов" data-dot="#e3b341" data-color="#1a1a0d" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#e3b341"></span>Размеры объектов</div><div class="s-chip" data-section="Конфигурация и здоровье" data-dot="#f85149" data-color="#1a0d0d" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#f85149"></span>Конфигурация и здоровье</div><div class="s-chip" data-section="Схема и метаданные" data-dot="#79c0ff" data-color="#0d1a2e" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#79c0ff"></span>Схема и метаданные</div><div class="s-chip" data-section="Роли и права" data-dot="#e3b341" data-color="#1a1a0a" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#e3b341"></span>Роли и права</div><div class="s-chip" data-section="Развёртывание и настройка" data-dot="#3fb950" data-color="#0d1f0d" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#3fb950"></span>Развёртывание и настройка</div><div class="s-chip" data-section="Операционная система" data-dot="#56d364" data-color="#1f2a0d" style="background: var(--bg3);"><span class="s-chip-dot" style="background:#56d364"></span>Операционная система</div></div>
       </div>
       <div class="form-row">
         <label class="form-label">Версия PostgreSQL <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">(для какой версии работает запрос)</span></label>
@@ -4099,7 +4589,7 @@ chown postgres:postgres /etc/postgresql/<span class="s">17</span>/main/server.{c
       </div>
       <div class="form-row">
         <label class="form-label">Пояснения по колонкам <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">(необязательно)</span></label>
-        <div class="cols-editor-wrap" id="cols-editor"><div class="col-edit-row" id="col-row-0"><input placeholder="имя_колонки" value=""><textarea placeholder="Что означает эта колонка..." rows="2"></textarea><button class="col-del" onclick="delCol(0)">✕</button></div><div class="col-edit-row" id="col-row-1"><input placeholder="имя_колонки" value=""><textarea placeholder="Что означает эта колонка..." rows="2"></textarea><button class="col-del" onclick="delCol(1)">✕</button></div><div class="col-edit-row" id="col-row-2"><input placeholder="имя_колонки" value=""><textarea placeholder="Что означает эта колонка..." rows="2"></textarea><button class="col-del" onclick="delCol(2)">✕</button></div></div>
+        <div class="cols-editor-wrap" id="cols-editor"><div class="col-edit-row" id="col-row-0"><input placeholder="имя_колонки" value=""><textarea placeholder="Что означает эта колонка..." rows="2"></textarea><button class="col-del" onclick="delCol(0)">✕</button></div></div>
         <button class="add-col-row" onclick="addCol()">+ добавить колонку</button>
       </div>
     </div>
@@ -4144,7 +4634,7 @@ chown postgres:postgres /etc/postgresql/<span class="s">17</span>/main/server.{c
 </div>
 
 <!-- Сюда saveToFile() вшивает пользовательские данные как чистый JSON. Не редактировать вручную. -->
-<script type="application/json" id="pgcs-saved">{"version":4,"saved_at":"2026-05-19T04:51:36.168Z","custom_cards":[{"id":"custom_1779076160323","name":"Скрипт для создания реплики (без слота)","desc":"","sql":"#!/bin/bash\n\nset -e\n\nPG_VERSION=17\nPGDATA=\"/var/lib/postgresql/${PG_VERSION}/main\"\n\nPRIMARY_HOST=\"172.17.47.12\"\nPRIMARY_PORT=\"5432\"\n\nREPL_USER=\"repl\"\n\necho \"Stopping PostgreSQL...\"\nsystemctl stop postgresql\n\necho \"Cleaning PGDATA...\"\nrm -rf ${PGDATA:?}/*\n\necho \"Starting basebackup...\"\n\nsudo -u postgres pg_basebackup -h ${PRIMARY_HOST} -p ${PRIMARY_PORT} -U ${REPL_USER} -D ${PGDATA} -Fp -Xs -P -R\n\necho \"Fixing permissions...\"\nchown -R postgres:postgres ${PGDATA}\nchmod 700 ${PGDATA}\n\necho \"Starting PostgreSQL...\"\nsystemctl start postgresql\n\necho \"Checking replica status...\"\nsudo -u postgres psql -c \"select pg_is_in_recovery();\"\n\necho \"Done.\"","cols":[],"section":"Репликация","pg_min":12,"pg_max":null,"custom":true},{"id":"custom_1779166293254","name":"Поиск  основной таблицы по TOAST","desc":"","sql":"SELECT\n    c.relname AS toast_table,\n    n.nspname,\n    t.relname AS parent_table\nFROM pg_class c\nJOIN pg_class t\n    ON t.reltoastrelid = c.oid\nJOIN pg_namespace n\n    ON n.oid = t.relnamespace\nWHERE c.relname = 'название тоста';","cols":[{"n":"toast_table","d":"Название TOAST"},{"n":"nspname","d":"Название схемы"},{"n":"parent_table","d":"Название основной таблицы"}],"section":"Схема и метаданные","pg_min":12,"pg_max":null,"custom":true}],"custom_sections":[],"sql_edits":{},"name_edits":{},"desc_edits":{},"cols_edits":{}}</script>
+<script type="application/json" id="pgcs-saved">{"version":4,"saved_at":"2026-05-29T08:55:55.840Z","custom_cards":[{"id":"custom_1780044836262","name":"Скрипт для создания реплики (без слота)","desc":"","sql":"#!/bin/bash\n\nset -e\n\nPG_VERSION=17\nPGDATA=\"/var/lib/postgresql/${PG_VERSION}/main\"\n\nPRIMARY_HOST=\"172.17.47.12\"\nPRIMARY_PORT=\"5432\"\n\nREPL_USER=\"repl\"\n\necho \"Stopping PostgreSQL...\"\nsystemctl stop postgresql\n\necho \"Cleaning PGDATA...\"\nrm -rf ${PGDATA:?}/*\n\necho \"Starting basebackup...\"\n\nsudo -u postgres pg_basebackup -h ${PRIMARY_HOST} -p ${PRIMARY_PORT} -U ${REPL_USER} -D ${PGDATA} -Fp -Xs -P -R\n\necho \"Fixing permissions...\"\nchown -R postgres:postgres ${PGDATA}\nchmod 700 ${PGDATA}\n\necho \"Starting PostgreSQL...\"\nsystemctl start postgresql\n\necho \"Checking replica status...\"\nsudo -u postgres psql -c \"select pg_is_in_recovery();\"\n\necho \"Done.\"","cols":[],"section":"Репликация","pg_min":12,"pg_max":null,"custom":true}],"custom_sections":[],"sql_edits":{},"name_edits":{},"desc_edits":{},"cols_edits":{}}</script>
 
 <script>
 
@@ -4162,6 +4652,25 @@ cols:[
   {n:"uptime", d:"Интервал с момента старта. После аварийного рестарта будет маленьким."},
   {n:"started_at", d:"Точная дата и время старта — сравни с временем инцидента."},
   {n:"pg_version", d:"Полная строка версии PostgreSQL. Нужна при обращении в поддержку."}
+]},
+
+{id:"instance_info",pg_min:12,pg_max:null,os:null, name:"Расширенная информация об инстансе", badge:"",
+desc:"Адрес/порт сервера, версия, БД, пользователь, аптайм, путь к конфигу и data_directory, статус реплики — всё разом.",
+sql:`SELECT
+    inet_server_addr() AS server,
+    inet_server_port() AS port,
+    version() AS version,
+    current_database() AS database,
+    current_schema() AS schema,
+    current_user AS "user",
+    date_trunc('second', now() - pg_postmaster_start_time()) AS uptime,
+    (SELECT setting FROM pg_settings WHERE name = 'config_file') AS config_file,
+    (SELECT setting FROM pg_settings WHERE name = 'data_directory') AS data_dir,
+    pg_is_in_recovery() AS is_replica;`,
+cols:[
+  {n:"server / port", d:"IP и порт текущего подключения (NULL для unix-socket)."},
+  {n:"config_file / data_dir", d:"Полный путь к postgresql.conf и data directory. Удобно для скриптов и при заходе на новый сервер."},
+  {n:"is_replica", d:"true = это реплика (recovery mode), запись запрещена."}
 ]},
 
 {id:"pg_settings_nondefault",pg_min:12,pg_max:null,os:null, name:"Параметры, изменённые относительно дефолтных", badge:"",
@@ -4282,7 +4791,7 @@ cols:[
 {id:"top5_temp_files",pg_min:12,pg_max:null,os:null, name:"Топ-10 запросов, пишущих временные файлы", badge:"perf",
 desc:"Запросы которым не хватило work_mem и они сбрасывают данные на диск. Медленно.",
 sql:`-- Требует pg_stat_statements. Запросы которым не хватило work_mem:
-SELECT queryid, calls, temp_blks_written, temp_blks_read, round(temp_blks_written*8192/1024.0/1024.0,1) AS temp_mb, round(total_exec_time::numeric,1) AS total_ms, round(mean_exec_time::numeric,2) AS mean_ms, left(query,100) AS short_query FROM pg_stat_statements WHERE temp_blks_written > 0 ORDER BY temp_blks_written DESC LIMIT 10;`,
+SELECT left(trim(regexp_replace(query, '[[:space:]]+', ' ', 'g')), 100) AS short_query, queryid, calls, temp_blks_written, temp_blks_read, round(temp_blks_written*8192/1024.0/1024.0,1) AS temp_mb, round(total_exec_time::numeric,1) AS total_ms, round(mean_exec_time::numeric,2) AS mean_ms FROM pg_stat_statements WHERE temp_blks_written > 0 ORDER BY temp_blks_written DESC LIMIT 10;`,
 cols:[
   {n:"temp_blks_written", d:"Блоков (по 8 КБ) записано во временные файлы. Большое = work_mem мал для сортировок/хешей этого запроса."},
   {n:"temp_mb", d:"Объём временных файлов в МБ — наглядная оценка нехватки work_mem."},
@@ -4445,7 +4954,7 @@ cols:[
 
 {id:"top_queries_time",pg_min:12,pg_max:null,os:null, name:"Топ-20 запросов по суммарному времени", badge:"perf",
 desc:"Требует pg_stat_statements. Главный инструмент поиска самых дорогих запросов.",
-sql:`SELECT queryid, round(total_exec_time::numeric,1) AS total_ms, calls, round(mean_exec_time::numeric,2) AS mean_ms, round(stddev_exec_time::numeric,2) AS stddev_ms, round((100*total_exec_time/NULLIF(sum(total_exec_time) OVER (),0))::numeric,1) AS pct_cpu, round(100.0*shared_blks_hit/NULLIF(shared_blks_hit+shared_blks_read,0),1) AS cache_hit_pct, temp_blks_written, rows, left(query,100) AS short_query FROM pg_stat_statements ORDER BY total_exec_time DESC LIMIT 20;`,
+sql:`SELECT left(trim(regexp_replace(query, '[[:space:]]+', ' ', 'g')), 100) AS short_query, queryid, round(total_exec_time::numeric,1) AS total_ms, calls, round(mean_exec_time::numeric,2) AS mean_ms, round(stddev_exec_time::numeric,2) AS stddev_ms, round((100*total_exec_time/NULLIF(sum(total_exec_time) OVER (),0))::numeric,1) AS pct_cpu, round(100.0*shared_blks_hit/NULLIF(shared_blks_hit+shared_blks_read,0),1) AS cache_hit_pct, temp_blks_written, rows FROM pg_stat_statements ORDER BY total_exec_time DESC LIMIT 20;`,
 cols:[
   {n:"queryid", d:"Хеш запроса. Полный текст: SELECT query FROM pg_stat_statements WHERE queryid='...';"},
   {n:"total_ms", d:"Суммарное время выполнения (мс). Главный критерий — именно этот запрос нагружает CPU."},
@@ -4457,7 +4966,7 @@ cols:[
 
 {id:"top_queries_io",pg_min:12,pg_max:null,os:null, name:"Топ-20 запросов по физическому IO", badge:"perf",
 desc:"Запросы с наибольшим числом физических чтений с диска — кандидаты на индексирование.",
-sql:`SELECT queryid, calls, shared_blks_read, shared_blks_hit, round(100.0*shared_blks_hit/NULLIF(shared_blks_hit+shared_blks_read,0),1) AS cache_hit_pct, round(mean_exec_time::numeric,2) AS mean_exec_ms, left(query,100) AS short_query FROM pg_stat_statements WHERE shared_blks_read > 0 ORDER BY shared_blks_read DESC LIMIT 20;`,
+sql:`SELECT left(trim(regexp_replace(query, '[[:space:]]+', ' ', 'g')), 100) AS short_query, queryid, calls, shared_blks_read, shared_blks_hit, round(100.0*shared_blks_hit/NULLIF(shared_blks_hit+shared_blks_read,0),1) AS cache_hit_pct, round(mean_exec_time::numeric,2) AS mean_exec_ms FROM pg_stat_statements WHERE shared_blks_read > 0 ORDER BY shared_blks_read DESC LIMIT 20;`,
 cols:[
   {n:"shared_blks_read", d:"Блоков прочитано с диска (cache miss). Большое = нет индекса или мало shared_buffers."},
   {n:"cache_hit_pct", d:"Процент попаданий в кеш. < 90% при большом трафике — проблема.", note:"Включить IO timing: ALTER SYSTEM SET track_io_timing=on; SELECT pg_reload_conf();"}
@@ -4465,7 +4974,7 @@ cols:[
 
 {id:"top_queries_rows",pg_min:12,pg_max:null,os:null, name:"Топ-20 запросов возвращающих больше всего строк", badge:"perf",
 desc:"Запросы с аномально большим количеством обрабатываемых строк — возможно нет нужных условий WHERE.",
-sql:`SELECT queryid, calls, rows, round(rows::numeric/NULLIF(calls,0),0) AS avg_rows_per_call, round(total_exec_time::numeric,1) AS total_ms, round(mean_exec_time::numeric,2) AS mean_ms, left(query,100) AS short_query FROM pg_stat_statements WHERE rows > 0 ORDER BY rows DESC LIMIT 20;`,
+sql:`SELECT left(trim(regexp_replace(query, '[[:space:]]+', ' ', 'g')), 100) AS short_query, queryid, calls, rows, round(rows::numeric/NULLIF(calls,0),0) AS avg_rows_per_call, round(total_exec_time::numeric,1) AS total_ms, round(mean_exec_time::numeric,2) AS mean_ms FROM pg_stat_statements WHERE rows > 0 ORDER BY rows DESC LIMIT 20;`,
 cols:[
   {n:"rows", d:"Суммарное число обработанных строк за всё время."},
   {n:"avg_rows_per_call", d:"Среднее строк за один вызов. Миллионы строк при простом запросе = нет WHERE или нет LIMIT."}
@@ -4473,7 +4982,7 @@ cols:[
 
 {id:"unstable_plans",pg_min:12,pg_max:null,os:null, name:"Запросы с нестабильным временем (cv_pct)", badge:"perf",
 desc:"Высокий cv_pct = нестабильный план, lock wait, или кеш-промахи. Непредсказуемое поведение.",
-sql:`SELECT queryid, calls, round(mean_exec_time::numeric,2) AS mean_ms, round(stddev_exec_time::numeric,2) AS stddev_ms, round((stddev_exec_time/NULLIF(mean_exec_time,0)*100)::numeric,1) AS cv_pct, round(min_exec_time::numeric,2) AS min_ms, round(max_exec_time::numeric,2) AS max_ms, left(query,100) AS short_query FROM pg_stat_statements WHERE calls > 50 ORDER BY cv_pct DESC LIMIT 20;`,
+sql:`SELECT left(trim(regexp_replace(query, '[[:space:]]+', ' ', 'g')), 100) AS short_query, queryid, calls, round(mean_exec_time::numeric,2) AS mean_ms, round(stddev_exec_time::numeric,2) AS stddev_ms, round((stddev_exec_time/NULLIF(mean_exec_time,0)*100)::numeric,1) AS cv_pct, round(min_exec_time::numeric,2) AS min_ms, round(max_exec_time::numeric,2) AS max_ms FROM pg_stat_statements WHERE calls > 50 ORDER BY cv_pct DESC LIMIT 20;`,
 cols:[
   {n:"cv_pct", d:"Коэффициент вариации (stddev/mean × 100%). > 50% = нестабильность. > 100% = патология."},
   {n:"min_ms / max_ms", d:"max/min > 10x при одном запросе = почти всегда lock wait или cache miss.", note:"EXPLAIN (ANALYZE, BUFFERS) в момент медленного выполнения."}
@@ -4481,7 +4990,7 @@ cols:[
 
 {id:"top_queries_by_db",pg_min:12,pg_max:null,os:null, name:"Топ-5 дорогих запросов с привязкой к БД", badge:"perf",
 desc:"Самые ресурсоёмкие запросы с именем базы данных — удобно для мультибазовых инстансов.",
-sql:`SELECT d.datname, round(s.total_exec_time::numeric,2) AS total_exec_ms, s.calls, s.rows, round(s.total_exec_time::numeric/calls,2) AS avg_ms, round((100*s.total_exec_time/NULLIF(sum(s.total_exec_time::numeric) OVER (),0))::numeric,2) AS pct_cpu, substring(s.query,1,80) AS short_query FROM pg_stat_statements s JOIN pg_database d ON s.dbid=d.oid ORDER BY pct_cpu DESC LIMIT 10;`,
+sql:`SELECT left(trim(regexp_replace(s.query, '[[:space:]]+', ' ', 'g')), 100) AS short_query, d.datname, round(s.total_exec_time::numeric,2) AS total_exec_ms, s.calls, s.rows, round(s.total_exec_time::numeric/calls,2) AS avg_ms, round((100*s.total_exec_time/NULLIF(sum(s.total_exec_time::numeric) OVER (),0))::numeric,2) AS pct_cpu FROM pg_stat_statements s JOIN pg_database d ON s.dbid=d.oid ORDER BY pct_cpu DESC LIMIT 10;`,
 cols:[
   {n:"datname", d:"База данных в которой выполняется запрос."},
   {n:"pct_cpu", d:"Доля этого запроса в суммарном CPU всех запросов по всем базам."}
@@ -4529,6 +5038,52 @@ cols:[
   {n:"is_unique / is_primary", d:"Уникальные и первичные индексы нельзя удалять даже при idx_scan=0."},
   {n:"idx_scan", d:"0 = индекс не использовался с последнего сброса статистики."},
   {n:"index_size", d:"Неиспользуемый индекс > 100 MB = явный кандидат на удаление.", note:"Перед удалением убедись что статистика репрезентативна (> 1 недели рабочей нагрузки)."}
+]},
+
+{id:"invalid_indexes",pg_min:12,pg_max:null,os:null, name:"Невалидные индексы (indisvalid = false)", badge:"perf",
+desc:"Индексы которые остались битыми после неудачного CREATE INDEX CONCURRENTLY. Не используются планировщиком, но занимают место и обновляются при записи.",
+sql:`-- Невалидные индексы (indisvalid = false). Появляются после неудачного CREATE INDEX CONCURRENTLY.
+SELECT
+    n.nspname AS schema,
+    c.relname AS index_name,
+    t.relname AS table_name,
+    pg_size_pretty(pg_relation_size(c.oid)) AS index_size,
+    i.indisvalid AS is_valid,
+    i.indisready AS is_ready,
+    pg_get_indexdef(c.oid) AS definition
+FROM pg_class c
+JOIN pg_namespace n ON n.oid = c.relnamespace
+JOIN pg_index i ON i.indexrelid = c.oid
+JOIN pg_class t ON t.oid = i.indrelid
+WHERE NOT i.indisvalid OR NOT i.indisready;`,
+cols:[
+  {n:"is_valid", d:"false = индекс не используется планировщиком, но обновляется при INSERT/UPDATE. Бесполезный груз."},
+  {n:"is_ready", d:"false = индекс ещё в процессе построения. true + is_valid=false = построение завершилось с ошибкой.", note:"Чинить: DROP INDEX CONCURRENTLY schema.idx_name; CREATE INDEX CONCURRENTLY ... — повторить создание заново."}
+]},
+
+{id:"indexes_summary",pg_min:12,pg_max:null,os:null, name:"Сводка индексов по таблице (single/multi-column)", badge:"perf",
+desc:"Топ-30 таблиц по числу индексов. Видно сколько индексов на одну колонку, сколько составных, есть ли уникальный.",
+sql:`-- Сводка по индексам каждой таблицы: сколько индексов, есть ли уникальный, single/multi-column.
+SELECT
+    n.nspname AS schema_name,
+    c.relname AS table_name,
+    c.reltuples::bigint AS num_rows,
+    pg_size_pretty(pg_relation_size(c.oid)) AS table_size,
+    count(i.indexrelid) AS index_count,
+    CASE WHEN max(i.indisunique::int) = 1 THEN 'Y' ELSE 'N' END AS has_unique,
+    sum(CASE WHEN i.indnatts = 1 THEN 1 ELSE 0 END) AS single_column_idx,
+    sum(CASE WHEN i.indnatts > 1 THEN 1 ELSE 0 END) AS multi_column_idx
+FROM pg_class c
+JOIN pg_namespace n ON n.oid = c.relnamespace
+LEFT JOIN pg_index i ON i.indrelid = c.oid
+WHERE c.relkind = 'r' AND n.nspname NOT IN ('pg_catalog','information_schema')
+GROUP BY n.nspname, c.relname, c.reltuples, c.oid
+ORDER BY count(i.indexrelid) DESC, pg_relation_size(c.oid) DESC
+LIMIT 30;`,
+cols:[
+  {n:"index_count", d:"Всего индексов на таблице. >5 на таблицу = повод проверить duplicate_indexes и unused_indexes."},
+  {n:"has_unique", d:"Есть ли хоть один уникальный индекс. N = таблица без PK/UNIQUE — кандидат на проверку tables_without_pk."},
+  {n:"single_column_idx / multi_column_idx", d:"Соотношение одноколоночных и составных индексов. Много single-column на одной таблице часто перекрываются составными."}
 ]},
 
 {id:"index_table_ratio",pg_min:12,pg_max:null,os:null, name:"Соотношение размера индексов к таблице", badge:"perf",
@@ -4694,6 +5249,69 @@ cols:[
   {n:"index_scans", d:"Сколько раз индекс использовался. 0 при большом bloat = кандидат на DROP, а не REINDEX.", note:"REINDEX INDEX CONCURRENTLY schema.index_name; — перестройка без блокировки (PG 12+)."}
 ]},
 
+{id:"bloat_table_data",pg_min:12,pg_max:null,os:null, name:"Bloat таблиц (точный расчёт)", badge:"vac",
+desc:"Точная оценка раздутия heap-страниц таблиц с учётом fillfactor. Показывает только реально раздутые: >60% bloat и >10 МБ потерь.",
+sql:`-- Bloat таблиц (DataEgret/Samokhvalov). Показывает только реально раздутые: >60% bloat и >10 МБ потерь.
+with step1 as (
+    select
+        tbl.oid tblid,
+        ns.nspname as schema_name,
+        tbl.relname as table_name,
+        tbl.reltuples,
+        tbl.relpages as heappages,
+        coalesce(toast.relpages, 0) as toastpages,
+        coalesce(toast.reltuples, 0) as toasttuples,
+        coalesce(substring(array_to_string(tbl.reloptions, ' ') from '%fillfactor=#"__#"%' for '#')::int2, 100) as fillfactor,
+        current_setting('block_size')::numeric as bs,
+        case when version() ~ 'mingw32|64-bit|x86_64|ppc64|ia64|amd64' then 8 else 4 end as ma,
+        24 as page_hdr,
+        23 + case when max(coalesce(null_frac, 0)) > 0 then (7 + count(*)) / 8 else 0::int end as tpl_hdr_size,
+        sum((1 - coalesce(s.null_frac, 0)) * coalesce(s.avg_width, 1024)) as tpl_data_size,
+        bool_or(att.atttypid = 'pg_catalog.name'::regtype) or count(att.attname) <> count(s.attname) as is_na
+    from pg_attribute as att
+    join pg_class as tbl on att.attrelid = tbl.oid and tbl.relkind = 'r'
+    join pg_namespace as ns on ns.oid = tbl.relnamespace
+    join pg_stats as s on s.schemaname = ns.nspname and s.tablename = tbl.relname and not s.inherited and s.attname = att.attname
+    left join pg_class as toast on tbl.reltoastrelid = toast.oid
+    where att.attnum > 0 and not att.attisdropped and s.schemaname not in ('pg_catalog','information_schema') and tbl.relpages > 2000
+    group by 1,2,3,4,5,6,7,8,9,10
+), step2 as (
+    select *,
+        (4 + tpl_hdr_size + tpl_data_size + (2*ma)
+         - case when tpl_hdr_size%ma = 0 then ma else tpl_hdr_size%ma end
+         - case when ceil(tpl_data_size)::int%ma = 0 then ma else ceil(tpl_data_size)::int%ma end) as tpl_size,
+        bs - page_hdr as size_per_block,
+        (heappages + toastpages) as tblpages
+    from step1
+), step3 as (
+    select *,
+        ceil(reltuples / ((bs - page_hdr) / tpl_size)) + ceil(toasttuples/4) as est_tblpages,
+        ceil(reltuples / ((bs - page_hdr)*fillfactor / (tpl_size*100))) + ceil(toasttuples/4) as est_tblpages_ff
+    from step2
+), step4 as (
+    select *,
+        tblpages*bs as real_size,
+        (tblpages - est_tblpages_ff)*bs as bloat_size,
+        case when tblpages - est_tblpages_ff > 0 then 100*(tblpages - est_tblpages_ff)/tblpages::float else 0 end as bloat_ratio
+    from step3
+)
+select schema_name, table_name,
+    round(bloat_ratio::numeric, 2) as bloat_pct,
+    pg_size_pretty(bloat_size::numeric)::text as bloat_size,
+    pg_size_pretty(real_size::numeric) as table_size,
+    case when (real_size - bloat_size)::numeric >= 0 then '~'||pg_size_pretty((real_size - bloat_size)::numeric) else null end as live,
+    (select coalesce(substring(array_to_string(reloptions,' ') from 'fillfactor=([0-9]+)')::smallint, 100) from pg_class where oid = tblid) as fillfactor
+from step4
+where bloat_ratio >= 60 and bloat_size > 1024*1024*10
+order by bloat_size desc nulls last
+limit 20;`,
+cols:[
+  {n:"bloat_pct", d:"Процент раздутия heap-страниц таблицы. >60% = пора чистить (VACUUM FULL, pg_repack, или CLUSTER)."},
+  {n:"bloat_size", d:"Сколько места можно освободить, убрав bloat (даёт оценку выигрыша)."},
+  {n:"live", d:"Примерный размер живых данных без bloat."},
+  {n:"fillfactor", d:"Текущий fillfactor таблицы. Для часто обновляемых таблиц помогает 80-90 — оставляет место для HOT-updates.", note:"Удобнее всего убирать bloat через pg_repack (без долгой блокировки): pg_repack -d db -t schema.table"}
+]},
+
 // ═══════════════════════════════════════════════
 // ПРОГРЕСС ДЛИТЕЛЬНЫХ ОПЕРАЦИЙ
 // ═══════════════════════════════════════════════
@@ -4850,6 +5468,49 @@ cols:[
   {n:"dead_rows", d:"Мёртвые кортежи — если много, нужен VACUUM."}
 ]},
 
+{id:"partition_aware_sizes",pg_min:12,pg_max:null,os:null, name:"Размер таблиц с агрегацией секций", badge:"",
+desc:"Топ-30 таблиц по полному размеру. В отличие от table_sizes — суммирует все секции партиционированной таблицы в одну строку.",
+sql:`-- Размер таблиц с агрегацией секций. Для партиционированных таблиц возвращает суммарный размер всех секций как одну строку.
+WITH RECURSIVE pg_inherit(inhrelid, inhparent) AS (
+    SELECT inhrelid, inhparent FROM pg_inherits
+    UNION
+    SELECT child.inhrelid, parent.inhparent
+    FROM pg_inherit child, pg_inherits parent
+    WHERE child.inhparent = parent.inhrelid),
+pg_inherit_short AS (
+    SELECT * FROM pg_inherit WHERE inhparent NOT IN (SELECT inhrelid FROM pg_inherit))
+SELECT table_schema, table_name, row_estimate,
+    pg_size_pretty(total_bytes) AS total,
+    pg_size_pretty(index_bytes) AS index,
+    pg_size_pretty(toast_bytes) AS toast,
+    pg_size_pretty(table_bytes) AS "table"
+FROM (
+    SELECT *, total_bytes - index_bytes - COALESCE(toast_bytes, 0) AS table_bytes FROM (
+        SELECT c.oid, nspname AS table_schema, relname AS table_name,
+            SUM(c.reltuples) OVER (PARTITION BY parent) AS row_estimate,
+            SUM(pg_total_relation_size(c.oid)) OVER (PARTITION BY parent) AS total_bytes,
+            SUM(pg_indexes_size(c.oid)) OVER (PARTITION BY parent) AS index_bytes,
+            SUM(pg_total_relation_size(reltoastrelid)) OVER (PARTITION BY parent) AS toast_bytes,
+            parent
+        FROM (
+            SELECT pg_class.oid, reltuples, relname, relnamespace, pg_class.reltoastrelid,
+                COALESCE(inhparent, pg_class.oid) AS parent
+            FROM pg_class
+            LEFT JOIN pg_inherit_short ON inhrelid = oid
+            WHERE relkind IN ('r','p')
+        ) c
+        LEFT JOIN pg_namespace n ON n.oid = c.relnamespace
+    ) a
+    WHERE oid = parent
+) a
+ORDER BY total_bytes DESC
+LIMIT 30;`,
+cols:[
+  {n:"total", d:"pg_total_relation_size: таблица + индексы + TOAST. Для партиционированной — сумма по всем секциям."},
+  {n:"index / toast", d:"Размер индексов и TOAST-таблицы отдельно. Большой TOAST = много текстовых/jsonb-полей."},
+  {n:"row_estimate", d:"Оценка количества строк по pg_class.reltuples (актуальна после ANALYZE)."}
+]},
+
 {id:"tablespace_sizes",pg_min:12,pg_max:null,os:null, name:"Размер tablespace-ов", badge:"",
 desc:"Размер каждого tablespace — полезно если данные разнесены по разным дискам.",
 sql:`SELECT spcname AS tablespace_name, pg_tablespace_location(oid) AS location, pg_size_pretty(pg_tablespace_size(oid)) AS size, pg_tablespace_size(oid) AS size_bytes FROM pg_tablespace ORDER BY size_bytes DESC;`,
@@ -4871,6 +5532,57 @@ cols:[
   {n:"rollback_pct", d:"% откатов. Высокий = много ошибок в приложении."},
   {n:"deadlocks", d:"Количество deadlock-ов. > 0 = проблема в логике приложения."},
   {n:"temp_size", d:"Размер временных файлов = work_mem мал. Увеличь work_mem.", note:"Норма cache_hit_pct: > 99% для OLTP, > 95% для аналитики."}
+]},
+
+{id:"buffer_cache_top",pg_min:12,pg_max:null,os:null, name:"Топ объектов в shared_buffers (pg_buffercache)", badge:"",
+desc:"Какие таблицы и индексы сейчас в shared_buffers. Помогает понять что реально кешируется.",
+sql:`-- Требует расширение pg_buffercache (CREATE EXTENSION pg_buffercache).
+SELECT c.relname,
+    COUNT(*) AS blocks,
+    pg_size_pretty(COUNT(*)*8192::bigint) AS in_cache,
+    ROUND(100.0 * 8192 * COUNT(*) / NULLIF(pg_table_size(c.oid),0)) AS pct_of_relation,
+    ROUND(100.0 * 8192 * COUNT(*) FILTER(WHERE b.usagecount > 3) / NULLIF(pg_table_size(c.oid),0)) AS pct_hot
+FROM pg_buffercache b
+JOIN pg_class c ON pg_relation_filenode(c.oid) = b.relfilenode
+WHERE b.reldatabase IN (0, (SELECT oid FROM pg_database WHERE datname = current_database()))
+  AND b.usagecount IS NOT NULL
+GROUP BY c.relname, c.oid
+ORDER BY blocks DESC
+LIMIT 30;`,
+cols:[
+  {n:"in_cache", d:"Сколько объект занимает в shared_buffers прямо сейчас."},
+  {n:"pct_of_relation", d:"Процент объекта который закеширован. 100% = вся таблица влезла в кеш."},
+  {n:"pct_hot", d:"Доля горячих страниц (usagecount > 3) — наиболее активно используемых.", note:"Требует CREATE EXTENSION pg_buffercache. Тяжёлый запрос — берёт partition lock на BufferDescriptors, не запускай часто на нагруженном проде."}
+]},
+
+{id:"settings_context",pg_min:12,pg_max:null,os:null, name:"Контекст применения параметров (когда нужен restart)", badge:"",
+desc:"Для каждого параметра показывает что нужно сделать чтобы изменение вступило в силу: рестарт, reload или новая сессия. Шире чем params_pending_restart.",
+sql:`-- Как применяется изменение параметра: рестарт, reload, новая сессия или прямо сейчас.
+SELECT name,
+    CASE context
+        WHEN 'postmaster' THEN 'REQUIRED RESTART'
+        WHEN 'sighup' THEN 'pg_reload_conf()'
+        WHEN 'backend' THEN 'новая сессия'
+        WHEN 'superuser-backend' THEN 'новая сессия (только суперюзер)'
+        WHEN 'user' THEN 'SET в сессии'
+        WHEN 'superuser' THEN 'SET (только суперюзер)'
+        ELSE context
+    END AS apply_when,
+    setting AS current_value,
+    unit,
+    short_desc
+FROM pg_settings
+WHERE context <> 'internal'
+ORDER BY
+    CASE context
+        WHEN 'postmaster' THEN 1
+        WHEN 'sighup' THEN 2
+        ELSE 3
+    END, name;`,
+cols:[
+  {n:"apply_when", d:"REQUIRED RESTART — нужен полный рестарт (shared_buffers, max_connections, port). pg_reload_conf() — достаточно reload. Новая сессия — параметр применяется к новым backend-ам."},
+  {n:"current_value", d:"Текущее значение из памяти процессов (может отличаться от postgresql.conf если есть несохранённые изменения)."},
+  {n:"_подсказка", d:"Сортировка по приоритету: сначала параметры требующие рестарт, потом reload, потом сессионные.", note:"Применить reload без рестарта: SELECT pg_reload_conf(); или из shell: pg_ctl reload -D /var/lib/pgsql/data"}
 ]},
 
 {id:"dml_ratio",pg_min:12,pg_max:null,os:null, name:"Профиль нагрузки: INSERT / UPDATE / DELETE", badge:"",
@@ -4982,6 +5694,24 @@ cols:[
   {n:"owner", d:"Владелец объекта. Важно проверять при миграции или создании новых ролей."}
 ]},
 
+{id:"func_definition",pg_min:12,pg_max:null,os:null, name:"Определение функции / процедуры", badge:"",
+desc:"Полный CREATE OR REPLACE для существующей функции или процедуры, плюс список всех пользовательских функций.",
+sql:`-- Полное определение функции/процедуры. Замени schema.func_name на свою.
+SELECT pg_get_functiondef('schema.func_name'::regproc);
+
+-- Список всех функций пользователя:
+SELECT n.nspname AS schema, p.proname AS name, pg_get_function_identity_arguments(p.oid) AS args,
+       l.lanname AS language, p.prokind AS kind
+FROM pg_proc p
+JOIN pg_namespace n ON n.oid = p.pronamespace
+JOIN pg_language l ON l.oid = p.prolang
+WHERE n.nspname NOT IN ('pg_catalog','information_schema')
+ORDER BY 1,2;`,
+cols:[
+  {n:"language", d:"Язык реализации: plpgsql, sql, c, plpython3u и т.д."},
+  {n:"kind", d:"f = function, p = procedure, a = aggregate, w = window function.", note:"Альтернатива в psql: \\sf schema.func_name — показывает определение функции."}
+]},
+
 // ═══════════════════════════════════════════════
 // РОЛИ И ПРАВА
 // ═══════════════════════════════════════════════
@@ -5013,6 +5743,29 @@ cols:[
   {n:"grantee", d:"Роль которой выдано право. PUBLIC = все пользователи."},
   {n:"privilege_type", d:"SELECT, INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER."},
   {n:"is_grantable", d:"YES = этот grantee может сам выдавать это право другим (WITH GRANT OPTION)."}
+]},
+
+{id:"grant_generator",pg_min:12,pg_max:null,os:null, name:"Генератор GRANT на все схемы", badge:"",
+desc:"Генерирует GRANT-команды разом на все пользовательские схемы. Удобно для массовой выдачи прав новой роли.",
+sql:`-- Генератор GRANT на все пользовательские схемы. Замени example_user на свою роль.
+-- В psql выполнить с \gexec — сгенерированные команды будут сразу применены.
+SELECT 'GRANT SELECT, UPDATE, DELETE ON ALL TABLES IN SCHEMA '||n.nspname||' TO example_user;'
+FROM pg_catalog.pg_namespace n
+WHERE n.nspname !~ '^pg_' AND n.nspname <> 'information_schema';
+
+-- Аналогично для последовательностей:
+SELECT 'GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA '||n.nspname||' TO example_user;'
+FROM pg_catalog.pg_namespace n
+WHERE n.nspname !~ '^pg_' AND n.nspname <> 'information_schema';
+
+-- Чтобы права применялись и к будущим объектам — ALTER DEFAULT PRIVILEGES:
+SELECT 'ALTER DEFAULT PRIVILEGES IN SCHEMA '||n.nspname||' GRANT SELECT ON TABLES TO example_user;'
+FROM pg_catalog.pg_namespace n
+WHERE n.nspname !~ '^pg_' AND n.nspname <> 'information_schema';`,
+cols:[
+  {n:"_шаблон", d:"Замени example_user на нужную роль и выбери набор привилегий (SELECT/INSERT/UPDATE/DELETE)."},
+  {n:"_применить", d:"В psql выполни запрос с \\gexec вместо ; — сгенерированные строки будут сразу выполнены."},
+  {n:"_DEFAULT PRIVILEGES", d:"Третий блок настраивает права на БУДУЩИЕ объекты. Без него каждая новая таблица потребует отдельного GRANT.", note:"Альтернатива одной командой (если устраивает дать всё разом): GRANT pg_read_all_data TO example_user; — встроенная роль с PG 14+."}
 ]},
 
 {id:"schema_usage_check",pg_min:12,pg_max:null,os:null, name:"Права USAGE на схемы для роли", badge:"",
